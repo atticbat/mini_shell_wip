@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/17 14:58:07 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 15:02:05 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,15 @@ static int  extract_variable(char *in, t_token **head)
     int i;
 
     i = 1;
-    if (strchr(WHITESPACE, in[i]))
+    if (ft_strchr(WHITESPACE, in[i]))
     {
         token_add_back(head, token_new('a', ft_substr(in, 0, 1)));
         return (i);
     }
     while (in[i] != '\0')
     {
-        if (strchr(WHITESPACE, in[i + 1]) || strchr(TOKENS, in[i + 1]) || in[i + 1] == '\0')
+        if (ft_strchr(WHITESPACE, in[i + 1]) || ft_strchr(TOKENS, in[i + 1]) \
+            || in[i + 1] == '\0')
         {
             token_add_back(head, token_new('$', ft_substr(in, 1, i)));
             i++;
@@ -84,7 +85,7 @@ static void get_token(char *in, t_general *gen, t_token **head)
     i = 0;
     j = 0;
     flag = 0;
-    if (strchr(WHITESPACE, in[0]))
+    if (ft_strchr(WHITESPACE, in[0]))
         flag = 1;
     while (in[i] != '\0')
     {
@@ -95,33 +96,33 @@ static void get_token(char *in, t_general *gen, t_token **head)
             flag = 1;
             continue ;
         }
-        if (strchr(QUOTES, in[i]))
+        if (ft_strchr(QUOTES, in[i]))
         {
             i += extract_quote(in + i, head);
             j = i;
             flag = 1;
             continue ;
         }
-        if ((strchr(WHITESPACE, in[i]) || strchr(TOKENS, in[i])) && !flag && i != j)
+        if ((ft_strchr(WHITESPACE, in[i]) || ft_strchr(TOKENS, in[i])) && !flag && i != j)
         {
             token_add_back(head, token_new('a', ft_substr(in, j, i - j)));
             flag = 1;
             j = i;
             continue ;
         }
-        if (strchr(TOKENS, in[i]))
+        if (ft_strchr(TOKENS, in[i]))
         {
             i += extract_token(in + i, head);
-            if (!strchr(WHITESPACE, in[i]))
+            if (!ft_strchr(WHITESPACE, in[i]))
                 flag = 0;
             j = i;
             continue ;
         }
-        if ((strchr(WHITESPACE, in[i])) && flag)
+        if ((ft_strchr(WHITESPACE, in[i])) && flag)
         {
             i++;
             j = i;
-            if (!strchr(WHITESPACE, in[i]) && !strchr(TOKENS, in[i]))
+            if (!ft_strchr(WHITESPACE, in[i]) && !ft_strchr(TOKENS, in[i]))
                 flag = 0;
             continue ;
         }
@@ -129,7 +130,7 @@ static void get_token(char *in, t_general *gen, t_token **head)
     }
     if (i != j)
     {
-        while (strchr(WHITESPACE, in[j]))
+        while (ft_strchr(WHITESPACE, in[j]))
             j++;
         token_add_back(head, token_new('a', ft_substr(in, j, i - j)));
     }
@@ -146,7 +147,7 @@ void	parse_token(t_general *gen, t_token **head, char *inpt)
     int i;
 
     i = 0;
-	while (strchr(WHITESPACE, inpt[i]))
+	while (ft_strchr(WHITESPACE, inpt[i]))
 		i++;
 	inpt += i;
     get_token(inpt, gen, head);
