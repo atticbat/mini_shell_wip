@@ -6,11 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 19:12:07 by khatlas           #+#    #+#             */
-/*   Updated: 2022/07/05 20:57:08 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 12:46:56 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 static size_t	count_digits(int n)
 {

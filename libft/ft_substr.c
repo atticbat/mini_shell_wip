@@ -6,11 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 12:00:36 by khatlas           #+#    #+#             */
-/*   Updated: 2022/07/05 21:01:18 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 12:48:58 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

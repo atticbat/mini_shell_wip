@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_iter.c                                       :+:      :+:    :+:   */
+/*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/12 20:23:16 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/16 15:09:51 by khatlas          ###   ########.fr       */
+/*   Created: 2022/08/17 12:18:32 by khatlas           #+#    #+#             */
+/*   Updated: 2022/08/17 12:38:43 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-void	token_iter(t_token *lst, void (*f)(void *))
+void    print_all(t_token *lst)
 {
-	t_token	*buffer;
+    t_token	*buffer;
+	int		i;
 
 	buffer = lst;
-	if (lst != NULL)
+	i = 0;
+	while (buffer != NULL)
 	{
-		while (lst != NULL)
-		{
-			buffer = buffer->next;
-			f(lst->content);
-			lst = buffer;
-		}
+        printf("buffer; type: %c, contents: '%s'\n", buffer->type, buffer->content);
+		buffer = buffer->next;
+		i++;
 	}
 }

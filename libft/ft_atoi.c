@@ -6,11 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 18:09:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/07/05 20:54:58 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 12:38:56 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 int	ft_atoi(const char *str)
 {

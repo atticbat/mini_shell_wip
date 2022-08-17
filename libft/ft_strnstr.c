@@ -6,11 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 15:10:15 by khatlas           #+#    #+#             */
-/*   Updated: 2022/07/05 21:00:54 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 12:48:43 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 char	*ft_strnstr(const char *str, const char *sub, size_t n)
 {

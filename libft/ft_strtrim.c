@@ -6,11 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 13:39:51 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/01 14:33:57 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 12:48:53 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 static size_t	check_set(const char c, const char *set)
 {

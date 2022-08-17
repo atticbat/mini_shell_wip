@@ -6,11 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 21:00:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/15 16:38:21 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 12:47:57 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 static size_t	ft_word_count(char const *s, char c)
 {

@@ -6,11 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 12:04:32 by khatlas           #+#    #+#             */
-/*   Updated: 2022/07/05 21:00:25 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 12:48:19 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 static const char	*concat(char *d, const char *s, size_t i)
 {

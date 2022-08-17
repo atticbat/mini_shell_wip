@@ -6,11 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:50:23 by khatlas           #+#    #+#             */
-/*   Updated: 2022/07/05 20:58:57 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 12:47:09 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 int	ft_memcmp(const void *str, const void *sub, size_t n)
 {
