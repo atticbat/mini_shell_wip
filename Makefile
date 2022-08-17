@@ -1,6 +1,6 @@
 # -*- MakeFile -*-
 
-VPATH	=	parsing helper
+VPATH	=	parsing helper includes
 NAME	=	minishell
 FUNCTS	=	minishell.c parse_token.c token_add_back.c token_add_front.c \
 			token_clear.c token_delone.c token_last.c token_new.c token_size.c \
@@ -17,8 +17,6 @@ RMR		=	/bin/rm -rf
 DEPEND	=	-MMD -MP
 
 all: $(NAME)
-
-bonus: $(BNAME)
 
 $(OBJ_PATH) :
 	mkdir $(OBJ_PATH)
@@ -41,6 +39,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
 
--include $(OBJ_PATH):%.o=%.d
+-include $(OBJS:.o=.d)

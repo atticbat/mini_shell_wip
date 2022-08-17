@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/17 12:41:18 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 14:58:07 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,29 @@ static int  extract_quote(char *in, t_token **head)
     return(i);
 }
 
+static int  extract_variable(char *in, t_token **head)
+{
+    int i;
+
+    i = 1;
+    if (strchr(WHITESPACE, in[i]))
+    {
+        token_add_back(head, token_new('a', ft_substr(in, 0, 1)));
+        return (i);
+    }
+    while (in[i] != '\0')
+    {
+        if (strchr(WHITESPACE, in[i + 1]) || strchr(TOKENS, in[i + 1]) || in[i + 1] == '\0')
+        {
+            token_add_back(head, token_new('$', ft_substr(in, 1, i)));
+            i++;
+            break ;
+        }
+        i++;
+    }
+    return(i);
+}
+
 static void get_token(char *in, t_general *gen, t_token **head)
 {
     int i;
@@ -65,6 +88,13 @@ static void get_token(char *in, t_general *gen, t_token **head)
         flag = 1;
     while (in[i] != '\0')
     {
+        if (in[i] == '$')
+        {
+            i += extract_variable(in + i, head);
+            j = i;
+            flag = 1;
+            continue ;
+        }
         if (strchr(QUOTES, in[i]))
         {
             i += extract_quote(in + i, head);
@@ -101,7 +131,7 @@ static void get_token(char *in, t_general *gen, t_token **head)
     {
         while (strchr(WHITESPACE, in[j]))
             j++;
-        token_add_front(head, token_new('a', ft_substr(in, j, i - j)));
+        token_add_back(head, token_new('a', ft_substr(in, j, i - j)));
     }
 }
 

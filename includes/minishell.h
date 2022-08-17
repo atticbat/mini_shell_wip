@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/17 12:37:06 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/17 14:39:16 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define WHITESPACE "\t\r\n\v "
 # define QUOTES "\"\'"
 # define TOKENS "<|>&"
-# define MAX_WORDS 8000
+// # define MAX_WORDS 8000
 
 // typedef enum    e_priority { EXEC = 0, REDIR, PIPE, LIST, BACK } e_priority;
 
