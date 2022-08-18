@@ -1,10 +1,18 @@
 # -*- MakeFile -*-
 
-VPATH	=	parsing helper includes
+VPATH	=	parsing helper includes list_token
 NAME	=	minishell
-FUNCTS	=	minishell.c parse_token.c token_add_back.c token_add_front.c \
-			token_clear.c token_delone.c token_last.c token_new.c token_size.c \
-			testing.c
+FUNCTS	=	minishell.c				\
+				find_token.c		\
+				token_add_back.c	\
+				token_add_front.c	\
+				token_clear.c		\
+				token_delone.c		\
+				token_last.c		\
+				token_new.c			\
+				token_size.c		\
+				testing.c
+
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))
 CC		=	cc
@@ -17,17 +25,17 @@ RMR		=	/bin/rm -rf
 DEPEND	=	-MMD -MP
 
 all: $(NAME)
-
-$(OBJ_PATH) :
-	mkdir $(OBJ_PATH)
-
-$(OBJ_PATH)%.o: %.c | $(OBJ_PATH)
-	$(CC) $(CFLAGS) $(IFLAGS) $(DEPEND) -c $< -o $@
-
+# execute the libft(make) and then compile
 $(NAME): $(OBJ_PATH) $(OBJS)
 	make -C $(LIBFTPATH)
 	$(CC) -o $(NAME) $(IFLAGS) $(DEPEND) $(OBJS) -lreadline \
 		-L $(LIBFTPATH) -l $(LIBFTNAME)
+#create a path to the obj files
+$(OBJ_PATH) :
+	mkdir $(OBJ_PATH)
+# get the obj archives 
+$(OBJ_PATH)%.o: %.c | $(OBJ_PATH)
+	$(CC) $(CFLAGS) $(IFLAGS) $(DEPEND) -c $< -o $@
 
 clean:
 	make clean -C $(LIBFTPATH)
@@ -40,5 +48,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
+# confuse ??? why?
 -include $(OBJS:.o=.d)

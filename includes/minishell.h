@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/17 15:03:18 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/18 17:27:27 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-// # include <string.h>
+# include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 # include "libft.h"
 # define PROMPT "minishell $ "
 # define WHITESPACE "\t\r\n\v "
@@ -43,7 +44,7 @@ typedef struct  s_general
 /* initial parsing */
 // void	init(t_general *gen);
 void	reset(t_general *gen, t_token **head);
-void	parse_token(t_general *gen, t_token **head, char *inpt);
+void	find_token(t_general *gen, t_token **head, char *inpt);
 /* linked list */
 void	token_add_back(t_token **lst, t_token *new);
 void	token_add_front(t_token **lst, t_token *new);
