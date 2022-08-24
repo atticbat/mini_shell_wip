@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:37:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 23:02:52 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/24 23:07:56 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int parse_function(t_token **head, t_general *gen)
     if (!head || !*head)
         return (-1);
     int     flag = 0;
-    // (void ) gen;
+    //check the token in the list of commands (still to work in the external)
     printf("token: %d\n",token_searchlst(*head));
-
+    //get the token in the list and look for the specific case
     switch (token_searchlst(*head))
     {
         case 1: //echo
