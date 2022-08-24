@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 14:16:11 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 22:30:18 by aparedes         ###   ########.fr       */
+/*   Created: 2022/08/24 20:15:55 by aparedes          #+#    #+#             */
+/*   Updated: 2022/08/24 20:39:51 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-int	ft_strncmp(char *str, char *sub, size_t n)
+char	*ft_pwd(char *buff)
 {
-	while (n)
-	{
-		if (*str == '\0')
-			return (*str - *sub);
-		if ((unsigned char) *str != (unsigned char) *sub)
-			return ((unsigned char) *str - (unsigned char) *sub);
-		str++;
-		sub++;
-		n--;
-	}
-	return (0);
+	int size_buff;
+	char *path;
+
+	path = NULL;
+	size_buff = ft_strlen(buff);
+	path = getcwd(buff, size_buff);
+	return (path);
 }

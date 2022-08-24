@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 21:00:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/17 12:47:57 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/24 22:01:05 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	**ft_split(char const *s, char c)
 		s += move_ptr(s, 0, 0, c);
 		if (*s == '\0')
 			break ;
-		str = ft_strchr(s, c);
+		str = ft_strchr((char *)s, c);
 		if (!str)
 			str = (char *) s + ft_strlen(s);
 		ptr[i] = (char *) word_dup(s, str - s);

@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:43:37 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 14:58:04 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/24 22:50:13 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,3 +47,30 @@ int     check_variable(char *var)
     }
 	return (1);
 }
+
+
+// void check_cmd(t_token **head,int flag)
+// {
+//     flag = 0;
+//     // printf("%d cmpr\n", token_searchlst(*head));
+
+//     switch (token_searchlst(*head))
+//     {
+//         case 1: //echo
+//             gen->str = ft_echo(&it);
+
+//         case 2: //cd
+//         case 3: //pwd
+//         case 4: //export
+//         case 5: //unset
+//         case 6: //env
+//         case 7: //exit
+        
+//         break;
+    
+//     default:
+//         break;
+//     }
+
+//     // return(flag);
+// }

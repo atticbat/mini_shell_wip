@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_function.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:37:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/21 03:31:40 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/24 23:02:52 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,56 @@
 
 int parse_function(t_token **head, t_general *gen)
 {
-    t_token *it;
+    // t_token *it;
     char    *buffer;
 
     buffer = NULL;
     if (!head || !*head)
         return (-1);
-    it = *head;
-    //hardcode echo contition for now
     int     flag = 0;
-    if (!ft_strncmp(it->content, "echo", 4) && ft_strlen(it->content) == 4)
+    // (void ) gen;
+    printf("token: %d\n",token_searchlst(*head));
+
+    switch (token_searchlst(*head))
     {
-        it = it->next;
-        it = it->next;
-        if (!ft_strncmp(it->content, "-n", 2) && ft_strlen(it->content) == 2)
+        case 1: //echo
         {
-            flag = 1;
-            it = it->next;
-            it = it->next;
+            // printf("holaaaaaaaa\n");
+            if (!ft_strncmp((*head)->content, "-n", 2) && ft_strlen((*head)->content) == 2)
+            {
+                flag = 1;
+                (*head) = (*head)->next;
+                (*head) = (*head)->next;
+            }
+            gen->str = ft_echo(head);
         }
-        gen->str = ft_echo(&it);
+        // case 2: //cd
+        // case 3: //pwd
+        // case 4: //export
+        // case 5: //unset
+        // case 6: //env
+        // case 7: //exit
+        
+        break;
+    
+    default:
+        break;
     }
-    //
-    //temporary output
+    // it = *head;
+    // //hardcode echo contition for now
+    // if (!ft_strncmp(it->content, "echo", 4) && ft_strlen(it->content) == 4)
+    // {
+    //     it = it->next;
+    //     it = it->next;
+    //     if (!ft_strncmp(it->content, "-n", 2) && ft_strlen(it->content) == 2)
+    //     {
+    //         flag = 1;
+    //         it = it->next;
+    //         it = it->next;
+    //     }
+    //     gen->str = ft_echo(&it);
+    // }
+    // //temporary output
     if (gen->str)
     {
         printf("%s", gen->str);

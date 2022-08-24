@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 14:29:04 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/24 22:45:05 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,15 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+# include <stdbool.h>
 # include "libft.h"
 # define PROMPT "minishell $ "
 # define WHITESPACE "\t\r\n\v "
 # define QUOTES "\"\'"
 # define TOKENS "<|>&"
 // # define MAX_WORDS 8000
+/* for pwd function */
+// # define GetCurrentDir _getcwd
 
 // typedef enum    e_priority { EXEC = 0, REDIR, PIPE, LIST, BACK } e_priority;
 
@@ -63,10 +66,15 @@ int		expand_variable(t_token **head);
 void    print_all(t_token *lst);
 /* echo */
 char    *ft_echo(t_token **head);
+/* pwd */
+char	*ft_pwd(char *buff);
 /* parse_function */
-int     parse_function(t_token **head, t_general *gen);
+int		parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
-int	    check_variable(char *var);
+void		check_cmd(t_token **inpt,int flag);
+int		check_variable(char *var);
+int    token_searchlst(t_token *head);
+
 
 
 #endif

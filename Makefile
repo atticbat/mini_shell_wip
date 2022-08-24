@@ -1,6 +1,6 @@
 # -*- MakeFile -*-
 
-VPATH	=	parsing helper includes list_token variable_expansion echo utility
+VPATH	=	parsing helper includes list_token variable_expansion echo utility pwd
 NAME	=	minishell
 FUNCTS	=	minishell.c				\
 				find_token.c		\
@@ -11,10 +11,12 @@ FUNCTS	=	minishell.c				\
 				token_last.c		\
 				token_new.c			\
 				token_size.c		\
+				token_searchlst.c	\
 				expand_variable.c	\
 				utilities.c			\
 				parse_function.c	\
 				ft_echo.c			\
+				ft_pwd.c			\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))

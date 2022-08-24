@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 14:36:49 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 14:26:19 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/24 22:29:56 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t n);
 size_t	ft_strlcat(char *dst, const char *src, size_t n);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
-char	*ft_strchr(const char *str, int c);
+char	*ft_strchr(char *str, int c);
 char	*ft_strrchr(const char *str, int c);
-int		ft_strncmp(const char *str, const char *sub, size_t n);
+int		ft_strncmp(char *str, char *sub, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *str, const char *sub, size_t n);

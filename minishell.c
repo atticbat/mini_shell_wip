@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:10 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 12:17:06 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/24 21:52:49 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int main (int argc, char **argv, char **envp)
 			reset(&gen, &head, inpt);
 			continue ;
 		}
-		parse_function(&head, &gen);
+		parse_function(&head, &gen); //sending *head and *gen
 		reset(&gen, &head, inpt);
     }
     return (0);
