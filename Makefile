@@ -1,6 +1,6 @@
 # -*- MakeFile -*-
 
-VPATH	=	parsing helper includes list_token
+VPATH	=	parsing helper includes list_token variable_expansion echo utility
 NAME	=	minishell
 FUNCTS	=	minishell.c				\
 				find_token.c		\
@@ -11,29 +11,33 @@ FUNCTS	=	minishell.c				\
 				token_last.c		\
 				token_new.c			\
 				token_size.c		\
+				expand_variable.c	\
+				utilities.c			\
+				parse_function.c	\
+				ft_echo.c			\
 				testing.c
-
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))
 CC		=	cc
 CFLAGS	= 	-Wall -Werror -Wextra
 OBJ_PATH =	./obj/
 LIBFTPATH =	./libft/
-IFLAGS	=	-I ./includes
+BREW	=	$(shell brew --prefix)
+IFLAGS	=	-I ./includes -I $(BREW)/Cellar/readline/include
 RM 		=	/bin/rm -f
 RMR		=	/bin/rm -rf
 DEPEND	=	-MMD -MP
 
 all: $(NAME)
-# execute the libft(make) and then compile
+
 $(NAME): $(OBJ_PATH) $(OBJS)
 	make -C $(LIBFTPATH)
 	$(CC) -o $(NAME) $(IFLAGS) $(DEPEND) $(OBJS) -lreadline \
-		-L $(LIBFTPATH) -l $(LIBFTNAME)
-#create a path to the obj files
+		-L $(LIBFTPATH) -l $(LIBFTNAME) -L $(BREW)/Cellar/readline/8.1.2/lib -lreadline
+
 $(OBJ_PATH) :
 	mkdir $(OBJ_PATH)
-# get the obj archives 
+
 $(OBJ_PATH)%.o: %.c | $(OBJ_PATH)
 	$(CC) $(CFLAGS) $(IFLAGS) $(DEPEND) -c $< -o $@
 

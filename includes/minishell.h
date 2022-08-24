@@ -6,9 +6,10 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/18 17:27:27 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/24 14:29:04 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -17,6 +18,8 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <signal.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
@@ -38,13 +41,14 @@ typedef struct  s_token
 
 typedef struct  s_general
 {
-    int     j;
+    int     error_no;
+    char    *str;
 }   t_general;
 
+/* utilities */
+void	reset(t_general *gen, t_token **head, char *inpt);
 /* initial parsing */
-// void	init(t_general *gen);
-void	reset(t_general *gen, t_token **head);
-void	find_token(t_general *gen, t_token **head, char *inpt);
+int 	find_token(t_general *gen, t_token **head, char *inpt);
 /* linked list */
 void	token_add_back(t_token **lst, t_token *new);
 void	token_add_front(t_token **lst, t_token *new);
@@ -53,7 +57,16 @@ void	token_delone(t_token *lst, void (*del)(void *));
 t_token	*token_last(t_token *lst);
 t_token	*token_new(char type, char *content);
 int	    token_size(t_token *lst);
+/* variable expansion */
+int		expand_variable(t_token **head);
 /* helper */
 void    print_all(t_token *lst);
+/* echo */
+char    *ft_echo(t_token **head);
+/* parse_function */
+int     parse_function(t_token **head, t_general *gen);
+/* CHECKER FUNCTION */
+int	    check_variable(char *var);
+
 
 #endif

@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strjoinfree.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/27 12:00:36 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/17 12:48:58 by khatlas          ###   ########.fr       */
+/*   Created: 2022/08/20 18:26:29 by khatlas           #+#    #+#             */
+/*   Updated: 2022/08/20 18:26:44 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_strjoinfree(char *s1, char *s2)
 {
-	char	*ptr;
-	size_t	i;
+	unsigned int	len;
+	char			*ptr;
 
-	i = 0;
-	if (!s)
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	if (ft_strlen(s) < start)
-	{
-		ptr = (char *) malloc (sizeof (char));
-		if (!ptr)
-			return (NULL);
-		*ptr = '\0';
-		return (ptr);
-	}
-	if (ft_strlen(s) - start > len)
-		i = len + 1;
-	else
-		i = ft_strlen(s) - start + 2;
-	ptr = (char *) malloc ((i) * sizeof (char));
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	if (s1[0] == '\0' && s2[0] == '\0')
+		len++;
+	ptr = (char *) malloc ((len) * sizeof (char));
 	if (!ptr)
-		return (NULL);
-	ft_strlcpy(ptr, s + start, i);
+		return (0);
+	ft_strlcpy (ptr, s1, len);
+	ft_strlcat (ptr, s2, len);
+    free (s1);
+    free (s2);
 	return (ptr);
 }
