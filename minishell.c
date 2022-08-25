@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:10 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 21:52:49 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/26 00:38:28 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,18 @@ int main (int argc, char **argv, char **envp)
 		if (!inpt || !*inpt)
 		    continue ;
 		add_history(inpt);
-		if (find_token(&gen, &head, inpt))
+		if (find_token(inpt, &head, &gen))
 		{
 			reset(&gen, &head, inpt);
+			//put error glossary here
+			printf("error xd\n");
 		    continue ;
 		}
-		if (expand_variable(&head))
+		if (expand_variable(&head, &gen))
 		{
 			reset(&gen, &head, inpt);
+			//put error glossary here
+			printf("error xd\n");
 			continue ;
 		}
 		parse_function(&head, &gen); //sending *head and *gen

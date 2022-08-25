@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:37:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/25 14:25:16 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/25 20:14:34 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static int  parse_nl_flag(char *content)
         return (-1);
     while (content[i] != '\0')
     {
-        if (content[i] != 'n')
+        if (content[i] == ' ' && content[i + 1] == '\0')
+            return (0);
+        else if (content[i] != 'n')
             return (-1);
         i++;
     }
@@ -45,32 +47,20 @@ int parse_function(t_token **head, t_general *gen)
     if (cmd_searchlst(it) == ECHO_CMD) // echo
     {
         it = it->next;
-        it = it->next;
         if (!ft_strncmp(it->content, "-n", 2) && !parse_nl_flag(it->content))
         {
             flag = 1;
             it = it->next;
-            it = it->next;
         }
         gen->str = ft_echo(&it);
-        //consider type -nnnnn... also work //done 
     }
-    //check access if exist or not
     if (cmd_searchlst(it) == CD_CMD) // cd
     {
-        // char    cd_buff[PATH_MAX];
-    
         it = it->next;
-        it = it->next;
+        if (it->content[ft_strlen(it->content) - 1] == ' ')
+            it->content[ft_strlen(it->content) - 1] = '\0';
         if (chdir(it->content) != 0) 
             perror("chdir() failed");
-        // else
-        //     getcwd(cd_buff, PATH_MAX);
-        //     printf("%s\n",cd_buff);
-        // changing the cwd to /tmp
-        // if (chdir("..") != 0) 
-        //     printf("%s\n",cwd);
-
     }
     if (cmd_searchlst(it) == PWD_CMD) //pwd
     {

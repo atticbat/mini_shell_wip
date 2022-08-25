@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 22:21:51 by aparedes          #+#    #+#             */
-/*   Updated: 2022/08/25 12:15:02 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/25 18:50:33 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ static int  ft_strcmpc(char type, char c)
         return (1);
     return(0);
 }
+
+// int	echo_cases(char *content, int len)
+// {
+// 	if(!(ft_strncmp((head)->content, "echo",len)))
+//     	return (ECHO_CMD);
+// 	else if(!(ft_strncmp((head)->content, "echo ",len)))
+//     	return (ECHO_CMD);
+// 	return (0);
+// }
 
 int cmd_searchlst(t_token *head)
 {
@@ -49,4 +58,27 @@ int cmd_searchlst(t_token *head)
         head = head->next;
     }
     return 0;
+}
+
+int cmd_check_contained(t_token *head)
+{
+	//function just checks if arg contains a function
+    if (ft_strcmpc((head)->type, 'a'))
+	{
+		if(!(ft_strncmp((head)->content, "echo", 4)))
+        	return (ECHO_CMD);
+		if(!(ft_strncmp((head)->content, "cd", 2)))
+			return (CD_CMD);
+		if(!(ft_strncmp((head)->content, "pwd", 3)))
+			return (PWD_CMD);
+		if(!(ft_strncmp((head)->content, "export", 6)))
+			return (EXPORT_CMD);
+		if(!(ft_strncmp((head)->content, "unset", 5)))
+			return (UNSET_CMD);
+		if(!(ft_strncmp((head)->content, "env", 3)))
+			return (ENV_CMD);
+		if(!(ft_strncmp((head)->content, "exit", 4)))
+			return (EXIT_CMD);
+	}
+    return (0);
 }

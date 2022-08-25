@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/25 15:51:44 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 00:38:16 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ typedef struct  s_general
 
 /* utilities */
 void	reset(t_general *gen, t_token **head, char *inpt);
+int     check_variable_char(char c);
 /* initial parsing */
-int 	find_token(t_general *gen, t_token **head, char *inpt);
+int 	find_token(char *in, t_token **head, t_general *gen);
 /* linked list */
 void	token_add_back(t_token **lst, t_token *new);
 void	token_add_front(t_token **lst, t_token *new);
@@ -74,7 +75,7 @@ t_token	*token_last(t_token *lst);
 t_token	*token_new(char type, char *content);
 int	    token_size(t_token *lst);
 /* variable expansion */ 
-int		expand_variable(t_token **head);
+int	    expand_variable(t_token **head, t_general *gen);
 /* helper */
 void    print_all(t_token *lst);
 /* echo */
@@ -87,7 +88,6 @@ int		parse_function(t_token **head, t_general *gen);
 void	check_cmd(t_token **inpt,int flag);
 int		check_variable(char *var, int len);
 int     cmd_searchlst(t_token *head);
-
-
+int     cmd_check_contained(t_token *head);
 
 #endif

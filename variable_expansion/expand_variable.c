@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/25 15:49:21 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 00:37:48 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static char	*expand_dquote(char *content)
 	return (final);
 }
 
-int	expand_variable(t_token **head)
+int	expand_variable(t_token **head, t_general *gen)
 {
 	char	*buffer;
 	t_token	*iterator;
@@ -126,6 +126,11 @@ int	expand_variable(t_token **head)
 		return (-1);
 	buffer = NULL;
 	iterator = *head;
+	if (!iterator->content)
+	{
+		gen->error_no = -1;
+		return (gen->error_no);	
+	}
 	while (iterator != NULL)
 	{
 		if (iterator->type == '$')

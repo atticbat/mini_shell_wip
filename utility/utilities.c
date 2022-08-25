@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:43:37 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/25 15:08:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 00:13:29 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ void	reset(t_general *gen, t_token **head, char *inpt)
     token_clear(head, free);
 	if (inpt)
 		free (inpt);
+    inpt = NULL;
+    *head = NULL;
+}
+
+int     check_variable_char(char c)
+{
+    if (c < 48 || (c >= 58 && c <= 64) || (c >= 91 && c < 95) \
+        || (c > 95 && c <= 96) || (c >= 123 && c <= 127))
+        return(0);
+    return (1);
 }
 
 int     check_variable(char *var, int len)
@@ -33,13 +43,8 @@ int     check_variable(char *var, int len)
     while (i < len)
     {
         // printf("valores de str %c\n", (var[i]));
-	    if ((*(var + i)) < 48 || ((*(var + i)) >= 58 && (*(var + i)) <= 64) \
-        || ((*(var + i)) >= 91 && (*(var + i)) < 95) \
-        || ((*(var + i)) > 95 && (*(var + i)) <= 96) \
-        || ((*(var + i)) >= 123 && (*(var + i)) <= 127))
-        {
+	    if (!check_variable_char(var[i]))
             return(0);
-        }
         else
             i++;
     }
