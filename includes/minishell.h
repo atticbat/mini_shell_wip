@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 22:45:05 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/25 11:03:06 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,21 @@
 # include <readline/history.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <limits.h>
 # include "libft.h"
 # define PROMPT "minishell $ "
 # define WHITESPACE "\t\r\n\v "
 # define QUOTES "\"\'"
 # define TOKENS "<|>&"
+/* Nomenclature for type of cmd's asked  */
+# define ECHO_CMD 1
+# define CD_CMD 2
+# define PWD_CMD 3
+# define EXPORT_CMD 4
+# define UNSET_CMD 5
+# define ENV_CMD 6
+# define EXIT_CMD 7
+
 // # define MAX_WORDS 8000
 /* for pwd function */
 // # define GetCurrentDir _getcwd
@@ -60,7 +70,7 @@ void	token_delone(t_token *lst, void (*del)(void *));
 t_token	*token_last(t_token *lst);
 t_token	*token_new(char type, char *content);
 int	    token_size(t_token *lst);
-/* variable expansion */
+/* variable expansion */ 
 int		expand_variable(t_token **head);
 /* helper */
 void    print_all(t_token *lst);

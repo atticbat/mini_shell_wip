@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 14:36:49 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 22:29:56 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/25 10:26:24 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_strrchr(const char *str, int c);
 int		ft_strncmp(char *str, char *sub, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
-char	*ft_strnstr(const char *str, const char *sub, size_t n);
+char	*ft_strnstr(char *str, char *sub, size_t n);
 int		ft_atoi(const char *str);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *str);
