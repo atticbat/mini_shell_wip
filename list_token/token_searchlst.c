@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_searchlst.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 22:21:51 by aparedes          #+#    #+#             */
-/*   Updated: 2022/08/25 11:32:30 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/25 12:15:02 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int  ft_strcmpc(char type, char c)
     return(0);
 }
 
-int token_searchlst(t_token *head)
+int cmd_searchlst(t_token *head)
 {
 	int len;
 

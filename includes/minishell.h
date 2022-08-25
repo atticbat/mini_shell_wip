@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/25 11:03:06 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/25 15:51:44 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ typedef struct  s_token
 typedef struct  s_general
 {
     int     error_no;
+    int     to;
+    int     from;
+    int     flag;
     char    *str;
 }   t_general;
 
@@ -81,9 +84,9 @@ char	*ft_pwd(char *buff);
 /* parse_function */
 int		parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
-void		check_cmd(t_token **inpt,int flag);
-int		check_variable(char *var);
-int    token_searchlst(t_token *head);
+void	check_cmd(t_token **inpt,int flag);
+int		check_variable(char *var, int len);
+int     cmd_searchlst(t_token *head);
 
 
 

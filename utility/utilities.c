@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:43:37 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 22:50:13 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/25 15:08:33 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 void	reset(t_general *gen, t_token **head, char *inpt)
 {
-    gen->error_no = 0;
-    gen->str = NULL;
+    ft_bzero(gen, sizeof(t_general));
     token_clear(head, free);
 	if (inpt)
 		free (inpt);
 }
 
-int     check_variable(char *var)
+int     check_variable(char *var, int len)
 {
-    int i = 1;
-	int len = 0;
-
-    len = strlen(var);
+    int i;
+    
+    i = 0;
 	if(ft_isdigit(*var) && ft_isalpha(*(var + i)))	// 1 1
 	{
 		return (0);

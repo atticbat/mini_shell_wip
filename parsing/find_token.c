@@ -3,178 +3,170 @@
 /*                                                        :::      ::::::::   */
 /*   find_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/24 14:55:09 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/25 16:46:53 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* all the combination of tokens willb e handle later */
-static int  extract_token(char *in, t_token **head)
+static int  extract_token(char *in, t_token **head, t_general *gen)
 {
-    int i;
-
-    i = 0;
-    if (in[i + 1] == in[i])
+    if (ft_strchr(TOKENS, in[gen->to]))
     {
-        if (in[i] == '<')
-            token_add_back(head, token_new('-', NULL));
-        if (in[i] == '>')
-            token_add_back(head, token_new('+', NULL));
-        i++;
+        if (in[gen->to + 1] == in[gen->to])
+        {
+            if (in[gen->to] == '<')
+                token_add_back(head, token_new('-', NULL));
+            if (in[gen->to] == '>')
+                token_add_back(head, token_new('+', NULL));
+            gen->to++;
+        }
+        else
+            token_add_back(head, token_new(in[gen->to], NULL));
+        if (!ft_strchr(WHITESPACE, in[gen->to]))
+            gen->flag = 0;
+        gen->to++;
+        gen->from = gen->to;
     }
-    else
-        token_add_back(head, token_new(in[i], NULL));
-    return (i + 1);
+    return (0);
 }
 
-static int  extract_quote(char *in, t_token **head)
+static int  extract_quote(char *in, t_token **head, t_general *gen)
 {
-    int i;
+    int start;
 
-    i = 1;
-    while (in[i] != '\0')
+    if (ft_strchr(QUOTES, in[gen->to]))
     {
-        if (in[i] == in[0])
+        // if quotes is folowed by quotes and nothing else is an error
+        start = gen->to;
+        gen->to++;
+        // printf("to: %d\n", gen->to);
+        while (in[gen->to] != '\0')
         {
-            if (in[0] == '\'')
-                token_add_back(head, token_new('a', ft_substr(in, 1, i - 1)));
-            else if (in[0] == '\"')
-                token_add_back(head, token_new('d', ft_substr(in, 1, i - 1)));
-            i++;
-            break ;
+            if (in[gen->to] == in[start])
+            {
+                if (in[start] == '\'')
+                    token_add_back(head, token_new('a', \
+                        ft_substr(in, start + 1, gen->to - start - 1)));
+                else if (in[start] == '\"')
+                    token_add_back(head, token_new('d', \
+                        ft_substr(in, start + 1, gen->to - start - 1)));
+                gen->to++;
+                break ;
+            }
+            gen->to++;
         }
-        i++;
+        gen->from = gen->to;
+        gen->flag = 0;
     }
-    return(i);
+    return(0);
 }
 
 static int  extract_variable(char *in, t_token **head, t_general *gen)
 {
-	int i;
 	int bracket_flag;
+    int start;
 	
-	i = 1;
 	bracket_flag = 0;
-	// hadling error of only $
-	if (ft_strchr(WHITESPACE, in[i]))
-	{
-	    token_add_back(head, token_new('a', ft_substr(in, 0, 1)));
-	    return (i);
-	}
-	if (in[i] == '{')
-	{
-	    bracket_flag = 1;
-	    i++;
-    }
-	if (ft_strchr(TOKENS, in[i])) // HAUSAUFGABE : alex
-	{
-	    // error msg
-	    // printf("parse error near '\n'");
-	    // strerror(4);
-	    // exit(1);
-	    gen->error_no = -1;
-	    return (0);
-	}
-    if (!(check_variable(in + i)))
+    if (in[gen->to] == '$')
     {
-        gen->error_no = -1;
-	    return (0);
+        gen->to++;
+        // if (ft_strchr(WHITESPACE, in[gen->to]))
+    	//     token_add_back(head, token_new('a', ft_substr(in, 0, 1)));
+    	if (in[gen->to] == '{')
+    	{
+    	    bracket_flag = 1;
+    	    gen->to++;
+    	}
+        start = gen->to;
+    	if (ft_strchr(TOKENS, in[gen->to]))
+        {
+    	    gen->error_no = -1;
+            return (gen->error_no);
+        }
+    	// solve error case: $+token (show error msg "parse error near '\n'")  || ft_strchr(TOKENS, in[i + 1])
+    	while (in[gen->to] != '\0')
+    	{
+    	    if (in[gen->to + 1] == '}' && bracket_flag)
+    	    {
+    	        token_add_back(head, token_new('$', ft_substr(in, start, gen->to - start + 1)));
+    	        gen->to += 2;
+    	        break ;
+    	    }
+    
+    	    if (ft_strchr(TOKENS, in[gen->to + 1]) || ft_strchr(WHITESPACE, in[gen->to + 1]) \
+                || in[gen->to + 1] == '\0' || in[gen->to + 1] == '$')
+    	    {
+    	        token_add_back(head, token_new('$', ft_substr(in, start, gen->to - start + 1)));
+    	        gen->to++;
+    	        break ;
+    	    }
+    	    gen->to++;
+    	}
+        gen->from = gen->to;
+        // gen->flag = 1;
     }
-	// solve error case: $+token (show error msg "parse error near '\n'")  || ft_strchr(TOKENS, in[i + 1])
-	while (in[i] != '\0')
-	{
-	    if (in[i + 1] == '}' && bracket_flag)
-	    {
-	        token_add_back(head, token_new('$', ft_substr(in, 2, i - 1)));
-	        i += 2;
-	        break ;
-	    }
-	
-	    if (ft_strchr(TOKENS, in[i + 1]) || ft_strchr(WHITESPACE, in[i + 1]) \
-            || in[i + 1] == '\0' || in[i + 1] == '$')
-	    {
-	        token_add_back(head, token_new('$', ft_substr(in, 1, i)));
-	        i++;
-	        break ;
-	    }
-	    i++;
-	}
-	return(i);
+	return (0);
+}
+
+static int  extract_argument(char *in, t_token **head, t_general *gen)
+{
+    if ((ft_strchr(WHITESPACE, in[gen->to]) || ft_strchr(TOKENS, in[gen->to]) \
+        || ft_strchr(QUOTES, in[gen->to]) || in[gen->to] == '$') && !gen->flag && gen->to != gen->from)
+    {
+        token_add_back(head, token_new('a', ft_substr(in, gen->from, gen->to - gen->from)));
+        if (in[gen->from] == '-' && in[gen->to] != ' ')
+            token_add_back(head, token_new('a', ft_strdup(" ")));
+        gen->from = gen->to;
+        gen->flag = 1;
+    }
+    return (0);
+}
+
+static void cycle_whitespace(char *in, t_token **head, t_general *gen)
+{
+    if ((ft_strchr(WHITESPACE, in[gen->to])) && gen->flag)
+    {
+        gen->to++;
+        gen->from = gen->to;
+        if (!ft_strchr(WHITESPACE, in[gen->to]) && !ft_strchr(TOKENS, in[gen->to]) && in[gen->to] != '\0')
+        {
+            token_add_back(head, token_new('a', ft_strdup(" ")));
+            gen->flag = 0;
+        }
+    }
+    else
+        gen->to++;
 }
 
 static int  get_token(char *in, t_general *gen, t_token **head)
 {
-    int i;
-    int j;
-    int flag;
-
-    (void) gen;
-    i = 0;
-    j = 0;
-    flag = 0;
-    while (in[i] != '\0')
+    while (in[gen->to] != '\0')
     {
-        // printf("char at index j: %c\n", in[j]);
-        //finding conditions only for var without flags
-        if ((ft_strchr(WHITESPACE, in[i]) || ft_strchr(TOKENS, in[i]) \
-            || ft_strchr(QUOTES, in[i]) || in[i] == '$') && !flag && i != j)
-        {
-            token_add_back(head, token_new('a', ft_substr(in, j, i - j)));
-            j = i;
-            flag = 1;
-            continue ;
-        }
-        if (in[i] == '$')
-        {
-            i += extract_variable(in + i, head, gen);
-            if (gen->error_no) 
-            {
-                write (2, "parse error: invalid variable name\n", 35);
-                return (gen->error_no);
-            }
-            j = i;
-            flag = 1;
-            continue ;
-        }
-        if (ft_strchr(QUOTES, in[i]))
-        {
-            // if quotes is folowed by quotes and nothing else is an error
-            i += extract_quote(in + i, head);
-            j = i;
-            continue ;
-        }
-        if (ft_strchr(TOKENS, in[i]))
-        {
-            i += extract_token(in + i, head);
-            if (!ft_strchr(WHITESPACE, in[i]))
-                flag = 0;
-            j = i;
-            continue ;
-        }
-        //cycle just for continue finding arg
-        if ((ft_strchr(WHITESPACE, in[i])) && flag)
-        {
-            i++;
-            j = i;
-            if (!ft_strchr(WHITESPACE, in[i]) && !ft_strchr(TOKENS, in[i]))
-            {
-                token_add_back(head, token_new('a', ft_strdup(" ")));
-                flag = 0;
-            }
-            continue ;
-        }
-        i++;
+        //v new structure to the extracts: return success or failure, I can put flag, from, to into t_general
+        if (extract_quote(in, head, gen))
+            return (gen->error_no);
+        else if (extract_variable(in, head, gen))
+            return (gen->error_no);
+        else if (extract_token(in, head, gen))
+            return (gen->error_no);
+        else if (extract_argument(in, head, gen))
+            return (gen->error_no);
+        else
+            cycle_whitespace(in, head, gen);
+        //^ cycle just for continue finding arg
     }
-    if (i != j)
-    {
-        while (ft_strchr(WHITESPACE, in[j]))
-            j++;
-        token_add_back(head, token_new('a', ft_substr(in, j, i - j)));
-    }
+    // if (gen->to != gen->from)
+    // {
+    //     while (ft_strchr(WHITESPACE, in[gen->from]))
+    //         gen->from++;
+    //     token_add_back(head, token_new('a', ft_substr(in, gen->from, gen->to - gen->from)));
+    //     if (in[gen->from] == '-' && in[gen->to + 1] != ' ')
+    //         token_add_back(head, token_new('a', ft_strdup(" ")));
+    // }
     return (0);
 }
 
