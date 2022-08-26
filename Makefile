@@ -1,6 +1,6 @@
 # -*- MakeFile -*-
 
-VPATH	=	parsing helper includes list_token variable_expansion echo utility pwd
+VPATH	=	parsing helper includes list_token variable_expansion echo utility pwd env
 NAME	=	minishell
 FUNCTS	=	minishell.c				\
 				find_token.c		\
@@ -17,6 +17,9 @@ FUNCTS	=	minishell.c				\
 				parse_function.c	\
 				ft_echo.c			\
 				ft_pwd.c			\
+				ft_env.c			\
+				copy_envp.c			\
+				ft_getenv.c			\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))
@@ -54,5 +57,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-# confuse ??? why?
 -include $(OBJS:.o=.d)

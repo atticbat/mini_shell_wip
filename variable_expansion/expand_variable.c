@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 16:20:37 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/26 19:48:58 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static char	*expand_dquote(char *content)
 	return (final);
 }
 
-int	expand_variable(t_token **head, t_general *gen)
+int	expand_variable(t_token **head, t_general *gen, char **envp)
 {
 	char	*buffer;
 	t_token	*iterator;
@@ -137,7 +137,7 @@ int	expand_variable(t_token **head, t_general *gen)
 		{
 			iterator->type = 'a';
 			if (getenv(iterator->content))
-				buffer = ft_strdup(getenv(iterator->content));
+				buffer = ft_strdup(ft_getenv(envp, iterator->content));
 			else
 				buffer = ft_strdup("");
 			free (iterator->content);

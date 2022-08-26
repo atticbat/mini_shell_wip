@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 16:18:56 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/26 19:51:38 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,19 @@ t_token	*token_last(t_token *lst);
 t_token	*token_new(char type, char *content);
 int	    token_size(t_token *lst);
 /* variable expansion */ 
-int	    expand_variable(t_token **head, t_general *gen);
+int	    expand_variable(t_token **head, t_general *gen, char **envp);
 /* helper */
 void    print_all(t_token *lst);
 /* echo */
 char    *ft_echo(t_token **head);
 /* pwd */
 char	*ft_pwd(char *buff);
+/* env */
+char	**copy_envp(char **envp);
+char    *ft_env(char **envp);
+char    *ft_getenv(char **envp, char *search);
 /* parse_function */
-int		parse_function(t_token **head, t_general *gen);
+int		parse_function(t_token **head, t_general *gen, char **envp);
 /* CHECKER FUNCTION */
 void	check_cmd(t_token **inpt,int flag);
 int		check_variable(char *var);

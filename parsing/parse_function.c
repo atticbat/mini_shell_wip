@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_function.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:37:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 16:35:32 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/26 19:21:08 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int  parse_nl_flag(char *content)
     return (0);
 }
 
-int parse_function(t_token **head, t_general *gen)
+int parse_function(t_token **head, t_general *gen, char **envp)
 {
     t_token *it;
     char    *buffer;
@@ -43,9 +43,6 @@ int parse_function(t_token **head, t_general *gen)
     it = *head;
     //check the token in the list of commands (still to work in the external)
     printf("token: %d\n",cmd_searchlst(it));
-
-    /* check format for execution */
-    if ();
     //get the token in the list and look for the specific case
     if (cmd_searchlst(it) == ECHO_CMD) // echo
     {
@@ -69,6 +66,10 @@ int parse_function(t_token **head, t_general *gen)
     {
         getcwd(cwd, PATH_MAX);
         printf("%s\n",cwd);
+    }
+    if (cmd_searchlst(it) == ENV_CMD)
+    {
+        gen->str = ft_env(envp);
     }
         // case 4: //export
         // case 5: //unset

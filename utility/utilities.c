@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:43:37 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 16:34:13 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/08/26 18:40:09 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	reset(t_general *gen, t_token **head, char *inpt)
 {
+    if (gen->str)
+        free (gen->str);
     ft_bzero(gen, sizeof(t_general));
     token_clear(head, free);
 	if (inpt)
@@ -52,10 +54,4 @@ int     check_variable(char *var)
             i++;
     }
 	return (1);
-}
-
-
-int check_format()
-{
-    
 }
