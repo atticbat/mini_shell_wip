@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:43:37 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 18:40:09 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 20:11:29 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,44 @@ int     check_variable(char *var)
             i++;
     }
 	return (1);
+}
+/* TO handle the error we need to confirm the type when it is a quote going on 
+    check also the problem with the quotes.
+
+    NOTE : till now >> doesnt create a file just an error.
+            same for >
+*/
+int check_format(t_token *var)
+{
+    int flag;
+
+    flag = 1;
+    while (var->next != NULL && var->type == 'a')
+    {
+        var = var->next;
+    }
+    if (var->type == '&' || (var->type) == 34 || (var->type) == 39
+        ||  (var->type) == '>' ||(var->type) == '<' ||(var->type ) == '+'
+        || (var->type ) == '|' || (var->type ) == '-')
+    {
+        flag = 0;
+        if(var->next == NULL)
+            return (0);
+        else
+            var = var->next;
+    }
+    while (var->next != NULL)
+    {
+        if(var->type == 'a')
+            flag = 1;        
+        else
+            var = var->next;
+    }
+    if (var->type == '&' || (var->type) == 's' || (var->type) == 'd'
+        ||  (var->type) == '>' ||(var->type) == '<' ||(var->type ) == '+'
+        || (var->type ) == '|' || (var->type ) == '-')
+        flag = 0;
+    if(flag == 0)
+        return (0);
+    return (1);
 }

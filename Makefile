@@ -11,7 +11,7 @@ FUNCTS	=	minishell.c				\
 				token_last.c		\
 				token_new.c			\
 				token_size.c		\
-				token_searchlst.c	\
+				cmd_searchlst.c		\
 				expand_variable.c	\
 				utilities.c			\
 				parse_function.c	\

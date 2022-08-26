@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 19:51:38 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 20:10:11 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int		parse_function(t_token **head, t_general *gen, char **envp);
 /* CHECKER FUNCTION */
 void	check_cmd(t_token **inpt,int flag);
 int		check_variable(char *var);
+int     check_format(t_token *in);
 int     cmd_searchlst(t_token *head);
 int     cmd_check_contained(t_token *head);
 

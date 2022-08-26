@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/21 02:37:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 19:21:08 by khatlas          ###   ########.fr       */
+/*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
+/*   Updated: 2022/08/26 20:14:07 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,14 @@ int parse_function(t_token **head, t_general *gen, char **envp)
     int     flag = 0;
     it = *head;
     //check the token in the list of commands (still to work in the external)
-    printf("token: %d\n",cmd_searchlst(it));
+    // printf("check_format: %d\n",check_format(it));
+    /* APARENTLY IS DONE */
+    /* check format for execution */
+    if (!check_format(it))
+    {
+		gen->error_no = -1;
+		return (gen->error_no);	
+	}
     //get the token in the list and look for the specific case
     if (cmd_searchlst(it) == ECHO_CMD) // echo
     {

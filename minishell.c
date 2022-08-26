@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:10 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 19:52:01 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 20:12:38 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,13 @@ int main (int argc, char **argv, char **envp)
 			printf("error xd\n");
 			continue ;
 		}
-		parse_function(&head, &gen, envp); //sending *head and *gen
+		if (parse_function(&head, &gen, envp))//sending *head and *gen
+		{
+			reset(&gen, &head, inpt);
+			//put error glossary here
+			printf("error xd\n");
+			continue ;
+		}
 		reset(&gen, &head, inpt);
 		// system("leaks minishell");
 		// exit (0);
