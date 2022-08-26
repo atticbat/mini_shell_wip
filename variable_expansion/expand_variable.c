@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 00:37:48 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:20:37 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	*extract_variable(char *content, int *i)
 	}
 	//if it is space then that means it's not a variable
 	//also include alex's valid variable checker here
-	if (ft_strchr(TOKENS, content[*i]) || !check_variable(content + *i, 1))
+	if (ft_strchr(TOKENS, content[*i]) || !check_variable(content + *i))
 		return (NULL);
 	while (content[*i] != '\0')
 	{

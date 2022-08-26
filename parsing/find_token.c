@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 00:33:54 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:33:40 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,11 @@ static int  extract_variable(char *in, t_token **head, t_general *gen)
     	    }
     	    gen->to++;
     	}
+        if(!check_variable(token_last(*head)->content))
+        {
+    	    gen->error_no = -1;
+            return (gen->error_no);
+        }
         if(check_variable_char(in[gen->to + 1]))
         {
             gen->to++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:43:37 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 00:13:29 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:34:13 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,19 @@ int     check_variable_char(char c)
     return (1);
 }
 
-int     check_variable(char *var, int len)
+int     check_variable(char *var)
 {
     int i;
-    
+    int len;
+
+    len = ft_strlen(var);
     i = 0;
-	if(ft_isdigit(*var) && ft_isalpha(*(var + i)))	// 1 1
+	if(ft_isdigit(*var) && ft_isalpha(*(var + 1)))	// 1 1
 	{
 		return (0);
     }
     // printf("flag isaplha %d\n", ft_isalpha(*(var + i)));
+    printf("var %d\n",check_variable_char(var[i]));
     while (i < len)
     {
         // printf("valores de str %c\n", (var[i]));
@@ -52,28 +55,7 @@ int     check_variable(char *var, int len)
 }
 
 
-// void check_cmd(t_token **head,int flag)
-// {
-//     flag = 0;
-//     // printf("%d cmpr\n", token_searchlst(*head));
-
-//     switch (token_searchlst(*head))
-//     {
-//         case 1: //echo
-//             gen->str = ft_echo(&it);
-
-//         case 2: //cd
-//         case 3: //pwd
-//         case 4: //export
-//         case 5: //unset
-//         case 6: //env
-//         case 7: //exit
-        
-//         break;
+int check_format()
+{
     
-//     default:
-//         break;
-//     }
-
-//     // return(flag);
-// }
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_function.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 02:37:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/25 20:14:34 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:35:32 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ int parse_function(t_token **head, t_general *gen)
     it = *head;
     //check the token in the list of commands (still to work in the external)
     printf("token: %d\n",cmd_searchlst(it));
+
+    /* check format for execution */
+    if ();
     //get the token in the list and look for the specific case
     if (cmd_searchlst(it) == ECHO_CMD) // echo
     {

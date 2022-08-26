@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 00:38:16 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:18:56 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*ft_pwd(char *buff);
 int		parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
 void	check_cmd(t_token **inpt,int flag);
-int		check_variable(char *var, int len);
+int		check_variable(char *var);
 int     cmd_searchlst(t_token *head);
 int     cmd_check_contained(t_token *head);
 
