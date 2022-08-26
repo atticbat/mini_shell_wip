@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/21 02:43:37 by khatlas           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/08/26 20:11:29 by khatlas          ###   ########.fr       */
-=======
-/*   Updated: 2022/08/26 19:59:29 by aparedes         ###   ########.fr       */
->>>>>>> ee1314d575f446deede9567f8949787baa03439c
+/*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
+/*   Updated: 2022/08/26 23:29:29 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +16,16 @@ void	reset(t_general *gen, t_token **head, char *inpt)
 {
     if (gen->str)
         free (gen->str);
-    ft_bzero(gen, sizeof(t_general));
+    gen->error_no = 0;
+    gen->to = 0;
+    gen->from = 0;
+    gen->flag = 0;
+    gen->str = NULL;
     token_clear(head, free);
+    *head = NULL;
 	if (inpt)
 		free (inpt);
     inpt = NULL;
-    *head = NULL;
 }
 
 int     check_variable_char(char c)
@@ -62,6 +62,10 @@ int     check_variable(char *var)
 /* TO handle the error we need to confirm the type when it is a quote going on 
     check also the problem with the quotes.
 
+    kewin:
+    Also, lack of space between variables when parsed --idea: add space to former variable once extracted to deal wiht this instead of adding extra aruguments
+        Remove dummy arg at the end of some inputs
+    
     NOTE : till now >> doesnt create a file just an error.
             same for >
 */

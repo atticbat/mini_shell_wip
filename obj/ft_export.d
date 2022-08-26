@@ -1,4 +1,4 @@
-obj/token_add_back.o: list_token/token_add_back.c includes/minishell.h \
+obj/ft_export.o: export/ft_export.c includes/minishell.h \
   /Users/khatlas/.brew/opt/readline/include/readline/readline.h \
   /Users/khatlas/.brew/opt/readline/include/readline/rlstdc.h \
   /Users/khatlas/.brew/opt/readline/include/readline/rltypedefs.h \

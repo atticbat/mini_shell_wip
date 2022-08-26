@@ -1,6 +1,7 @@
 # -*- MakeFile -*-
 
-VPATH	=	parsing helper includes list_token variable_expansion echo utility pwd env
+VPATH	=	parsing helper includes list_token variable_expansion echo \
+			utility pwd env export
 NAME	=	minishell
 FUNCTS	=	minishell.c				\
 				find_token.c		\
@@ -20,6 +21,7 @@ FUNCTS	=	minishell.c				\
 				ft_env.c			\
 				copy_envp.c			\
 				ft_getenv.c			\
+				ft_export.c			\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))
@@ -28,7 +30,7 @@ CFLAGS	= 	-Wall -Werror -Wextra
 OBJ_PATH =	./obj/
 LIBFTPATH =	./libft/
 BREW	=	$(shell brew --prefix)
-IFLAGS	=	-I ./includes -I $(BREW)/Cellar/readline/include
+IFLAGS	=	-I ./includes -I $(BREW)/opt/readline/include
 RM 		=	/bin/rm -f
 RMR		=	/bin/rm -rf
 DEPEND	=	-MMD -MP

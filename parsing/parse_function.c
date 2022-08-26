@@ -5,13 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 20:14:07 by khatlas          ###   ########.fr       */
-=======
-/*   Created: 2022/08/21 02:37:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 20:06:57 by aparedes         ###   ########.fr       */
->>>>>>> ee1314d575f446deede9567f8949787baa03439c
+/*   Updated: 2022/08/26 23:37:02 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +30,7 @@ static int  parse_nl_flag(char *content)
     return (0);
 }
 
-int parse_function(t_token **head, t_general *gen, char **envp)
+int parse_function(t_token **head, t_general *gen)
 {
     t_token *it;
     char    *buffer;
@@ -79,13 +74,15 @@ int parse_function(t_token **head, t_general *gen, char **envp)
         getcwd(cwd, PATH_MAX);
         printf("%s\n",cwd);
     }
-    if (cmd_searchlst(it) == ENV_CMD)
+    if (cmd_searchlst(it) == EXPORT_CMD)
     {
-        gen->str = ft_env(envp);
+        it = it->next;
+        gen->envp = ft_export(gen->envp, it->content);
     }
+    if (cmd_searchlst(it) == ENV_CMD)
+        gen->str = ft_env(gen->envp);
         // case 4: //export
         // case 5: //unset
-        // case 6: //env
         // case 7: //exit
     // //temporary output
     if (gen->str)

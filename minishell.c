@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/16 10:23:10 by khatlas           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/08/26 20:12:38 by khatlas          ###   ########.fr       */
-=======
-/*   Updated: 2022/08/26 20:04:49 by aparedes         ###   ########.fr       */
->>>>>>> ee1314d575f446deede9567f8949787baa03439c
+/*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
+/*   Updated: 2022/08/27 00:10:53 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +18,15 @@ static void interrupt_handler(int signum)
     write (1, "\n", 1);
     rl_free_line_state();
     rl_on_new_line();
-    write (1, PROMPT, ft_strlen(PROMPT));
+	rl_replace_line("", 0);
+    rl_redisplay();
+}
+
+static void	do_nothing_handler(int signum)
+{
+	(void) signum;
+	rl_free_line_state();
+    rl_on_new_line();
     rl_redisplay();
 }
 
@@ -30,56 +34,57 @@ int main (int argc, char **argv, char **envp)
 {
 	t_token		*head;
     char		*inpt;
-	t_general	gen; // no using
+	t_general	gen;
 
 	(void) argc;
 	(void) argv;
-	envp = copy_envp(envp);
-	// (void) envp;
+	gen.envp = copy_envp(envp);
 	head = NULL;
 	inpt = NULL;
 	reset(&gen, &head, inpt);
     signal(SIGINT, interrupt_handler);
+	signal(SIGQUIT, do_nothing_handler);
     while (1)
     {
 		inpt = readline(PROMPT);
+		if (!inpt || *inpt == EOF)
+		{
+			free (inpt);
+			break ;
+		}
 		if (!inpt || !*inpt)
 		    continue ;
 		add_history(inpt);
 		if (find_token(inpt, &head, &gen))
 		{
 			reset(&gen, &head, inpt);
-			//put error glossary here
 			printf("error xd\n");
 		    continue ;
 		}
-		if (expand_variable(&head, &gen, envp))
+		if (expand_variable(&head, &gen))
 		{
 			reset(&gen, &head, inpt);
-			//put error glossary here
 			printf("error xd\n");
 			continue ;
 		}
-		if (parse_function(&head, &gen, envp))//sending *head and *gen
+		if (parse_function(&head, &gen))
 		{
 			reset(&gen, &head, inpt);
-			//put error glossary here
 			printf("error xd\n");
 			continue ;
 		}
-<<<<<<< HEAD
-=======
-		if (parse_function(&head, &gen))//sending *head and *gen
-		{
-			reset(&gen, &head, inpt);
-			//put error glossary here
-			printf("error xd\n");
-			continue ;
-		}
->>>>>>> ee1314d575f446deede9567f8949787baa03439c
 		reset(&gen, &head, inpt);
-		// system("leaks minishell");
 		// exit (0);
     }
+	reset(&gen, &head, inpt);
+	int	i = 0;
+	while (gen.envp[i] != NULL)
+	{
+		free (gen.envp[i]);
+		i++;
+	}
+	free (gen.envp);
+	//should probably also free envp
+	// system("leaks minishell");
     return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 19:48:58 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:32:53 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*extract_bracketed(char *content, int *i, int start)
+static char	*extract_bracketed(char *content, int *i, int start, char **envp)
 {
 	int		index_change;
 	char	*buffer;
@@ -21,11 +21,11 @@ static char	*extract_bracketed(char *content, int *i, int start)
 	buffer = NULL;
 	index_change = 0;
 	buffer = ft_substr(content, start + 2, *i - start - 1);
-	final = getenv(buffer);
+	final = ft_getenv(envp, buffer);
 	if (!final)
 		final = ft_strdup("");
 	else
-		final = ft_strdup(getenv(buffer));
+		final = ft_getenv(envp, buffer);
 	index_change = ft_strlen(final) - 1 - (*i - start - 1);
 	free (buffer);
 	buffer = ft_substr(content, 0, start);
@@ -36,7 +36,7 @@ static char	*extract_bracketed(char *content, int *i, int start)
 	return (final);
 }
 
-static char	*extract_regular(char *content, int *i, int start)
+static char	*extract_regular(char *content, int *i, int start, char **envp)
 {
 	int		index_change;
 	char	*buffer;
@@ -45,11 +45,11 @@ static char	*extract_regular(char *content, int *i, int start)
 	buffer = NULL;
 	index_change = 0;
 	buffer = ft_substr(content, start + 1, *i - start);
-	final = getenv(buffer);
+	final = ft_getenv(envp, buffer);
 	if (!final)
 		final = ft_strdup("");
 	else
-		final = ft_strdup(getenv(buffer));
+		final = ft_getenv(envp, buffer);
 	index_change = ft_strlen(final) - 1 - (*i - start);
 	free (buffer);
 	buffer = ft_substr(content, 0, start);
@@ -60,7 +60,7 @@ static char	*extract_regular(char *content, int *i, int start)
 	return (final);
 }
 
-static char	*extract_variable(char *content, int *i)
+static char	*extract_variable(char *content, int *i, char **envp)
 {
 	int		bracket_flag;
 	char	*final;
@@ -84,16 +84,16 @@ static char	*extract_variable(char *content, int *i)
 	while (content[*i] != '\0')
 	{
 		if (content[*i + 1] == '}' && bracket_flag)
-			return (extract_bracketed(content, i, start));
+			return (extract_bracketed(content, i, start, envp));
 		//need alex's checker instead of checking for null & $ sign
 		if (ft_strchr(WHITESPACE, content[*i + 1]) || content[*i + 1] == '\0' || content[*i + 1] == '$')
-			return (extract_regular(content, i, start));
+			return (extract_regular(content, i, start, envp));
 		*i = *i + 1;
 	}
 	return (final);
 }
 
-static char	*expand_dquote(char *content)
+static char	*expand_dquote(char *content, char **envp)
 {
 	int		i;
 	char	*buffer;
@@ -105,7 +105,7 @@ static char	*expand_dquote(char *content)
 	while (final[i] != '\0')
 	{
 		if (final[i] == '$')
-			buffer = extract_variable(final, &i);
+			buffer = extract_variable(final, &i, envp);
 		if (buffer)
 		{
 			free (final);
@@ -117,7 +117,7 @@ static char	*expand_dquote(char *content)
 	return (final);
 }
 
-int	expand_variable(t_token **head, t_general *gen, char **envp)
+int	expand_variable(t_token **head, t_general *gen)
 {
 	char	*buffer;
 	t_token	*iterator;
@@ -136,9 +136,8 @@ int	expand_variable(t_token **head, t_general *gen, char **envp)
 		if (iterator->type == '$')
 		{
 			iterator->type = 'a';
-			if (getenv(iterator->content))
-				buffer = ft_strdup(ft_getenv(envp, iterator->content));
-			else
+			buffer = ft_getenv(gen->envp, iterator->content);
+			if (!buffer)
 				buffer = ft_strdup("");
 			free (iterator->content);
 			iterator->content = buffer;
@@ -146,7 +145,7 @@ int	expand_variable(t_token **head, t_general *gen, char **envp)
 		else if (iterator->type == 'd')
 		{
 			iterator->type = 'a';
-			buffer = expand_dquote(iterator->content);
+			buffer = expand_dquote(iterator->content, gen->envp);
 			free (iterator->content);
 			iterator->content = buffer;
 		}

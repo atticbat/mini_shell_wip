@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 20:16:50 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:31:08 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct  s_general
     int     from;
     int     flag;
     char    *str;
+    char    **envp;
 }   t_general;
 
 /* utilities */
@@ -75,7 +76,7 @@ t_token	*token_last(t_token *lst);
 t_token	*token_new(char type, char *content);
 int	    token_size(t_token *lst);
 /* variable expansion */ 
-int	    expand_variable(t_token **head, t_general *gen, char **envp);
+int	    expand_variable(t_token **head, t_general *gen);
 /* helper */
 void    print_all(t_token *lst);
 /* echo */
@@ -84,10 +85,13 @@ char    *ft_echo(t_token **head);
 char	*ft_pwd(char *buff);
 /* env */
 char	**copy_envp(char **envp);
+int	    count_envp(char **envp);
 char    *ft_env(char **envp);
 char    *ft_getenv(char **envp, char *search);
+/* export */
+char    **ft_export(char **envp, char *add);
 /* parse_function */
-int		parse_function(t_token **head, t_general *gen, char **envp);
+int		parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
 void	check_cmd(t_token **inpt,int flag);
 int		check_variable(char *var);

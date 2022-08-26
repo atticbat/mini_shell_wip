@@ -1,41 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy_envp.c                                        :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/26 18:42:22 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 23:06:48 by khatlas          ###   ########.fr       */
+/*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
+/*   Updated: 2022/08/26 23:36:05 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_envp(char **envp)
+char    **ft_export(char **envp, char *add)
 {
-	int		count;
+    char    **new_envp;
+    int     i;
 
-	count = 0;
-	while (envp[count] != NULL)
-		count++;
-	return (count);
-}
-
-char	**copy_envp(char **envp)
-{
-	char	**final;
-	int		index;
-
-	index = 0;
-	if (!envp || !*envp)
-		return (NULL);
-	final = (char **) malloc (sizeof (char *) * (count_envp(envp) + 1));
-	while (envp[index] != NULL)
-	{
-		final[index] = ft_strdup(envp[index]);
-		index++;
-	}
-	final[index] = NULL;
-	return (final);
+    i = 0;
+    if (!add)
+        return (NULL);
+    new_envp = (char **) malloc (sizeof (char *) * (count_envp(envp) + 2));
+    while (envp[i] != NULL)
+    {
+        new_envp[i] = envp[i];
+        i++;
+    }
+    new_envp[i] = ft_strdup(add);
+    new_envp[i + 1] = NULL;
+    free (envp);
+    return (new_envp);
 }
