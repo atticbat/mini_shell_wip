@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:10 by khatlas           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/08/26 20:12:38 by khatlas          ###   ########.fr       */
+=======
+/*   Updated: 2022/08/26 20:04:49 by aparedes         ###   ########.fr       */
+>>>>>>> ee1314d575f446deede9567f8949787baa03439c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +67,16 @@ int main (int argc, char **argv, char **envp)
 			printf("error xd\n");
 			continue ;
 		}
+<<<<<<< HEAD
+=======
+		if (parse_function(&head, &gen))//sending *head and *gen
+		{
+			reset(&gen, &head, inpt);
+			//put error glossary here
+			printf("error xd\n");
+			continue ;
+		}
+>>>>>>> ee1314d575f446deede9567f8949787baa03439c
 		reset(&gen, &head, inpt);
 		// system("leaks minishell");
 		// exit (0);
