@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 23:32:53 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/27 05:37:46 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	*extract_variable(char *content, int *i, char **envp)
 	}
 	//if it is space then that means it's not a variable
 	//also include alex's valid variable checker here
-	if (ft_strchr(TOKENS, content[*i]) || !check_variable(content + *i))
+	if (!check_variable_char(content[*i]))
 		return (NULL);
 	while (content[*i] != '\0')
 	{

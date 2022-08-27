@@ -33,8 +33,8 @@ CC		=	cc
 CFLAGS	= 	-Wall -Werror -Wextra
 OBJ_PATH =	./obj/
 LIBFTPATH =	./libft/
-BREW	=	$(shell brew --prefix)
-IFLAGS	=	-I ./includes -I $(BREW)/opt/readline/include
+RLPATH	=	./readline/
+IFLAGS	=	-I ./includes -I ./readline
 RM 		=	/bin/rm -f
 RMR		=	/bin/rm -rf
 DEPEND	=	-MMD -MP
@@ -43,8 +43,9 @@ all: $(NAME)
 
 $(NAME): $(OBJ_PATH) $(OBJS)
 	make -C $(LIBFTPATH)
-	$(CC) -o $(NAME) $(IFLAGS) $(DEPEND) $(OBJS) -lreadline \
-		-L $(LIBFTPATH) -l $(LIBFTNAME) -L $(BREW)/Cellar/readline/8.1.2/lib -lreadline
+	make -C $(RLPATH)
+	$(CC) -o $(NAME) $(IFLAGS) $(DEPEND) $(OBJS) -L $(LIBFTPATH) -l $(LIBFTNAME) -ltermcap \
+		-L $(RLPATH) -lreadline -L $(RLPATH) -lhistory -L $(RLPATH)
 
 $(OBJ_PATH) :
 	mkdir $(OBJ_PATH)
@@ -54,10 +55,12 @@ $(OBJ_PATH)%.o: %.c | $(OBJ_PATH)
 
 clean:
 	make clean -C $(LIBFTPATH)
+	make mostlyclean -C $(RLPATH)
 	$(RMR) $(OBJ_PATH)
 
 fclean: clean
 	make fclean -C $(LIBFTPATH)
+	make clean -C $(RLPATH)
 	$(RM) $(NAME)
 
 re: fclean all
