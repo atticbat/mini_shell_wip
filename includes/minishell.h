@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 23:31:08 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/27 05:18:42 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,16 @@ typedef struct  s_general
 
 /* utilities */
 void	reset(t_general *gen, t_token **head, char *inpt);
+int     check_arg_end(char *in);
+char    *append_space(char *in, char *str, int to);
 int     check_variable_char(char c);
 /* initial parsing */
 int 	find_token(char *in, t_token **head, t_general *gen);
+int     extract_quote_node(char *in, t_token **head, t_general *gen);
+int     extract_var_node(char *in, t_token **head, t_general *gen);
+int     extract_arg_node(char *in, t_token **head, t_general *gen);
+int     find_final_arg(char *in, t_token **head, t_general *gen);
+int     extract_token_node(char *in, t_token **head, t_general *gen);
 /* linked list */
 void	token_add_back(t_token **lst, t_token *new);
 void	token_add_front(t_token **lst, t_token *new);

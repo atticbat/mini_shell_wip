@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 00:10:53 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/27 03:07:24 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,19 @@ int main (int argc, char **argv, char **envp)
 		if (find_token(inpt, &head, &gen))
 		{
 			reset(&gen, &head, inpt);
-			printf("error xd\n");
+			printf("error token\n");
 		    continue ;
 		}
 		if (expand_variable(&head, &gen))
 		{
 			reset(&gen, &head, inpt);
-			printf("error xd\n");
+			printf("error expansion\n");
 			continue ;
 		}
 		if (parse_function(&head, &gen))
 		{
 			reset(&gen, &head, inpt);
-			printf("error xd\n");
+			printf("error function\n");
 			continue ;
 		}
 		reset(&gen, &head, inpt);

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 23:29:29 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/27 05:20:54 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,33 @@ void	reset(t_general *gen, t_token **head, char *inpt)
 	if (inpt)
 		free (inpt);
     inpt = NULL;
+}
+
+int check_arg_end(char *in)
+{
+    int i;
+
+    i = 0;
+    while (in[i] != '\0' && ft_strchr(WHITESPACE, in[i]))
+        i++;
+    if (i == 0)
+        return (0);
+    if (in[i] == '\0' || ft_strchr(TOKENS, in[i]))
+        return (0);
+    return (1);
+}
+
+char    *append_space(char *in, char *str, int to)
+{
+    char    *final;
+
+    final = str;
+    if (in[to + 1] != '\0' && check_arg_end(in + (to + 1)))
+    {
+        final = ft_strjoin(str, " ");
+        free (str);
+    }
+    return (final);
 }
 
 int     check_variable_char(char c)
@@ -64,7 +91,6 @@ int     check_variable(char *var)
 
     kewin:
     Also, lack of space between variables when parsed --idea: add space to former variable once extracted to deal wiht this instead of adding extra aruguments
-        Remove dummy arg at the end of some inputs
     
     NOTE : till now >> doesnt create a file just an error.
             same for >
@@ -91,7 +117,10 @@ int check_format(t_token *var)
     while (var->next != NULL)
     {
         if(var->type == 'a')
-            flag = 1;        
+        {
+            flag = 0;
+            break ;
+        }
         else
             var = var->next;
     }

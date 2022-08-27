@@ -22,6 +22,10 @@ FUNCTS	=	minishell.c				\
 				copy_envp.c			\
 				ft_getenv.c			\
 				ft_export.c			\
+				extract_quote_node.c	\
+				extract_var_node.c	\
+				extract_arg_node.c	\
+				extract_token_node.c	\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))
