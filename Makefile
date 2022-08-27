@@ -43,6 +43,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_PATH) $(OBJS)
 	make -C $(LIBFTPATH)
+	cd $(RLPATH) && sh ./configure
 	make -C $(RLPATH)
 	$(CC) -o $(NAME) $(IFLAGS) $(DEPEND) $(OBJS) -L $(LIBFTPATH) -l $(LIBFTNAME) -ltermcap \
 		-L $(RLPATH) -lreadline -L $(RLPATH) -lhistory -L $(RLPATH)
