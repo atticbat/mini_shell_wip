@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:22:50 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 02:26:26 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/28 01:42:12 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int extract_token_node(char *in, t_token **head, t_general *gen)
 {
     if (in[gen->to] != '\0' && ft_strchr(TOKENS, in[gen->to]))
     {
-        // printf("to: %d, current char: %c\n", gen->to, in[gen->to]);
         if (in[gen->to + 1] == in[gen->to])
         {
             if (in[gen->to] == '<')
@@ -27,11 +26,13 @@ int extract_token_node(char *in, t_token **head, t_general *gen)
         }
         else
             token_add_back(head, token_new(in[gen->to], NULL));
-        if (!ft_strchr(WHITESPACE, in[gen->to]))
+        if (!ft_strchr(TOKENS, in[gen->to + 1]))
+        {
             gen->flag = 0;
+            gen->to++;
+        }
         else
             gen->flag = 1;
-        gen->to++;
         gen->from = gen->to;
     }
     return (0);

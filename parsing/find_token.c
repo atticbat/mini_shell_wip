@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 03:03:27 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/28 00:53:21 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static void cycle_whitespace(char *in, t_token **head, t_general *gen)
 {
     (void)head;
-    if ((in[gen->to] != '\0' && ft_strchr(WHITESPACE, in[gen->to])) && gen->flag)
+    if ((in[gen->to] != '\0' && ft_strchr(WHITESPACE, in[gen->to])))
     {
         gen->to++;
         gen->from = gen->to;
-        if (!ft_strchr(WHITESPACE, in[gen->to]) && !ft_strchr(TOKENS, in[gen->to]) && in[gen->to] != '\0')
+        if (in[gen->to] != '\0' && check_variable_char(in[gen->to]))
             gen->flag = 0;
     }
     else if (in[gen->to] != '\0')

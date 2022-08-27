@@ -1,7 +1,7 @@
 # -*- MakeFile -*-
 
 VPATH	=	parsing helper includes list_token variable_expansion echo \
-			utility pwd env export
+			utility pwd env export cd
 NAME	=	minishell
 FUNCTS	=	minishell.c				\
 				find_token.c		\
@@ -22,6 +22,7 @@ FUNCTS	=	minishell.c				\
 				copy_envp.c			\
 				ft_getenv.c			\
 				ft_export.c			\
+				ft_cd.c				\
 				extract_quote_node.c	\
 				extract_var_node.c	\
 				extract_arg_node.c	\
@@ -43,7 +44,11 @@ all: $(NAME)
 
 $(NAME): $(OBJ_PATH) $(OBJS)
 	make -C $(LIBFTPATH)
-	cd $(RLPATH) && sh ./configure
+	@if [ -e "./readline/config.log" ]; then\
+	    echo "config log exists";\
+	else\
+	    cd $(RLPATH) && sh ./configure;\
+	fi
 	make -C $(RLPATH)
 	$(CC) -o $(NAME) $(IFLAGS) $(DEPEND) $(OBJS) -L $(LIBFTPATH) -l $(LIBFTNAME) -ltermcap \
 		-L $(RLPATH) -lreadline -L $(RLPATH) -lhistory -L $(RLPATH)
@@ -62,6 +67,9 @@ clean:
 fclean: clean
 	make fclean -C $(LIBFTPATH)
 	make clean -C $(RLPATH)
+	@if [ -e "./readline/config.log" ]; then\
+		cd $(RLPATH) && rm config.log;\
+	fi
 	$(RM) $(NAME)
 
 re: fclean all

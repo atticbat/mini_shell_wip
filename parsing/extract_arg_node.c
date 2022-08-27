@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:19:32 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 06:29:01 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/28 00:41:45 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,30 @@ static int  adjust_cmd(t_token **head, t_general *gen)
     return (0);
 }
 
+static int  ignore_whitespace_arg(char *in, int from, int to)
+{
+    while (from < to)
+    {
+        if (ft_strchr(WHITESPACE, in[from]))
+            return (-1);
+        from++;
+    }
+    return (0);
+}
+
 int  extract_arg_node(char *in, t_token **head, t_general *gen)
 {
-    if (in[gen->to] != '\0' && (ft_strchr(WHITESPACE, in[gen->to]) || ft_strchr(TOKENS, in[gen->to])  \
-        || ft_strchr(QUOTES, in[gen->to]) || in[gen->to] == '$') && !gen->flag && gen->to != gen->from)
+    if (in[gen->to] != '\0' && (!check_variable_char(in[gen->to])) && !gen->flag \
+        && gen->to != gen->from && !ignore_whitespace_arg(in, gen->from, gen->to))
     {
-        token_add_back(head, token_new('a', append_space(in, ft_substr(in, gen->from, gen->to - gen->from), gen->to - 1)));
+        token_add_back(head, token_new('a', append_space(in, \
+            ft_substr(in, gen->from, gen->to - gen->from), gen->to - 1)));
         if (check_arg_end(in + gen->to))
         {
             gen->flag = 1;
             if (adjust_cmd(head, gen))
                 return (gen->error_no);
         }
-        // else
-        //     gen->flag = 0;
         gen->from = gen->to;
     }
     return (0);
@@ -50,11 +60,11 @@ int  extract_arg_node(char *in, t_token **head, t_general *gen)
 
 int find_final_arg(char *in, t_token **head, t_general *gen)
 {
-    // (void)head;
     if (gen->to != gen->from)
     {
-        while (ft_strchr(WHITESPACE, in[gen->from]))
+        while (in[gen->from] != '\0' && ft_strchr(WHITESPACE, in[gen->from]))
         {
+            printf("This happens\n");
             gen->from++;
             gen->flag = 0;
         }

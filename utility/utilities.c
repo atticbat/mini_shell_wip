@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 05:20:54 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/28 01:42:33 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,18 @@ char    *append_space(char *in, char *str, int to)
     return (final);
 }
 
+// int     check_argument_char(char c)
+// {
+//     if (c < '!' || c == '\"' || (c >= '&' && c <= '\'') \
+//         || !ft_strchr(TOKENS, c) || c == 127)
+//         return(0);
+//     return (1);
+// }
+
 int     check_variable_char(char c)
 {
-    if (c < 48 || (c >= 58 && c <= 64) || (c >= 91 && c < 95) \
-        || (c > 95 && c <= 96) || (c >= 123 && c <= 127))
+    if (c < '0' || (c >= ':' && c <= '@') || (c >= '[' && c < '_') \
+        || (c > '_' && c <= '`') || (c >= '{' && c <= 127))
         return(0);
     return (1);
 }

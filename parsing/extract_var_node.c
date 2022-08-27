@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:17:36 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 05:22:25 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/28 00:16:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ int  extract_var_node(char *in, t_token **head, t_general *gen)
                 gen->to++;
     	        break ;
     	    }
-    
-    	    if (ft_strchr(TOKENS, in[gen->to + 1]) || ft_strchr(WHITESPACE, in[gen->to + 1]) \
-                || in[gen->to + 1] == '\0' || in[gen->to + 1] == '$')
+    	    if (!check_variable_char(in[gen->to + 1]))
     	    {
     	        token_add_back(head, token_new('$', ft_substr(in, start, gen->to - start + 1)));
 				if (check_arg_end(in + (gen->to + 1)))

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 03:07:24 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/28 00:33:24 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,20 @@ static void	do_nothing_handler(int signum)
 	rl_free_line_state();
     rl_on_new_line();
     rl_redisplay();
+}
+
+static int	check_empty(char *in)
+{
+    int i;
+
+    i = 0;
+    while (in[i] != '\0' && ft_strchr(WHITESPACE, in[i]))
+        i++;
+    if (i == 0)
+        return (0);
+    if (in[i] == '\0')
+        return (1);
+    return (0);
 }
 
 int main (int argc, char **argv, char **envp)
@@ -52,6 +66,11 @@ int main (int argc, char **argv, char **envp)
 			free (inpt);
 			break ;
 		}
+		if (check_empty(inpt))
+		{
+			free (inpt);
+			continue ;
+		}
 		if (!inpt || !*inpt)
 		    continue ;
 		add_history(inpt);
@@ -74,7 +93,6 @@ int main (int argc, char **argv, char **envp)
 			continue ;
 		}
 		reset(&gen, &head, inpt);
-		// exit (0);
     }
 	reset(&gen, &head, inpt);
 	int	i = 0;
@@ -84,7 +102,6 @@ int main (int argc, char **argv, char **envp)
 		i++;
 	}
 	free (gen.envp);
-	//should probably also free envp
 	// system("leaks minishell");
     return (0);
 }

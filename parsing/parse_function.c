@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 03:04:49 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/27 23:13:18 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,19 @@ int parse_function(t_token **head, t_general *gen)
         }
         gen->str = ft_echo(&it);
     }
-    if (cmd_searchlst(it) == CD_CMD) // cd
-    {
-        it = it->next;
-        if (it->content[ft_strlen(it->content) - 1] == ' ')
-            it->content[ft_strlen(it->content) - 1] = '\0';
-        if (chdir(it->content) != 0) 
-            perror("chdir() failed");
-    }
-    if (cmd_searchlst(it) == PWD_CMD) //pwd
-    {
-        getcwd(cwd, PATH_MAX);
-        printf("%s\n",cwd);
-    }
-    if (cmd_searchlst(it) == EXPORT_CMD)
+    else if (cmd_searchlst(it) == CD_CMD) // cd
+        ft_cd(it);
+    else if (cmd_searchlst(it) == PWD_CMD) //pwd
+        gen->str = ft_strdup(getcwd(cwd, PATH_MAX));
+    else if (cmd_searchlst(it) == EXPORT_CMD)
     {
         it = it->next;
         gen->envp = ft_export(gen->envp, it->content);
     }
-    if (cmd_searchlst(it) == ENV_CMD)
+    else if (cmd_searchlst(it) == ENV_CMD)
         gen->str = ft_env(gen->envp);
-        // case 4: //export
-        // case 5: //unset
-        // case 7: //exit
+    // case 5: //unset
+    // case 7: //exit
     // //temporary output
     if (gen->str)
     {

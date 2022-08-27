@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 18:00:44 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/28 01:42:16 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	reset(t_general *gen, t_token **head, char *inpt);
 int     check_arg_end(char *in);
 char    *append_space(char *in, char *str, int to);
 int     check_variable_char(char c);
+// int     check_argument_char(char c);
 /* initial parsing */
 int 	find_token(char *in, t_token **head, t_general *gen);
 int     extract_quote_node(char *in, t_token **head, t_general *gen);
@@ -88,6 +89,8 @@ int	    expand_variable(t_token **head, t_general *gen);
 void    print_all(t_token *lst);
 /* echo */
 char    *ft_echo(t_token **head);
+/* cd */
+int     ft_cd(t_token *it);
 /* pwd */
 char	*ft_pwd(char *buff);
 /* env */
