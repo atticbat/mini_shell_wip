@@ -6,13 +6,13 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 05:37:46 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 05:40:16 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*extract_bracketed(char *content, int *i, int start, char **envp)
+static char	*extract_bracketed(char *content, int *i, int start, t_env *envp)
 {
 	int		index_change;
 	char	*buffer;
@@ -36,7 +36,7 @@ static char	*extract_bracketed(char *content, int *i, int start, char **envp)
 	return (final);
 }
 
-static char	*extract_regular(char *content, int *i, int start, char **envp)
+static char	*extract_regular(char *content, int *i, int start, t_env *envp)
 {
 	int		index_change;
 	char	*buffer;
@@ -60,7 +60,7 @@ static char	*extract_regular(char *content, int *i, int start, char **envp)
 	return (final);
 }
 
-static char	*extract_variable(char *content, int *i, char **envp)
+static char	*extract_variable(char *content, int *i, t_env *envp)
 {
 	int		bracket_flag;
 	char	*final;
@@ -93,7 +93,7 @@ static char	*extract_variable(char *content, int *i, char **envp)
 	return (final);
 }
 
-static char	*expand_dquote(char *content, char **envp)
+static char	*expand_dquote(char *content, t_env *envp)
 {
 	int		i;
 	char	*buffer;

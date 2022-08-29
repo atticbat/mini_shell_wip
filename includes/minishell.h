@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/28 01:42:16 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 06:19:10 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ typedef struct  s_token
     struct s_token  *next;
 }   t_token;
 
+typedef struct  s_env
+{
+    char            *name;
+    char            *content;
+    struct s_env    *next;
+}   t_env;
+
 typedef struct  s_general
 {
     int     error_no;
@@ -59,7 +66,7 @@ typedef struct  s_general
     int     from;
     int     flag;
     char    *str;
-    char    **envp;
+    t_env   *envp;
 }   t_general;
 
 /* utilities */
@@ -75,7 +82,7 @@ int     extract_var_node(char *in, t_token **head, t_general *gen);
 int     extract_arg_node(char *in, t_token **head, t_general *gen);
 int     find_final_arg(char *in, t_token **head, t_general *gen);
 int     extract_token_node(char *in, t_token **head, t_general *gen);
-/* linked list */
+/* linked list token */
 void	token_add_back(t_token **lst, t_token *new);
 void	token_add_front(t_token **lst, t_token *new);
 void	token_clear(t_token **lst, void (*del)(void *));
@@ -94,12 +101,14 @@ int     ft_cd(t_token *it);
 /* pwd */
 char	*ft_pwd(char *buff);
 /* env */
-char	**copy_envp(char **envp);
-int	    count_envp(char **envp);
-char    *ft_env(char **envp);
-char    *ft_getenv(char **envp, char *search);
+int	    copy_envp(char **envp, t_general *gen);
+char	*extract_env_content(char *str);
+char	*extract_env_name(char *str);
+int	    count_envp(t_env *envp);
+char    *ft_env(t_env *envp);
+char    *ft_getenv(t_env *envp, char *search);
 /* export */
-char    **ft_export(char **envp, char *add);
+int     ft_export(t_env **envp, char *add);
 /* parse_function */
 int		parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
@@ -108,5 +117,12 @@ int		check_variable(char *var);
 int     check_format(t_token *in);
 int     cmd_searchlst(t_token *head);
 int     cmd_check_contained(t_token *head);
+/* linked list env */
+void	env_add_back(t_env **lst, t_env *new);
+void	env_add_front(t_env **lst, t_env *new);
+void	env_clear(t_env **lst, void (*del)(void *));
+void	env_delone(t_env *lst, void (*del)(void *));
+t_env	*env_last(t_env *lst);
+t_env	*env_new(char *name, char *content);
 
 #endif

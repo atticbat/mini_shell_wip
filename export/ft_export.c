@@ -6,28 +6,28 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/26 23:36:05 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 06:24:08 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char    **ft_export(char **envp, char *add)
+int ft_export(t_env **envp, char *add)
 {
-    char    **new_envp;
-    int     i;
+    t_env   *it;
+    t_env   *it2;
 
-    i = 0;
-    if (!add)
-        return (NULL);
-    new_envp = (char **) malloc (sizeof (char *) * (count_envp(envp) + 2));
-    while (envp[i] != NULL)
+    if (!envp || !*envp || !(*envp)->next || !add)
+        return (-1);
+    it = *envp;
+    it2 = it->next;
+    while (it2->next != NULL)
     {
-        new_envp[i] = envp[i];
-        i++;
+        it = it2;
+        it2 = it2->next;
     }
-    new_envp[i] = ft_strdup(add);
-    new_envp[i + 1] = NULL;
-    free (envp);
-    return (new_envp);
+    it->next = env_new(extract_env_name(add), extract_env_content(add));
+    it = it->next;
+    it->next = it2;
+    return (0);
 }

@@ -1,7 +1,7 @@
 # -*- MakeFile -*-
 
 VPATH	=	parsing helper includes list_token variable_expansion echo \
-			utility pwd env export cd
+			utility pwd env export cd list_env
 NAME	=	minishell
 FUNCTS	=	minishell.c				\
 				find_token.c		\
@@ -27,6 +27,13 @@ FUNCTS	=	minishell.c				\
 				extract_var_node.c	\
 				extract_arg_node.c	\
 				extract_token_node.c	\
+				env_add_back.c		\
+				env_add_front.c		\
+				env_clear.c			\
+				env_delone.c		\
+				env_last.c			\
+				env_new.c			\
+				env_size.c			\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))

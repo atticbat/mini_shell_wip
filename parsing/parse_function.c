@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/27 23:13:18 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 06:32:08 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,20 @@ int parse_function(t_token **head, t_general *gen)
         gen->str = ft_strdup(getcwd(cwd, PATH_MAX));
     else if (cmd_searchlst(it) == EXPORT_CMD)
     {
+        char    *buffer;
         it = it->next;
-        gen->envp = ft_export(gen->envp, it->content);
+        buffer = it->content;
+        if (!buffer || !it->next)
+        {
+            return (-1);
+        }
+        it = it->next;
+        buffer = ft_strjoin(buffer, it->content);
+        if (ft_export(&gen->envp, buffer))
+        {
+            return (-1);
+        }
+        free (buffer);
     }
     else if (cmd_searchlst(it) == ENV_CMD)
         gen->str = ft_env(gen->envp);

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/28 00:33:24 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 06:20:13 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int main (int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
-	gen.envp = copy_envp(envp);
+	copy_envp(envp, &gen);
 	head = NULL;
 	inpt = NULL;
 	reset(&gen, &head, inpt);
@@ -95,13 +95,7 @@ int main (int argc, char **argv, char **envp)
 		reset(&gen, &head, inpt);
     }
 	reset(&gen, &head, inpt);
-	int	i = 0;
-	while (gen.envp[i] != NULL)
-	{
-		free (gen.envp[i]);
-		i++;
-	}
-	free (gen.envp);
+	env_clear(&gen.envp, free);
 	// system("leaks minishell");
     return (0);
 }

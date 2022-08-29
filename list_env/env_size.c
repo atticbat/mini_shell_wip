@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getenv.c                                        :+:      :+:    :+:   */
+/*   env_size.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/26 19:34:58 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 06:38:45 by khatlas          ###   ########.fr       */
+/*   Created: 2022/04/12 01:30:44 by khatlas           #+#    #+#             */
+/*   Updated: 2022/08/17 12:38:36 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char    *ft_getenv(t_env *envp, char *search)
+int	env_size(t_env *lst)
 {
-	t_env	*buffer;
-    size_t  len;
+	t_env	*temp;
+	int		i;
 
-    if (!envp || !search)
-        return (NULL);
-    len = ft_strlen(search);
-	buffer = envp;
-	while (buffer != NULL)
+	temp = lst;
+	i = 0;
+	while (temp != NULL)
 	{
-        if (!ft_strncmp(buffer->name, search, (int) len) \
-            && ft_strlen(buffer->name) == len)
-            return (ft_strdup(buffer->content));
-		buffer = buffer->next;
+		temp = temp->next;
+		i++;
 	}
-    return (NULL);
+	return (i);
 }
