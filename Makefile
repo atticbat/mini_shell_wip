@@ -1,7 +1,7 @@
 # -*- MakeFile -*-
 
 VPATH	=	parsing helper includes list_token variable_expansion echo \
-			utility pwd env export cd list_env
+			utility pwd env export cd list_env unset
 NAME	=	minishell
 FUNCTS	=	minishell.c				\
 				find_token.c		\
@@ -22,6 +22,7 @@ FUNCTS	=	minishell.c				\
 				copy_envp.c			\
 				ft_getenv.c			\
 				ft_export.c			\
+				ft_unset.c			\
 				ft_cd.c				\
 				extract_quote_node.c	\
 				extract_var_node.c	\

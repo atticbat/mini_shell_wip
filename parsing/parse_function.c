@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 08:15:50 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 08:52:15 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int parse_function(t_token **head, t_general *gen)
         gen->str = ft_strdup(getcwd(cwd, PATH_MAX));
     else if (cmd_searchlst(it) == EXPORT_CMD)
     {
+        //need to break this down into individual function
         char    *buffer;
         char    *final;
         t_env   *existing;
@@ -81,7 +82,7 @@ int parse_function(t_token **head, t_general *gen)
         if (!it->content || it->content[0] != '=')
             return (-1);
         final = ft_strjoin(buffer, it->content);
-        if (find_env(gen->envp, buffer))
+        if (existing)
         {
             if (ft_export_replace(&gen->envp, final, existing->name))
             {
@@ -99,9 +100,22 @@ int parse_function(t_token **head, t_general *gen)
         }
         free (final);
     }
+    else if (cmd_searchlst(it) == UNSET_CMD)
+    {
+        t_env   *existing;
+
+        it = it->next;
+        if (!it || !it->content)
+            return (-1);
+        existing = find_env(gen->envp, it->content);
+        if (existing)
+        {
+            if (ft_unset(&gen->envp, existing->name))
+                return (-1);
+        }
+    }
     else if (cmd_searchlst(it) == ENV_CMD)
         gen->str = ft_env(gen->envp);
-    // case 5: //unset
     // case 7: //exit
     // //temporary output
     if (gen->str)
