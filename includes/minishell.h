@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 06:19:10 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 08:04:35 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ char	*extract_env_name(char *str);
 int	    count_envp(t_env *envp);
 char    *ft_env(t_env *envp);
 char    *ft_getenv(t_env *envp, char *search);
+t_env   *find_env(t_env *envp, char *search);
 /* export */
 int     ft_export(t_env **envp, char *add);
+int     ft_export_replace(t_env **envp, char *add, char *name);
 /* parse_function */
 int		parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */

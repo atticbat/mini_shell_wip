@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 06:32:08 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 08:15:50 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,36 @@ int parse_function(t_token **head, t_general *gen)
     else if (cmd_searchlst(it) == EXPORT_CMD)
     {
         char    *buffer;
+        char    *final;
+        t_env   *existing;
+
+        final = NULL;
         it = it->next;
         buffer = it->content;
-        if (!buffer || !it->next)
-        {
+        if (!buffer || !it->next || !check_variable(buffer))
             return (-1);
-        }
+        existing = find_env(gen->envp, buffer);
         it = it->next;
-        buffer = ft_strjoin(buffer, it->content);
-        if (ft_export(&gen->envp, buffer))
-        {
+        if (!it->content || it->content[0] != '=')
             return (-1);
+        final = ft_strjoin(buffer, it->content);
+        if (find_env(gen->envp, buffer))
+        {
+            if (ft_export_replace(&gen->envp, final, existing->name))
+            {
+                free (final);
+                return (-1);
+            }
         }
-        free (buffer);
+        else
+        {
+            if (ft_export(&gen->envp, final))
+            {
+                free (final);
+                return (-1);
+            }
+        }
+        free (final);
     }
     else if (cmd_searchlst(it) == ENV_CMD)
         gen->str = ft_env(gen->envp);

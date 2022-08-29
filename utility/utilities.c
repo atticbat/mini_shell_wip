@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/28 01:42:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 08:16:04 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ int     check_variable(char *var)
     int len;
 
     len = ft_strlen(var);
-    i = 0;
-	if(ft_isdigit(*var) && ft_isalpha(*(var + 1)))	// 1 1
+    i = 1;
+	if (ft_isdigit(*var))	// 1 1
 	{
 		return (0);
     }
     // printf("flag isaplha %d\n", ft_isalpha(*(var + i)));
-    printf("var %d\n",check_variable_char(var[i]));
+    // printf("var %d\n",check_variable_char(var[i]));
     while (i < len)
     {
         // printf("valores de str %c\n", (var[i]));
@@ -96,9 +96,6 @@ int     check_variable(char *var)
 }
 /* TO handle the error we need to confirm the type when it is a quote going on 
     check also the problem with the quotes.
-
-    kewin:
-    Also, lack of space between variables when parsed --idea: add space to former variable once extracted to deal wiht this instead of adding extra aruguments
     
     NOTE : till now >> doesnt create a file just an error.
             same for >

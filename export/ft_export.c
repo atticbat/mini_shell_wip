@@ -6,11 +6,33 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 06:24:08 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/29 08:05:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int ft_export_replace(t_env **envp, char *add, char *name)
+{
+    t_env   *it;
+    size_t  len;
+
+    if (!envp || !*envp || !(*envp)->next || !add)
+        return (-1);
+    it = *envp;
+    len = ft_strlen(name);
+    while (it != NULL)
+    {
+        if (!ft_strncmp(it->name, name, len) && ft_strlen(it->name) == len)
+        {
+            free (it->content);
+            it->content = extract_env_content(add);
+            break ;
+        }
+        it = it->next;
+    }
+    return (0);
+}
 
 int ft_export(t_env **envp, char *add)
 {
