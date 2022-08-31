@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 05:40:16 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 08:28:33 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ static char	*extract_variable(char *content, int *i, t_env *envp)
 		bracket_flag = 1;
 		*i = *i + 1;
 	}
-	//if it is space then that means it's not a variable
-	//also include alex's valid variable checker here
 	if (!check_variable_char(content[*i]))
 		return (NULL);
 	while (content[*i] != '\0')
@@ -93,7 +91,24 @@ static char	*extract_variable(char *content, int *i, t_env *envp)
 	return (final);
 }
 
-static char	*expand_dquote(char *content, t_env *envp)
+static char	*extract_q_mark(char *content, int start, int last_return)
+{
+	char	*buffer;
+	char	*final;
+
+	buffer = NULL;
+	final = ft_itoa(last_return);
+	if (!final)
+		final = ft_strdup("0");
+	free (buffer);
+	buffer = ft_substr(content, 0, start);
+	final = ft_strjoinfree(buffer, final);
+	buffer = ft_substr(content, start + 2, ft_strlen(content + start + 2));
+	final = ft_strjoinfree(final, buffer);
+	return (final);
+}
+
+static char	*expand_dquote(char *content, t_env *envp, int last_return)
 {
 	int		i;
 	char	*buffer;
@@ -104,7 +119,9 @@ static char	*expand_dquote(char *content, t_env *envp)
 	final = strdup(content);
 	while (final[i] != '\0')
 	{
-		if (final[i] == '$')
+		if (final[i] == '$' && final[i + 1] == '?')
+			buffer = extract_q_mark(final, i, last_return);
+		else if (final[i] == '$')
 			buffer = extract_variable(final, &i, envp);
 		if (buffer)
 		{
@@ -133,7 +150,13 @@ int	expand_variable(t_token **head, t_general *gen)
 	}
 	while (iterator != NULL)
 	{
-		if (iterator->type == '$')
+		if (iterator->type == '$' && !ft_strncmp(iterator->content, "?", 1))
+		{
+			iterator->type = 'a';
+			free (iterator->content);
+			iterator->content = ft_itoa(gen->last_return);
+		}
+		else if (iterator->type == '$')
 		{
 			iterator->type = 'a';
 			buffer = ft_getenv(gen->envp, iterator->content);
@@ -145,7 +168,7 @@ int	expand_variable(t_token **head, t_general *gen)
 		else if (iterator->type == 'd')
 		{
 			iterator->type = 'a';
-			buffer = expand_dquote(iterator->content, gen->envp);
+			buffer = expand_dquote(iterator->content, gen->envp, gen->last_return);
 			free (iterator->content);
 			iterator->content = buffer;
 		}

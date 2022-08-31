@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 08:45:42 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 06:20:19 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct  s_general
     int     flag;
     char    *str;
     t_env   *envp;
+    int     last_funct;
+    int     last_return;
 }   t_general;
 
 /* utilities */

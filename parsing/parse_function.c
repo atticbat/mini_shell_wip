@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 08:52:15 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 07:46:37 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int parse_function(t_token **head, t_general *gen)
             if (ft_export_replace(&gen->envp, final, existing->name))
             {
                 free (final);
-                return (-1);
+                gen->error_no = -1;
+                return (gen->error_no);
             }
         }
         else
@@ -95,7 +96,8 @@ int parse_function(t_token **head, t_general *gen)
             if (ft_export(&gen->envp, final))
             {
                 free (final);
-                return (-1);
+                gen->error_no = -1;
+                return (gen->error_no);
             }
         }
         free (final);
@@ -106,16 +108,39 @@ int parse_function(t_token **head, t_general *gen)
 
         it = it->next;
         if (!it || !it->content)
-            return (-1);
+        {
+            gen->error_no = -1;
+            return (gen->error_no);
+        }
         existing = find_env(gen->envp, it->content);
         if (existing)
         {
             if (ft_unset(&gen->envp, existing->name))
-                return (-1);
+            {
+                gen->error_no = -1;
+                return (gen->error_no);
+            }
         }
     }
     else if (cmd_searchlst(it) == ENV_CMD)
         gen->str = ft_env(gen->envp);
+    {
+        //here I will set the $_ to the last sent arg, given that there's not been an error
+        t_token *last;
+        char    *holder;
+
+        holder = ft_strjoin("_", "=");
+        last = token_last(*head);
+        holder = ft_strjoinfree(holder, ft_strdup(last->content));
+        //have to consider that a token may be last, in which case content would be NULL
+        //but from testing I think then I shouldnt overwrite the last input arg
+        if (!last->content || ft_export_replace(&gen->envp, holder, "_"))
+        {
+            gen->error_no = -1;
+            return (gen->error_no);
+        }
+        free (holder);
+    }
     // case 7: //exit
     // //temporary output
     if (gen->str)

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 08:16:04 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 08:28:49 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int     check_variable(char *var)
 
     len = ft_strlen(var);
     i = 1;
-	if (ft_isdigit(*var))	// 1 1
+	if (ft_isdigit(*var))
 	{
 		return (0);
     }

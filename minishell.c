@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 06:20:13 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 07:40:37 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int main (int argc, char **argv, char **envp)
 	copy_envp(envp, &gen);
 	head = NULL;
 	inpt = NULL;
+	gen.str = NULL;
 	reset(&gen, &head, inpt);
+	gen.last_return = gen.error_no;
     signal(SIGINT, interrupt_handler);
 	signal(SIGQUIT, do_nothing_handler);
     while (1)
@@ -92,6 +94,7 @@ int main (int argc, char **argv, char **envp)
 			printf("error function\n");
 			continue ;
 		}
+		gen.last_return = gen.error_no;
 		reset(&gen, &head, inpt);
     }
 	reset(&gen, &head, inpt);

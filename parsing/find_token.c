@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/28 00:53:21 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 08:27:10 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int 	find_token(char *in, t_token **head, t_general *gen)
 	int i;
 
 	i = 0;
-	while (ft_strchr(WHITESPACE, in[i])) // find space before till find
+	while (ft_strchr(WHITESPACE, in[i]))
 		i++;
-	in += i; //input is moved till find the variable
+	in += i;
 	if (get_token(in, head, gen) != 0)
 		return (gen->error_no);
 	print_all(*head);
