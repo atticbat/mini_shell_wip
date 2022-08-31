@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 18:42:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/29 06:32:43 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 11:03:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char    *ft_env(t_env *envp)
     it = it->next;
 	while (it != NULL)
 	{
-        // printf("prev> %s=%s\n", it->name, it->content);
         if (it->next != NULL)
             buffer = construct_line(it->name, it->content, "\n");
         else
@@ -49,6 +48,5 @@ char    *ft_env(t_env *envp)
         final = ft_strjoinfree(final, buffer);
 		it = it->next;
 	}
-    // printf("post> %s\n", final);
     return (final);
 }

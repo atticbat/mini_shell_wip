@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 07:46:37 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 11:03:19 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,11 @@ int parse_function(t_token **head, t_general *gen)
     }
     else if (cmd_searchlst(it) == ENV_CMD)
         gen->str = ft_env(gen->envp);
+    else if (cmd_searchlst(it) == EXIT_CMD)
+    {
+        gen->error_no = 1;
+        return (gen->error_no);
+    }
     {
         //here I will set the $_ to the last sent arg, given that there's not been an error
         t_token *last;
@@ -141,7 +146,6 @@ int parse_function(t_token **head, t_general *gen)
         }
         free (holder);
     }
-    // case 7: //exit
     // //temporary output
     if (gen->str)
     {

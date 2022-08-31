@@ -1,40 +1,44 @@
 # -*- MakeFile -*-
 
 VPATH	=	parsing helper includes list_token variable_expansion echo \
-			utility pwd env export cd list_env unset
+			utility pwd env export cd list_env unset signals error_handling
 NAME	=	minishell
-FUNCTS	=	minishell.c				\
-				find_token.c		\
-				token_add_back.c	\
-				token_add_front.c	\
-				token_clear.c		\
-				token_delone.c		\
-				token_last.c		\
-				token_new.c			\
-				token_size.c		\
-				cmd_searchlst.c		\
-				expand_variable.c	\
-				utilities.c			\
-				parse_function.c	\
-				ft_echo.c			\
-				ft_pwd.c			\
-				ft_env.c			\
-				copy_envp.c			\
-				ft_getenv.c			\
-				ft_export.c			\
-				ft_unset.c			\
-				ft_cd.c				\
+FUNCTS	=	minishell.c					\
+				find_token.c			\
+				token_add_back.c		\
+				token_add_front.c		\
+				token_clear.c			\
+				token_delone.c			\
+				token_last.c			\
+				token_new.c				\
+				token_size.c			\
+				cmd_searchlst.c			\
+				expand_variable.c		\
+				utilities.c				\
+				string_operations.c		\
+				format_checks.c			\
+				parse_function.c		\
+				ft_echo.c				\
+				ft_pwd.c				\
+				ft_env.c				\
+				copy_envp.c				\
+				ft_getenv.c				\
+				ft_export.c				\
+				ft_unset.c				\
+				ft_cd.c					\
 				extract_quote_node.c	\
-				extract_var_node.c	\
-				extract_arg_node.c	\
+				extract_var_node.c		\
+				extract_arg_node.c		\
 				extract_token_node.c	\
-				env_add_back.c		\
-				env_add_front.c		\
-				env_clear.c			\
-				env_delone.c		\
-				env_last.c			\
-				env_new.c			\
-				env_size.c			\
+				env_add_back.c			\
+				env_add_front.c			\
+				env_clear.c				\
+				env_delone.c			\
+				env_last.c				\
+				env_new.c				\
+				env_size.c				\
+				signal_handlers.c		\
+				handle_error.c			\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))

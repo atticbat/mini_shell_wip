@@ -6,29 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 07:40:37 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 11:01:49 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void interrupt_handler(int signum)
-{
-    (void) signum;
-    write (1, "\n", 1);
-    rl_free_line_state();
-    rl_on_new_line();
-	rl_replace_line("", 0);
-    rl_redisplay();
-}
-
-static void	do_nothing_handler(int signum)
-{
-	(void) signum;
-	rl_free_line_state();
-    rl_on_new_line();
-    rl_redisplay();
-}
 
 static int	check_empty(char *in)
 {
@@ -40,65 +22,57 @@ static int	check_empty(char *in)
     if (i == 0)
         return (0);
     if (in[i] == '\0')
+	{
+		free (in);
         return (1);
+	}
     return (0);
+}
+
+static void	initialise(t_token **head, t_general *gen, char **envp)
+{
+	copy_envp(envp, gen);
+	*head = NULL;
+	gen->str = NULL;
+	gen->error_no = 0;
+	reset(gen, head, NULL);
+	set_listeners();
+}
+
+static int	input_loop(t_token **head, t_general *gen)
+{
+    char		*inpt;
+
+	while (1)
+    {
+		inpt = readline(PROMPT);
+		if (!inpt || *inpt == EOF)
+			handle_error(1, inpt, head, gen);
+		if (check_empty(inpt))
+			continue ;
+		if (!*inpt)
+		    continue ;
+		add_history(inpt);
+		if (handle_error(find_token(inpt, head, gen), inpt, head, gen))
+			continue ;
+		if (handle_error(expand_variable(head, gen), inpt, head, gen))
+			continue ;
+		if (handle_error(parse_function(head, gen), inpt, head, gen))
+			continue ;
+		reset(gen, head, inpt);
+    }
+	free_all(inpt, head, gen);
+	return (0);
 }
 
 int main (int argc, char **argv, char **envp)
 {
 	t_token		*head;
-    char		*inpt;
 	t_general	gen;
 
 	(void) argc;
 	(void) argv;
-	copy_envp(envp, &gen);
-	head = NULL;
-	inpt = NULL;
-	gen.str = NULL;
-	reset(&gen, &head, inpt);
-	gen.last_return = gen.error_no;
-    signal(SIGINT, interrupt_handler);
-	signal(SIGQUIT, do_nothing_handler);
-    while (1)
-    {
-		inpt = readline(PROMPT);
-		if (!inpt || *inpt == EOF)
-		{
-			free (inpt);
-			break ;
-		}
-		if (check_empty(inpt))
-		{
-			free (inpt);
-			continue ;
-		}
-		if (!inpt || !*inpt)
-		    continue ;
-		add_history(inpt);
-		if (find_token(inpt, &head, &gen))
-		{
-			reset(&gen, &head, inpt);
-			printf("error token\n");
-		    continue ;
-		}
-		if (expand_variable(&head, &gen))
-		{
-			reset(&gen, &head, inpt);
-			printf("error expansion\n");
-			continue ;
-		}
-		if (parse_function(&head, &gen))
-		{
-			reset(&gen, &head, inpt);
-			printf("error function\n");
-			continue ;
-		}
-		gen.last_return = gen.error_no;
-		reset(&gen, &head, inpt);
-    }
-	reset(&gen, &head, inpt);
-	env_clear(&gen.envp, free);
-	// system("leaks minishell");
+	initialise(&head, &gen, envp);
+	input_loop(&head, &gen);
     return (0);
 }

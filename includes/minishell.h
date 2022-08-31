@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 06:20:19 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 13:16:29 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,14 @@ typedef struct  s_general
 
 /* utilities */
 void	reset(t_general *gen, t_token **head, char *inpt);
+void	free_all(char *inpt, t_token **head, t_general *gen);
+/* format checks */
+int		check_variable(char *var);
+int     check_variable_char(char c);
+int     check_arg_char(char c);
+/* string operations */
 int     check_arg_end(char *in);
 char    *append_space(char *in, char *str, int to);
-int     check_variable_char(char c);
-// int     check_argument_char(char c);
 /* initial parsing */
 int 	find_token(char *in, t_token **head, t_general *gen);
 int     extract_quote_node(char *in, t_token **head, t_general *gen);
@@ -119,7 +123,6 @@ int     ft_unset(t_env **envp, char *name);
 int		parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
 void	check_cmd(t_token **inpt,int flag);
-int		check_variable(char *var);
 int     check_format(t_token *in);
 int     cmd_searchlst(t_token *head);
 int     cmd_check_contained(t_token *head);
@@ -130,5 +133,9 @@ void	env_clear(t_env **lst, void (*del)(void *));
 void	env_delone(t_env *lst, void (*del)(void *));
 t_env	*env_last(t_env *lst);
 t_env	*env_new(char *name, char *content);
+/* signals */
+void    set_listeners(void);
+/* error_handling */
+int	    handle_error(int error, char *inpt, t_token **head, t_general *gen);
 
 #endif

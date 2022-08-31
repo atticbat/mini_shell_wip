@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:19:32 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/28 00:41:45 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/08/31 13:21:27 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int  ignore_whitespace_arg(char *in, int from, int to)
 
 int  extract_arg_node(char *in, t_token **head, t_general *gen)
 {
-    if (in[gen->to] != '\0' && (!check_variable_char(in[gen->to])) && !gen->flag \
+    if (in[gen->to] != '\0' && !check_arg_char(in[gen->to]) && !gen->flag \
         && gen->to != gen->from && !ignore_whitespace_arg(in, gen->from, gen->to))
     {
         token_add_back(head, token_new('a', append_space(in, \
@@ -64,7 +64,6 @@ int find_final_arg(char *in, t_token **head, t_general *gen)
     {
         while (in[gen->from] != '\0' && ft_strchr(WHITESPACE, in[gen->from]))
         {
-            printf("This happens\n");
             gen->from++;
             gen->flag = 0;
         }
