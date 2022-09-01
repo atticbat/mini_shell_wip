@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_function.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:39:07 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/01 15:11:47 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ int parse_function(t_token **head, t_general *gen)
 		gen->error_no = -1;
 		return (gen->error_no);	
 	}
+    //test
+    env_find(gen, "PATH");
+    printf("%s\n", gen->path);
+    //
     //get the token in the list and look for the specific case
     if (cmd_searchlst(it) == ECHO_CMD) // echo
         ft_echo(it, gen, &flag);

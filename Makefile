@@ -37,6 +37,7 @@ FUNCTS	=	minishell.c					\
 				env_last.c				\
 				env_new.c				\
 				env_size.c				\
+				env_find.c				\
 				signal_handlers.c		\
 				handle_error.c			\
 				testing.c

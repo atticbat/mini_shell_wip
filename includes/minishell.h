@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:39:33 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/01 15:11:57 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct  s_general
     int     flag;
     char    *str;
     t_env   *envp;
+    char    *path;
     int     last_funct;
     int     last_return;
 }   t_general;
@@ -138,5 +139,10 @@ t_env	*env_new(char *name, char *content);
 void    set_listeners(void);
 /* error_handling */
 int	    handle_error(int error, char *inpt, t_token **head, t_general *gen);
+
+
+
+
+void    env_find(t_general *gen, char *search);
 
 #endif
