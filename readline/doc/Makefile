@@ -49,7 +49,7 @@ RM = rm -f
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 
-BUILD_DIR = /Users/aparedes/Desktop/advancemini/to_push/mini_shell_wip/readline
+BUILD_DIR = /Users/khatlas/Submissions/mini_shell/readline
 TEXINPUTDIR = $(srcdir)
 
 MAKEINFO    = LANGUAGE= makeinfo

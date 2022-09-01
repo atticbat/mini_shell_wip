@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 13:46:01 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/01 14:02:45 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-char    *ft_echo_exe(t_token **head)
+static char *ft_echo_exe(t_token **head)
 {
     t_token *iterator;
     char    *buffer;
@@ -39,13 +39,32 @@ char    *ft_echo_exe(t_token **head)
     //will return a complete string that will either be piped into the next bit of code or printed
     return (final);
 }
-void    ft_echo(t_token *it,t_general *gen,int flag);
+
+static int  parse_nl_flag(char *content)
 {
-       it = it->next;
-        if (!ft_strncmp(it->content, "-n", 2) && !parse_nl_flag(it->content))
-        {
-            flag = 1;
-            it = it->next;
-        }
-        gen->str = ft_echo(&it);
+    int i;
+
+    i = 1;
+    if (!content || !*(content + 1))
+        return (-1);
+    while (content[i] != '\0')
+    {
+        if (content[i] == ' ' && content[i + 1] == '\0')
+            return (0);
+        else if (content[i] != 'n')
+            return (-1);
+        i++;
+    }
+    return (0);
+}
+
+void    ft_echo(t_token *it, t_general *gen, int flag)
+{
+    it = it->next;
+    if (!ft_strncmp(it->content, "-n", 2) && !parse_nl_flag(it->content))
+    {
+        flag = 1;
+        it = it->next;
+    }
+    gen->str = ft_echo_exe(&it);
 }

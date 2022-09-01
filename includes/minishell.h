@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 13:44:29 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/01 14:04:42 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	    expand_variable(t_token **head, t_general *gen);
 /* helper */
 void    print_all(t_token *lst);
 /* echo */
-char    *ft_echo_exe(t_token **head);
+void    ft_echo(t_token *it,t_general *gen,int flag);
 /* cd */
 int     ft_cd(t_token *it);
 /* pwd */
@@ -115,8 +115,8 @@ char    *ft_env(t_env *envp);
 char    *ft_getenv(t_env *envp, char *search);
 t_env   *find_env(t_env *envp, char *search);
 /* export */
-int     ft_export(t_env **envp, char *add);
-int     ft_export_replace(t_env **envp, char *add, char *name);
+void    ft_export(t_token *it, t_general *gen);
+int     ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
 int     ft_unset(t_env **envp, char *name);
 /* parse_function */
