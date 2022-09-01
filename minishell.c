@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 11:01:49 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 11:49:11 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static int	input_loop(t_token **head, t_general *gen)
 		if (handle_error(expand_variable(head, gen), inpt, head, gen))
 			continue ;
 		if (handle_error(parse_function(head, gen), inpt, head, gen))
+			continue ;
+		if (handle_error(pipe_function(head, gen), inpt, head, gen))
 			continue ;
 		reset(gen, head, inpt);
     }

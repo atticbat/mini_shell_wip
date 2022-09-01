@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_function.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 11:03:19 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 13:43:37 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,17 @@ int parse_function(t_token **head, t_general *gen)
 		return (gen->error_no);	
 	}
     //get the token in the list and look for the specific case
+    
     if (cmd_searchlst(it) == ECHO_CMD) // echo
     {
-        it = it->next;
-        if (!ft_strncmp(it->content, "-n", 2) && !parse_nl_flag(it->content))
-        {
-            flag = 1;
-            it = it->next;
-        }
-        gen->str = ft_echo(&it);
+        ft_echo(it, gen, flag);
+        // it = it->next;
+        // if (!ft_strncmp(it->content, "-n", 2) && !parse_nl_flag(it->content))
+        // {
+        //     flag = 1;
+        //     it = it->next;
+        // }
+        // gen->str = ft_echo(&it);
     }
     else if (cmd_searchlst(it) == CD_CMD) // cd
         ft_cd(it);

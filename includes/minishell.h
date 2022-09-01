@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 13:16:29 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 13:44:29 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	    expand_variable(t_token **head, t_general *gen);
 /* helper */
 void    print_all(t_token *lst);
 /* echo */
-char    *ft_echo(t_token **head);
+char    *ft_echo_exe(t_token **head);
 /* cd */
 int     ft_cd(t_token *it);
 /* pwd */
