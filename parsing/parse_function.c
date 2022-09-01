@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_function.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:23:56 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 14:39:07 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,7 @@ int parse_function(t_token **head, t_general *gen)
     else if (cmd_searchlst(it) == EXPORT_CMD)
         ft_export(it, gen);
     else if (cmd_searchlst(it) == UNSET_CMD)
-    {
-        t_env   *existing;
-
-        it = it->next;
-        if (!it || !it->content)
-        {
-            gen->error_no = -1;
-            return (gen->error_no);
-        }
-        existing = find_env(gen->envp, it->content);
-        if (existing)
-        {
-            if (ft_unset(&gen->envp, existing->name))
-            {
-                gen->error_no = -1;
-                return (gen->error_no);
-            }
-        }
-    }
+        ft_unset(it, gen);
     else if (cmd_searchlst(it) == ENV_CMD)
         gen->str = ft_env(gen->envp);
     else if (cmd_searchlst(it) == EXIT_CMD)
@@ -68,7 +50,7 @@ int parse_function(t_token **head, t_general *gen)
         gen->error_no = 1;
         return (gen->error_no);
     }
-    {
+/*     {
         //here I will set the $_ to the last sent arg, given that there's not been an error
         t_token *last;
         char    *holder;
@@ -84,7 +66,7 @@ int parse_function(t_token **head, t_general *gen)
             return (gen->error_no);
         }
         free (holder);
-    }
+    } */
     // //temporary output
     if (gen->str)
     {

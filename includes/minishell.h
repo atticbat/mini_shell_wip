@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:17:49 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 14:39:33 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ t_env   *find_env(t_env *envp, char *search);
 void    ft_export(t_token *it, t_general *gen);
 int     ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
-int     ft_unset(t_env **envp, char *name);
+int     ft_unset_exe(t_env **envp, char *name);
+void    ft_unset(t_token *it, t_general *gen);
 /* parse_function */
 int		parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
