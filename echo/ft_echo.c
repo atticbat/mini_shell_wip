@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:02:45 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 14:18:01 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ static int  parse_nl_flag(char *content)
     return (0);
 }
 
-void    ft_echo(t_token *it, t_general *gen, int flag)
+void    ft_echo(t_token *it, t_general *gen, int *flag)
 {
     it = it->next;
     if (!ft_strncmp(it->content, "-n", 2) && !parse_nl_flag(it->content))
     {
-        flag = 1;
+        *flag = 1;
         it = it->next;
     }
     gen->str = ft_echo_exe(&it);

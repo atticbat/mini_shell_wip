@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:07:48 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 14:29:33 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void    ft_export(t_token *it, t_general *gen)
     buffer = it->content;
     if (!buffer || !it->next || !check_variable(buffer))
         return ;
-    printf("I get here!\n");
+    // printf("I get here!\n");
     existing = find_env(gen->envp, buffer);
     it = it->next;
     if (!it->content || it->content[0] != '=')

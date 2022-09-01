@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:04:42 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 14:17:49 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	    expand_variable(t_token **head, t_general *gen);
 /* helper */
 void    print_all(t_token *lst);
 /* echo */
-void    ft_echo(t_token *it,t_general *gen,int flag);
+void    ft_echo(t_token *it,t_general *gen,int *flag);
 /* cd */
 int     ft_cd(t_token *it);
 /* pwd */

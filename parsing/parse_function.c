@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:05:12 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 14:23:56 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,49 +34,13 @@ int parse_function(t_token **head, t_general *gen)
 	}
     //get the token in the list and look for the specific case
     if (cmd_searchlst(it) == ECHO_CMD) // echo
-        ft_echo(it, gen, flag);
+        ft_echo(it, gen, &flag);
     else if (cmd_searchlst(it) == CD_CMD) // cd
         ft_cd(it);
     else if (cmd_searchlst(it) == PWD_CMD) //pwd
         gen->str = ft_strdup(getcwd(cwd, PATH_MAX));
     else if (cmd_searchlst(it) == EXPORT_CMD)
-    {
-        //need to break this down into individual function
         ft_export(it, gen);
-        // char    *buffer;
-        // char    *final;
-        // t_env   *existing;
-
-        // final = NULL;
-        // it = it->next;
-        // buffer = it->content;
-        // if (!buffer || !it->next || !check_variable(buffer))
-        //     return (-1);
-        // existing = find_env(gen->envp, buffer);
-        // it = it->next;
-        // if (!it->content || it->content[0] != '=')
-        //     return (-1);
-        // final = ft_strjoin(buffer, it->content);
-        // if (existing)
-        // {
-        //     if (ft_export_replace(&gen->envp, final, existing->name))
-        //     {
-        //         free (final);
-        //         gen->error_no = -1;
-        //         return (gen->error_no);
-        //     }
-        // }
-        // else
-        // {
-        //     if (ft_export(&gen->envp, final))
-        //     {
-        //         free (final);
-        //         gen->error_no = -1;
-        //         return (gen->error_no);
-        //     }
-        // }
-        // free (final);
-    }
     else if (cmd_searchlst(it) == UNSET_CMD)
     {
         t_env   *existing;
