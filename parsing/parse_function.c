@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 15:11:47 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 17:07:59 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int parse_function(t_token **head, t_general *gen)
 		return (gen->error_no);	
 	}
     //test
-    env_find(gen, "PATH");
-    printf("%s\n", gen->path);
+    // env_find(gen, "PATH");
+    // printf("%s\n", gen->path);
     //
     //get the token in the list and look for the specific case
     if (cmd_searchlst(it) == ECHO_CMD) // echo
@@ -54,6 +54,23 @@ int parse_function(t_token **head, t_general *gen)
         gen->error_no = 1;
         return (gen->error_no);
     }
+    else if (cmd_searchlst(it) == EXTER_CMD)
+    {
+        char    **cmd_matrix;
+
+        cmd_matrix = malloc (sizeof (char *) * 2);
+        cmd_matrix[1] = NULL;
+        cmd_matrix[0] = ft_strdup("");
+        find_path(gen, it);
+        // printf("path: %s\n", gen->cmd_path);
+            // we need to put here the child, and the parent to wait till finish the child and safe it in a file
+        if (gen->cmd_path)
+        {
+            execv(gen->cmd_path, cmd_matrix);
+        }
+    }
+
+
 /*     {
         //here I will set the $_ to the last sent arg, given that there's not been an error
         t_token *last;

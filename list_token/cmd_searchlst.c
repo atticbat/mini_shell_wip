@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_searchlst.c                                  :+:      :+:    :+:   */
+/*   cmd_searchlst.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 22:21:51 by aparedes          #+#    #+#             */
-/*   Updated: 2022/08/25 18:50:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 17:01:17 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,20 @@ int cmd_searchlst(t_token *head)
 		{
 			if(!(ft_strncmp((head)->content, "echo",len)))
             	return (ECHO_CMD);
-			if(!(ft_strncmp((head)->content, "cd",len)))
+			else if(!(ft_strncmp((head)->content, "cd",len)))
 				return (CD_CMD);
-			if(!(ft_strncmp((head)->content, "pwd",len)))
-				return (PWD_CMD);
-			if(!(ft_strncmp((head)->content, "export",len)))
-				return (EXPORT_CMD);
-			if(!(ft_strncmp((head)->content, "unset",len)))
-				return (UNSET_CMD);
-			if(!(ft_strncmp((head)->content, "env",len)))
-				return (ENV_CMD);
-			if(!(ft_strncmp((head)->content, "exit",len)))
-				return (EXIT_CMD);
+			else if(!(ft_strncmp((head)->content, "pwd",len)))
+			 	return (PWD_CMD);
+			else if(!(ft_strncmp((head)->content, "export",len)))
+			 	return (EXPORT_CMD);
+			else if(!(ft_strncmp((head)->content, "unset",len)))
+			 	return (UNSET_CMD);
+			else if(!(ft_strncmp((head)->content, "env",len)))
+			 	return (ENV_CMD);
+			else if(!(ft_strncmp((head)->content, "exit",len)))
+			 	return (EXIT_CMD);
+			else
+				return(EXTER_CMD);
 		}
         head = head->next;
     }

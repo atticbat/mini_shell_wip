@@ -1,7 +1,9 @@
 # -*- MakeFile -*-
 
 VPATH	=	parsing helper includes list_token variable_expansion echo \
-			utility pwd env export cd list_env unset signals error_handling
+			utility pwd env export cd list_env unset signals error_handling \
+			find_path
+
 NAME	=	minishell
 FUNCTS	=	minishell.c					\
 				find_token.c			\
@@ -40,6 +42,7 @@ FUNCTS	=	minishell.c					\
 				env_find.c				\
 				signal_handlers.c		\
 				handle_error.c			\
+				find_path.c				\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))

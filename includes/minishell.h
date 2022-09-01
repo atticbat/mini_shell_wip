@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 15:11:57 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 16:53:50 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define UNSET_CMD 5
 # define ENV_CMD 6
 # define EXIT_CMD 7
+# define EXTER_CMD 8
 
 // # define MAX_WORDS 8000
 /* for pwd function */
@@ -68,6 +69,7 @@ typedef struct  s_general
     char    *str;
     t_env   *envp;
     char    *path;
+    char    *cmd_path;
     int     last_funct;
     int     last_return;
 }   t_general;
@@ -144,5 +146,9 @@ int	    handle_error(int error, char *inpt, t_token **head, t_general *gen);
 
 
 void    env_find(t_general *gen, char *search);
+
+
+
+void    find_path(t_general *gen, t_token *lst);
 
 #endif

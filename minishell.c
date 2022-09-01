@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 13:51:17 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/01 15:24:58 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	initialise(t_token **head, t_general *gen, char **envp)
 	*head = NULL;
 	gen->str = NULL;
 	gen->error_no = 0;
+	env_find(gen, "PATH");
 	reset(gen, head, NULL);
 	set_listeners();
 }
