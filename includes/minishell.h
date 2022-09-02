@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 16:53:50 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/02 21:22:35 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <stdbool.h>
 # include <limits.h>
 # include "libft.h"
+#include <sys/stat.h>
+#include <fcntl.h>
 # define PROMPT "minishell $ "
 # define WHITESPACE "\t\r\n\v "
 # define QUOTES "\"\'"
@@ -39,6 +41,11 @@
 # define ENV_CMD 6
 # define EXIT_CMD 7
 # define EXTER_CMD 8
+/* defines for pipe */
+# define READ_END   0
+# define WRITE_END  1
+# define PATH_FILE_1  "fileout_temp"
+// # define PATH_FILE_2  "write"
 
 // # define MAX_WORDS 8000
 /* for pwd function */

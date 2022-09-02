@@ -6,11 +6,24 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 17:07:59 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/02 21:21:17 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void    execute(t_token *it, t_general *gen)
+{
+    char    **cmd_matrix;
+        cmd_matrix = malloc (sizeof (char *) * 2);
+        cmd_matrix[1] = NULL;
+        cmd_matrix[0] = ft_strdup("");
+        find_path(gen, it);
+        if (gen->cmd_path)
+        {
+            execv(gen->cmd_path, cmd_matrix);
+        }
+}
 
 int parse_function(t_token **head, t_general *gen)
 {
@@ -56,17 +69,60 @@ int parse_function(t_token **head, t_general *gen)
     }
     else if (cmd_searchlst(it) == EXTER_CMD)
     {
-        char    **cmd_matrix;
+        // char    **cmd_matrix;
 
-        cmd_matrix = malloc (sizeof (char *) * 2);
-        cmd_matrix[1] = NULL;
-        cmd_matrix[0] = ft_strdup("");
-        find_path(gen, it);
-        // printf("path: %s\n", gen->cmd_path);
-            // we need to put here the child, and the parent to wait till finish the child and safe it in a file
-        if (gen->cmd_path)
+        // cmd_matrix = malloc (sizeof (char *) * 2);
+        // cmd_matrix[1] = NULL;
+        // cmd_matrix[0] = ft_strdup("");
+        // find_path(gen, it);
+        // // printf("path: %s\n", gen->cmd_path);
+        //     // we need to put here the child, and the parent to wait till finish the child and safe it in a file
+        // if (gen->cmd_path)
+        // {
+        //     execv(gen->cmd_path, cmd_matrix);
+        // }
+        int     fileout;
+        // int     filein;
+        // filein = open(PATH_FILE_2, O_RDONLY | O_CREAT, 0777);
+        // if(fileout == -1 || filein == -1)
+        // {
+        //     gen->error_no = -1;
+        //     return (gen->error_no);
+        // }
+        // dup2(filein, STDIN_FILENO);
+        // close(filein);
+        pid_t   pid;
+        int     p[2];
+        pipe (p);
+        // if (pipe(p) == -1)
+        // {
+        //     gen->error_no = -1;
+        //     return (gen->error_no);
+        // }
+        pid = fork();
+        // if (pid == -1)
+        // {
+        //     gen->error_no = -1;
+        //     return (gen->error_no);
+        // }
+        if (pid == 0)  //child
         {
-            execv(gen->cmd_path, cmd_matrix);
+            // close(p[READ_END]); // 0
+            fileout = open(PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);
+            dup2(fileout, STDOUT_FILENO);
+            printf("show me the money\n");
+            // int err = exclp("ls", "-la", NULL);
+            // if()
+            execute(it, gen);
+            close(p[WRITE_END]);
+        }
+        else    //parent
+        {
+            printf("show me the bill\n");
+            // close(p[WRITE_END]); //1
+            // dup2(p[0], STDIN_FILENO);
+            // close(p[READ_END]); // 0
+            // waitpid(pid, NULL, 0);
         }
     }
 
