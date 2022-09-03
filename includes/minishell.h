@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/02 22:00:54 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/03 14:55:09 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ typedef struct  s_env
     struct s_env    *next;
 }   t_env;
 
+typedef struct  s_matrix
+{
+    char            type;
+    char            **matrix;
+    struct s_matrix *next;
+}   t_matrix;
+
 typedef struct  s_general
 {
     int     error_no;
@@ -111,9 +118,9 @@ int	    expand_variable(t_token **head, t_general *gen);
 /* helper */
 void    print_all(t_token *lst);
 /* echo */
-void    ft_echo(t_token *it,t_general *gen,int *flag);
+void    ft_echo(t_token **it, t_general *gen, int *flag);
 /* cd */
-int     ft_cd(t_token *it);
+int     ft_cd(t_token **it);
 /* pwd */
 char	*ft_pwd(char *buff);
 /* env */
@@ -125,11 +132,11 @@ char    *ft_env(t_env *envp);
 char    *ft_getenv(t_env *envp, char *search);
 t_env   *find_env(t_env *envp, char *search);
 /* export */
-void    ft_export(t_token *it, t_general *gen);
+void    ft_export(t_token **it, t_general *gen);
 int     ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
-int     ft_unset_exe(t_env **envp, char *name);
-void    ft_unset(t_token *it, t_general *gen);
+// int     ft_unset_exe(t_env **envp, char *name);
+void    ft_unset(t_token **it,t_general *gen);
 /* parse_function */
 int		parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */

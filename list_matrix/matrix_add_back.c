@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_error.c                                     :+:      :+:    :+:   */
+/*   env_add_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 13:01:48 by khatlas          ###   ########.fr       */
+/*   Created: 2022/04/12 01:38:25 by khatlas           #+#    #+#             */
+/*   Updated: 2022/08/17 12:38:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_error(int error, char *inpt, t_token **head, t_general *gen)
+void	matrix_add_back(t_matrix **lst, t_matrix *new)
 {
-	//put printing here based on err_no
-	if (error == 1)
+	t_matrix	*buffer;
+
+	if (new == NULL)
+		;
+	else if (*lst)
 	{
-		write (2, "you typed exit xddd lmao\n", 25); //temp
-		free_all(inpt, head, gen);
-		// system("leaks minishell");
-		exit (0);
-	}
-	else if (error)
-	{
-		write (2, "regular error xdd haha\n", 23); //temp
-		reset(gen, head, inpt);
+		buffer = matrix_last(*(lst));
+		buffer->next = new;
 	}
 	else
-	{
-		return (0);
-	}
-	return (-1);
+		*lst = new;
 }

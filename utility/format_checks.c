@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:48:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:34:14 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 14:53:54 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int check_format(t_token *var)
         ||  (var->type) == '>' ||(var->type) == '<' ||(var->type ) == '+'
         || (var->type ) == '|' || (var->type ) == '-')
     {
-        flag = 0;
         if(var->next == NULL)
             return (0);
         else

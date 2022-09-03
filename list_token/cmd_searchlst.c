@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 22:21:51 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/01 17:01:17 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 12:30:18 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int cmd_searchlst(t_token *head)
 	len = ft_strlen((head->content))+1;
     // Initialize current
 	// printf("valor compare : %d \n",!(ft_strncmp((head)->content, "echo",4)));
-    while (head != NULL)
-    {
+    // while (head != NULL)
+    // {
 		//encontramos el tipo y comando
         if (ft_strcmpc((head)->type, 'a'))
 		{
@@ -57,8 +57,8 @@ int cmd_searchlst(t_token *head)
 			else
 				return(EXTER_CMD);
 		}
-        head = head->next;
-    }
+        // head = head->next;
+    // }
     return 0;
 }
 

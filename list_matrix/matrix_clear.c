@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_error.c                                     :+:      :+:    :+:   */
+/*   env_clear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 13:01:48 by khatlas          ###   ########.fr       */
+/*   Created: 2022/04/12 02:04:51 by khatlas           #+#    #+#             */
+/*   Updated: 2022/08/17 12:38:14 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_error(int error, char *inpt, t_token **head, t_general *gen)
+void	env_clear(t_matrix **lst, void (*del)(void *))
 {
-	//put printing here based on err_no
-	if (error == 1)
+	t_matrix	*buffer;
+	int			i;
+
+	buffer = *lst;
+	while (buffer != NULL)
 	{
-		write (2, "you typed exit xddd lmao\n", 25); //temp
-		free_all(inpt, head, gen);
-		// system("leaks minishell");
-		exit (0);
+		i = 0;
+		while (buffer->matrix[i] != NULL)
+		{
+			del(buffer->matrix[i]);
+			i++;
+		}
+		del(buffer->matrix);
+		buffer = buffer->next;
+		free(*lst);
+		*lst = buffer;
 	}
-	else if (error)
-	{
-		write (2, "regular error xdd haha\n", 23); //temp
-		reset(gen, head, inpt);
-	}
-	else
-	{
-		return (0);
-	}
-	return (-1);
+	free(*lst);
+	lst = NULL;
 }

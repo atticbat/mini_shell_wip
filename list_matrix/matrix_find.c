@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_error.c                                     :+:      :+:    :+:   */
+/*   env_find.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 13:01:48 by khatlas          ###   ########.fr       */
+/*   Created: 2022/09/01 15:01:16 by khatlas           #+#    #+#             */
+/*   Updated: 2022/09/01 15:09:28 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_error(int error, char *inpt, t_token **head, t_general *gen)
+void    env_find(t_general *gen, char *search)
 {
-	//put printing here based on err_no
-	if (error == 1)
-	{
-		write (2, "you typed exit xddd lmao\n", 25); //temp
-		free_all(inpt, head, gen);
-		// system("leaks minishell");
-		exit (0);
-	}
-	else if (error)
-	{
-		write (2, "regular error xdd haha\n", 23); //temp
-		reset(gen, head, inpt);
-	}
-	else
-	{
-		return (0);
-	}
-	return (-1);
+    t_env   *it;
+    size_t  len;
+
+    it = gen->envp;
+    len = ft_strlen(search);
+    while (it != NULL)
+    {
+        if (!ft_strncmp(search, it->name, len))
+        {
+            gen->path = ft_strdup(it->content);
+            return ;
+        }
+        it = it->next;
+    }
 }

@@ -1,2 +1,26 @@
 show me the money
-[H[2J
+Makefile
+README.md
+cd
+echo
+env
+error_handling
+export
+filein_temp
+fileout_temp
+find_path
+helper
+includes
+libft
+list_env
+list_token
+minishell
+minishell.c
+obj
+parsing
+pwd
+readline
+signals
+unset
+utility
+variable_expansion

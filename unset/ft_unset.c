@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 08:25:31 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:38:28 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:44:24 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_unset_exe(t_env **envp, char *name)
+static int ft_unset_exe(t_env **envp, char *name)
 {
     t_env   *it;
     t_env   *it2;
@@ -36,17 +36,17 @@ int ft_unset_exe(t_env **envp, char *name)
     return (0);
 }
 
-void ft_unset(t_token *it,t_general *gen)
+void ft_unset(t_token **it,t_general *gen)
 {
         t_env   *existing;
 
-        it = it->next;
-        if (!it || !it->content)
+        *it = (*it)->next;
+        if (!(*it) || !(*it)->content)
         {
             gen->error_no = -1;
             return ;
         }
-        existing = find_env(gen->envp, it->content);
+        existing = find_env(gen->envp, (*it)->content);
         if (existing)
         {
             if (ft_unset_exe(&gen->envp, existing->name))

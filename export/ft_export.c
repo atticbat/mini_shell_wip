@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 14:29:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 12:42:00 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int  ft_export_exe(t_env **envp, char *add)
     return (0);
 }
 
-void    ft_export(t_token *it, t_general *gen)
+void    ft_export(t_token **it, t_general *gen)
 {
     //need to break this down into individual function
     char    *buffer;
@@ -62,16 +62,16 @@ void    ft_export(t_token *it, t_general *gen)
     t_env   *existing;
 
     final = NULL;
-    it = it->next;
-    buffer = it->content;
-    if (!buffer || !it->next || !check_variable(buffer))
+    *it = (*it)->next;
+    buffer = (*it)->content;
+    if (!buffer || !(*it)->next || !check_variable(buffer))
         return ;
     // printf("I get here!\n");
     existing = find_env(gen->envp, buffer);
-    it = it->next;
-    if (!it->content || it->content[0] != '=')
+    *it = (*it)->next;
+    if (!(*it)->content || (*it)->content[0] != '=')
         return ;
-    final = ft_strjoin(buffer, it->content);
+    final = ft_strjoin(buffer, (*it)->content);
     if (existing)
     {
         if (ft_export_replace_exe(&gen->envp, final, existing->name))
