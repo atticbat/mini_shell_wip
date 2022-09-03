@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	env_add_front(t_matrix **lst, t_matrix *new)
+void	matrix_add_front(t_matrix **lst, t_matrix *new)
 {
 	new->next = *lst;
 	*lst = new;

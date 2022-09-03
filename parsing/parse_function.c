@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 14:49:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 16:29:58 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@ static int    execute(t_general *gen)
         return(0);
 }
 
+int count_args(t_token *it)
+{
+    int i;
+
+    i = 0;
+    while (it && it->type == 'a')
+    {
+        it = it->next;
+        i++;
+    }
+    return (i);
+}
+
 int parse_function(t_token **head, t_general *gen)
 {
     t_token *it;
@@ -39,20 +52,63 @@ int parse_function(t_token **head, t_general *gen)
         return (-1);
     int     flag = 0;
     it = *head;
-    //check the token in the list of commands (still to work in the external)
-    // printf("check_format: %d\n",check_format(it));
-    /* APARENTLY IS DONE */
-    /* check format for execution */
     if (!check_format(it))
     {
 		gen->error_no = -1;
 		return (gen->error_no);	
 	}
-    //test
-    // env_find(gen, "PATH");
-    // printf("%s\n", gen->path);
+    //matrix creation here
+    {
+        t_matrix    *m_head;
+        char    **matrix;
+        char    *cmd;
+        int     i;
+        int     len;
+
+        m_head = NULL;
+        matrix = NULL;
+        cmd = NULL;
+        i = 0;
+        len = 0;
+        while (it != NULL)
+        {
+            //count args funct
+            if (it->type == 'a')
+            {
+                len = count_args(it);
+                matrix = malloc (sizeof(char *) * (len));
+                matrix[len - 1] = NULL;
+                if (check_valid_path(gen, it))
+                    cmd = ft_strdup(it->content);
+                else
+                    cmd = ft_strdup("N");
+                it = it->next;
+                i = 0;
+                while (it && it->type == 'a')
+                {
+                    matrix[i] = ft_strdup(it->content);
+                    printf("matrix[%d]: %s\n", i, matrix[i]);
+                    it = it->next;
+                    printf("i: %i\n", i);
+                    i++;
+                }
+                matrix_add_back(&m_head, matrix_new(cmd, matrix));
+                printf("I get ehre\n");
+            }
+            else if (it)
+            {
+                cmd = malloc (sizeof(char) * 2);
+                cmd[0] = it->type;
+                cmd[1] = '\0';
+                matrix_add_back(&m_head, matrix_new(cmd, NULL));
+            }
+            if (it)
+                it = it->next;
+        }
+        print_all_matrix(m_head);
+        return (0);
+    }
     //
-    //get the token in the list and look for the specific case
     while (it != NULL)
     {
         if (cmd_searchlst(it) == ECHO_CMD) // echo
@@ -115,15 +171,6 @@ int parse_function(t_token **head, t_general *gen)
                 close(fileout); //1
             }
         }
-        // if (it && it->type == '|')
-        // {
-        //     it = it->next;
-        //     while (it)
-        //     {
-
-        //         it = it->next;
-        //     }
-        // }
         if (gen->str)
         {
             int fileout = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_env	*env_last(t_env *lst)
+t_matrix	*matrix_last(t_matrix *lst)
 {
 	if (lst == NULL)
 		return (lst);

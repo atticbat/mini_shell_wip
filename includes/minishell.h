@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 14:55:09 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 16:10:38 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct  s_env
 
 typedef struct  s_matrix
 {
-    char            type;
+    char            *cmd;
     char            **matrix;
     struct s_matrix *next;
 }   t_matrix;
@@ -89,80 +89,89 @@ typedef struct  s_general
 }   t_general;
 
 /* utilities */
-void	reset(t_general *gen, t_token **head, char *inpt);
-void	free_all(char *inpt, t_token **head, t_general *gen);
+void	    reset(t_general *gen, t_token **head, char *inpt);
+void	    free_all(char *inpt, t_token **head, t_general *gen);
 /* format checks */
-int		check_variable(char *var);
-int     check_variable_char(char c);
-int     check_arg_char(char c);
+int		    check_variable(char *var);
+int         check_variable_char(char c);
+int         check_arg_char(char c);
 /* string operations */
-int     check_arg_end(char *in);
-char    *append_space(char *in, char *str, int to);
+int         check_arg_end(char *in);
+char        *append_space(char *in, char *str, int to);
 /* initial parsing */
-int 	find_token(char *in, t_token **head, t_general *gen);
-int     extract_quote_node(char *in, t_token **head, t_general *gen);
-int     extract_var_node(char *in, t_token **head, t_general *gen);
-int     extract_arg_node(char *in, t_token **head, t_general *gen);
-int     find_final_arg(char *in, t_token **head, t_general *gen);
-int     extract_token_node(char *in, t_token **head, t_general *gen);
+int 	    find_token(char *in, t_token **head, t_general *gen);
+int         extract_quote_node(char *in, t_token **head, t_general *gen);
+int         extract_var_node(char *in, t_token **head, t_general *gen);
+int         extract_arg_node(char *in, t_token **head, t_general *gen);
+int         find_final_arg(char *in, t_token **head, t_general *gen);
+int         extract_token_node(char *in, t_token **head, t_general *gen);
 /* linked list token */
-void	token_add_back(t_token **lst, t_token *new);
-void	token_add_front(t_token **lst, t_token *new);
-void	token_clear(t_token **lst, void (*del)(void *));
-void	token_delone(t_token *lst, void (*del)(void *));
-t_token	*token_last(t_token *lst);
-t_token	*token_new(char type, char *content);
-int	    token_size(t_token *lst);
+void	    token_add_back(t_token **lst, t_token *new);
+void	    token_add_front(t_token **lst, t_token *new);
+void	    token_clear(t_token **lst, void (*del)(void *));
+void	    token_delone(t_token *lst, void (*del)(void *));
+t_token	    *token_last(t_token *lst);
+t_token	    *token_new(char type, char *content);
+int	        token_size(t_token *lst);
 /* variable expansion */ 
-int	    expand_variable(t_token **head, t_general *gen);
+int	        expand_variable(t_token **head, t_general *gen);
 /* helper */
-void    print_all(t_token *lst);
+void        print_all_token(t_token *lst);
+void        print_all_matrix(t_matrix *lst);
 /* echo */
-void    ft_echo(t_token **it, t_general *gen, int *flag);
+void        ft_echo(t_token **it, t_general *gen, int *flag);
 /* cd */
-int     ft_cd(t_token **it);
+int         ft_cd(t_token **it);
 /* pwd */
-char	*ft_pwd(char *buff);
+char	    *ft_pwd(char *buff);
 /* env */
-int	    copy_envp(char **envp, t_general *gen);
-char	*extract_env_content(char *str);
-char	*extract_env_name(char *str);
-int	    count_envp(t_env *envp);
-char    *ft_env(t_env *envp);
-char    *ft_getenv(t_env *envp, char *search);
-t_env   *find_env(t_env *envp, char *search);
+int	        copy_envp(char **envp, t_general *gen);
+char	    *extract_env_content(char *str);
+char	    *extract_env_name(char *str);
+int	        count_envp(t_env *envp);
+char        *ft_env(t_env *envp);
+char        *ft_getenv(t_env *envp, char *search);
+t_env       *find_env(t_env *envp, char *search);
 /* export */
-void    ft_export(t_token **it, t_general *gen);
-int     ft_export_replace_exe(t_env **envp, char *add, char *name);
+void        ft_export(t_token **it, t_general *gen);
+int         ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
 // int     ft_unset_exe(t_env **envp, char *name);
-void    ft_unset(t_token **it,t_general *gen);
+void        ft_unset(t_token **it,t_general *gen);
 /* parse_function */
-int		parse_function(t_token **head, t_general *gen);
+int		    parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
-void	check_cmd(t_token **inpt,int flag);
-int     check_format(t_token *in);
-int     cmd_searchlst(t_token *head);
-int     cmd_check_contained(t_token *head);
+void	    check_cmd(t_token **inpt,int flag);
+int         check_format(t_token *in);
+int         cmd_searchlst(t_token *head);
+int         cmd_check_contained(t_token *head);
 /* linked list env */
-void	env_add_back(t_env **lst, t_env *new);
-void	env_add_front(t_env **lst, t_env *new);
-void	env_clear(t_env **lst, void (*del)(void *));
-void	env_delone(t_env *lst, void (*del)(void *));
-t_env	*env_last(t_env *lst);
-t_env	*env_new(char *name, char *content);
+void	    env_add_back(t_env **lst, t_env *new);
+void	    env_add_front(t_env **lst, t_env *new);
+void	    env_clear(t_env **lst, void (*del)(void *));
+void	    env_delone(t_env *lst, void (*del)(void *));
+t_env	    *env_last(t_env *lst);
+t_env	    *env_new(char *name, char *content);
+void        env_find(t_general *gen, char *search);
+/* linked list env */
+void	    matrix_add_back(t_matrix **lst, t_matrix *new);
+void	    matrix_add_front(t_matrix **lst, t_matrix *new);
+void	    matrix_clear(t_matrix **lst, void (*del)(void *));
+void	    matrix_delone(t_matrix *lst, void (*del)(void *));
+t_matrix	*matrix_last(t_matrix *lst);
+t_matrix	*matrix_new(char *cmd, char **matrix);
 /* signals */
-void    set_listeners(void);
+void        set_listeners(void);
 /* error_handling */
-int	    handle_error(int error, char *inpt, t_token **head, t_general *gen);
+int	        handle_error(int error, char *inpt, t_token **head, t_general *gen);
 
 
 
 
-void    env_find(t_general *gen, char *search);
 
 
 
-int    find_path(t_general *gen, t_token *lst);
+int         find_path(t_general *gen, t_token *lst);
+int         check_valid_path(t_general *gen, t_token *lst);	
 
 #endif

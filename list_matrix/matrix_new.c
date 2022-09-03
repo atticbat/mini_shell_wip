@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-t_env	*env_new(char *name, char *content)
+t_matrix	*matrix_new(char *cmd, char **matrix)
 {
-	t_env	*result;
+	t_matrix	*result;
 
-	result = malloc(sizeof(t_env));
+	result = malloc(sizeof(t_matrix));
 	if (!result)
 		return (NULL);
-	result->name = name;
-	result->content = content;
+	result->cmd = cmd;
+	result->matrix = matrix;
 	result->next = NULL;
 	return (result);
 }

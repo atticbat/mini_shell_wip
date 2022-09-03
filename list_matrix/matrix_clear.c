@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	env_clear(t_matrix **lst, void (*del)(void *))
+void	matrix_clear(t_matrix **lst, void (*del)(void *))
 {
 	t_matrix	*buffer;
 	int			i;
@@ -20,13 +20,15 @@ void	env_clear(t_matrix **lst, void (*del)(void *))
 	buffer = *lst;
 	while (buffer != NULL)
 	{
+		del(buffer->cmd);
 		i = 0;
-		while (buffer->matrix[i] != NULL)
+		while (buffer->matrix && buffer->matrix[i] != NULL)
 		{
 			del(buffer->matrix[i]);
 			i++;
 		}
-		del(buffer->matrix);
+		if (buffer->matrix)
+			del(buffer->matrix);
 		buffer = buffer->next;
 		free(*lst);
 		*lst = buffer;

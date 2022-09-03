@@ -2,7 +2,7 @@
 
 VPATH	=	parsing helper includes list_token variable_expansion echo \
 			utility pwd env export cd list_env unset signals error_handling \
-			find_path
+			find_path list_matrix
 
 NAME	=	minishell
 FUNCTS	=	minishell.c					\
@@ -40,6 +40,13 @@ FUNCTS	=	minishell.c					\
 				env_new.c				\
 				env_size.c				\
 				env_find.c				\
+				matrix_add_back.c		\
+				matrix_add_front.c		\
+				matrix_clear.c			\
+				matrix_delone.c			\
+				matrix_last.c			\
+				matrix_new.c			\
+				matrix_size.c			\
 				signal_handlers.c		\
 				handle_error.c			\
 				find_path.c				\

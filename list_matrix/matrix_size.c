@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-int	env_size(t_env *lst)
+int	matrix_size(t_matrix *lst)
 {
-	t_env	*temp;
+	t_matrix	*temp;
 	int		i;
 
 	temp = lst;

@@ -12,15 +12,17 @@
 
 #include "minishell.h"
 
-void	env_delone(t_matrix *lst, void (*del)(void *))
+void	matrix_delone(t_matrix *lst, void (*del)(void *))
 {
 	int	i;
 	i = 0;
-	while (lst->matrix[i] != NULL)
+	del (lst->cmd);
+	while (lst->matrix && lst->matrix[i] != NULL)
 	{
 		del(lst->matrix[i]);
 		i++;
 	}
-	del(lst->matrix);
+	if (lst->matrix)
+		del(lst->matrix);
 	free(lst);
 }
