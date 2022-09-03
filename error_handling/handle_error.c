@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 10:48:12 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/02 22:06:44 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	handle_error(int error, char *inpt, t_token **head, t_general *gen)
 		exit (0);
 	}
 	else if (error)
+	{
 		write (2, "regular error xdd haha\n", 23); //temp
+		reset(gen, head, inpt);
+	}
 	else
 		return (0);
 	return (-1);

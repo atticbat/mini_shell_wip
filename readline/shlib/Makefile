@@ -32,7 +32,7 @@ datarootdir = ${prefix}/share
 srcdir = .
 VPATH = ..
 topdir = ..
-BUILD_DIR = /Users/khatlas/Submissions/mini_shell/readline
+BUILD_DIR = /Users/aparedes/Desktop/advancemini/minishell_test/mini_shell_wip/readline
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}

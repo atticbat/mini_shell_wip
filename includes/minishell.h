@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/02 21:22:35 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/02 22:00:54 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define READ_END   0
 # define WRITE_END  1
 # define PATH_FILE_1  "fileout_temp"
-// # define PATH_FILE_2  "write"
+# define PATH_FILE_2  "filein_temp"
 
 // # define MAX_WORDS 8000
 /* for pwd function */
@@ -156,6 +156,6 @@ void    env_find(t_general *gen, char *search);
 
 
 
-void    find_path(t_general *gen, t_token *lst);
+int    find_path(t_general *gen, t_token *lst);
 
 #endif

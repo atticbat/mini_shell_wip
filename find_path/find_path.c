@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 15:22:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/01 17:05:36 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/02 22:00:49 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    find_path(t_general *gen, t_token *lst)
+int    find_path(t_general *gen, t_token *lst)
 {
     char    **paths;
     char    *part_path;
@@ -32,8 +32,9 @@ void    find_path(t_general *gen, t_token *lst)
         if (access(path, F_OK) == 0)
         {
             gen->cmd_path = path;
-            return ;
+            return (0);
         }
         i++;
     }
+    return (-1);
 }
