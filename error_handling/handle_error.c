@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 13:01:48 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 18:58:16 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	handle_error(int error, char *inpt, t_token **head, t_general *gen)
 		reset(gen, head, inpt);
 	}
 	else
-	{
 		return (0);
-	}
 	return (-1);
 }

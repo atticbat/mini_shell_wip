@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:48:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 14:53:54 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 17:42:24 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ int check_format(t_token *var)
     while (var->next != NULL)
     {
         if(var->type == 'a')
-        {
-            flag = 0;
             break ;
-        }
         else
             var = var->next;
     }

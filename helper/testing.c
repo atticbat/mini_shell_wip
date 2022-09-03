@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 12:18:32 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 16:31:21 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 17:20:16 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void    print_all_matrix(t_matrix *lst)
 	buffer = lst;
 	while (buffer != NULL)
 	{
-        printf("buffer; cmd: %s, matrix:\t", buffer->cmd);
+        printf("cmd: %s, matrix:\t", buffer->cmd);
 		i = 0;
 		while (buffer->matrix[i] != NULL)
 		{

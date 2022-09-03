@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 21:05:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 13:17:31 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 19:24:57 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,19 @@ static int  cd_no_arg(void)
     return (0);
 }
 
-int ft_cd(t_token **it)
+int ft_cd(t_matrix **it)
 {
-    *it = (*it)->next;
-    if (*it == NULL)
+    // *it = (*it)->next;
+    if ((*it)->matrix[1] == NULL)
     {
         if (!cd_no_arg())
             return (0);
         else
             return (-1);
     }
-    else if ((*it)->content[ft_strlen((*it)->content) - 1] == ' ')
-        (*it)->content[ft_strlen((*it)->content) - 1] = '\0';
-    if (*it != NULL && chdir((*it)->content) != 0) 
+    // else if ((*it)->content[ft_strlen((*it)->content) - 1] == ' ')
+        // (*it)->content[ft_strlen((*it)->content) - 1] = '\0';
+    if (chdir((*it)->matrix[1]) != 0) 
     {
         perror("chdir() failed");
         return (-1);

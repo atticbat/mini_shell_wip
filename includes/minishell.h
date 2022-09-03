@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 16:10:38 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 18:36:08 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,17 @@ typedef struct  s_matrix
 
 typedef struct  s_general
 {
-    int     error_no;
-    int     to;
-    int     from;
-    int     flag;
-    char    *str;
-    t_env   *envp;
-    char    *path;
-    char    *cmd_path;
-    int     last_funct;
-    int     last_return;
+    int         error_no;
+    int         to;
+    int         from;
+    int         flag;
+    char        *str;
+    t_env       *envp;
+    char        *path;
+    char        *cmd_path;
+    t_matrix    *matrix;
+    int         last_funct;
+    int         last_return;
 }   t_general;
 
 /* utilities */
@@ -119,9 +120,9 @@ int	        expand_variable(t_token **head, t_general *gen);
 void        print_all_token(t_token *lst);
 void        print_all_matrix(t_matrix *lst);
 /* echo */
-void        ft_echo(t_token **it, t_general *gen, int *flag);
+void        ft_echo(t_matrix **it, t_general *gen, int *flag);
 /* cd */
-int         ft_cd(t_token **it);
+int         ft_cd(t_matrix **it);
 /* pwd */
 char	    *ft_pwd(char *buff);
 /* env */
@@ -133,17 +134,16 @@ char        *ft_env(t_env *envp);
 char        *ft_getenv(t_env *envp, char *search);
 t_env       *find_env(t_env *envp, char *search);
 /* export */
-void        ft_export(t_token **it, t_general *gen);
+void        ft_export(t_matrix **it, t_general *gen);
 int         ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
-// int     ft_unset_exe(t_env **envp, char *name);
-void        ft_unset(t_token **it,t_general *gen);
+void        ft_unset(t_matrix **it,t_general *gen);
 /* parse_function */
 int		    parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
 void	    check_cmd(t_token **inpt,int flag);
 int         check_format(t_token *in);
-int         cmd_searchlst(t_token *head);
+int         cmd_searchlst(char *content);
 int         cmd_check_contained(t_token *head);
 /* linked list env */
 void	    env_add_back(t_env **lst, t_env *new);
@@ -162,16 +162,10 @@ t_matrix	*matrix_last(t_matrix *lst);
 t_matrix	*matrix_new(char *cmd, char **matrix);
 /* signals */
 void        set_listeners(void);
-/* error_handling */
+/* error handling */
 int	        handle_error(int error, char *inpt, t_token **head, t_general *gen);
-
-
-
-
-
-
-
-int         find_path(t_general *gen, t_token *lst);
-int         check_valid_path(t_general *gen, t_token *lst);	
+/* find path */
+int         find_path(t_general *gen, char *content);
+int         check_valid_path(t_general *gen, char *content);	
 
 #endif

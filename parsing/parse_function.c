@@ -6,26 +6,26 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 16:29:58 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 19:31:11 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int    execute(t_general *gen)
+static int    execute(t_general *gen, t_matrix *matrix)
 {
-    char    **cmd_matrix;
-        cmd_matrix = malloc (sizeof (char *) * 2);
-        cmd_matrix[1] = NULL;
-        cmd_matrix[0] = ft_strdup("");
-        if (gen->cmd_path)
-        {
-            //our command is wc -l
-            //redirect for wc to read from fileout
-            if(execv(gen->cmd_path, cmd_matrix) == -1)
-                return(-1);
-        }
-        return(0);
+    // char    **cmd_matrix;
+    //     cmd_matrix = malloc (sizeof (char *) * 2);
+    //     cmd_matrix[1] = NULL;
+    //     cmd_matrix[0] = ft_strdup("");
+    if (gen->cmd_path)
+    {
+        //our command is wc -l
+        //redirect for wc to read from fileout
+        if(execv(gen->cmd_path, matrix->matrix) == -1)
+            return(-1);
+    }
+    return(0);
 }
 
 int count_args(t_token *it)
@@ -59,13 +59,12 @@ int parse_function(t_token **head, t_general *gen)
 	}
     //matrix creation here
     {
-        t_matrix    *m_head;
         char    **matrix;
         char    *cmd;
         int     i;
         int     len;
 
-        m_head = NULL;
+        gen->matrix = NULL;
         matrix = NULL;
         cmd = NULL;
         i = 0;
@@ -76,65 +75,81 @@ int parse_function(t_token **head, t_general *gen)
             if (it->type == 'a')
             {
                 len = count_args(it);
-                matrix = malloc (sizeof(char *) * (len));
-                matrix[len - 1] = NULL;
-                if (check_valid_path(gen, it))
+                if (it->content[ft_strlen(it->content) - 1] == ' ')
+                    it->content[ft_strlen(it->content) - 1] = '\0'; 
+                if (!check_valid_path(gen, it->content))
                     cmd = ft_strdup(it->content);
                 else
                     cmd = ft_strdup("N");
-                it = it->next;
-                i = 0;
-                while (it && it->type == 'a')
+                if (len == 0)
                 {
-                    matrix[i] = ft_strdup(it->content);
-                    printf("matrix[%d]: %s\n", i, matrix[i]);
-                    it = it->next;
-                    printf("i: %i\n", i);
-                    i++;
+                    matrix = malloc (sizeof (char*) * 2);
+                    matrix[0] = ft_strdup("");
+                    matrix[1] = NULL;
                 }
-                matrix_add_back(&m_head, matrix_new(cmd, matrix));
-                printf("I get ehre\n");
+                else
+                {
+                    matrix = malloc (sizeof(char *) * (len + 1));
+                    matrix[len] = NULL;
+                    i = 0;
+                    while (it && it->type == 'a')
+                    {
+                        if (it->content[ft_strlen(it->content) - 1] == ' ' && (ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4))
+                            it->content[ft_strlen(it->content) - 1] = '\0'; 
+                        matrix[i] = ft_strdup(it->content);
+                        it = it->next;
+                        i++;
+                    }
+                }
+                matrix_add_back(&gen->matrix, matrix_new(cmd, matrix));
             }
             else if (it)
             {
                 cmd = malloc (sizeof(char) * 2);
                 cmd[0] = it->type;
                 cmd[1] = '\0';
-                matrix_add_back(&m_head, matrix_new(cmd, NULL));
-            }
-            if (it)
+                matrix = malloc (sizeof(char *) * 2);
+                matrix[0] = ft_strdup("");
+                matrix[1] = NULL;
+                matrix_add_back(&gen->matrix, matrix_new(cmd, matrix));
                 it = it->next;
+            }
+            // if (it)
+            //     it = it->next;
         }
-        print_all_matrix(m_head);
-        return (0);
+
+        print_all_matrix(gen->matrix);
     }
     //
-    while (it != NULL)
+    t_matrix    *matrix;
+
+    matrix = gen->matrix;
+    while (matrix != NULL)
     {
-        if (cmd_searchlst(it) == ECHO_CMD) // echo
-            ft_echo(&it, gen, &flag);
-        else if (cmd_searchlst(it) == CD_CMD) // cd
-            ft_cd(&it);
-        else if (cmd_searchlst(it) == PWD_CMD) //pwd
+        if (cmd_searchlst(matrix->cmd) == ECHO_CMD)
+            ft_echo(&matrix, gen, &flag);
+        else if (cmd_searchlst(matrix->cmd) == CD_CMD)
+            ft_cd(&matrix);
+        else if (cmd_searchlst(matrix->cmd) == PWD_CMD)
             gen->str = ft_strdup(getcwd(cwd, PATH_MAX));
-        else if (cmd_searchlst(it) == EXPORT_CMD)
-            ft_export(&it, gen);
-        else if (cmd_searchlst(it) == UNSET_CMD)
-            ft_unset(&it, gen);
-        else if (cmd_searchlst(it) == ENV_CMD)
+        else if (cmd_searchlst(matrix->cmd) == EXPORT_CMD)
+            ft_export(&matrix, gen);
+        else if (cmd_searchlst(matrix->cmd) == UNSET_CMD)
+            ft_unset(&matrix, gen);
+        else if (cmd_searchlst(matrix->cmd) == ENV_CMD)
             gen->str = ft_env(gen->envp);
-        else if (cmd_searchlst(it) == EXIT_CMD)
+        else if (cmd_searchlst(matrix->cmd) == EXIT_CMD)
         {
             gen->error_no = 1;
             return (gen->error_no);
         }
-        else if (cmd_searchlst(it) == EXTER_CMD && it->type == 'a')
+        else if (ft_strncmp(matrix->cmd, "N", 1))
         {
             int     fileout;
             int     filein;
             pid_t   pid;
             int     p[2];
-            if(find_path(gen, it) == -1)
+            if(find_path(gen, matrix->cmd) == -1)
             {
                 gen->error_no = -1;
                 return (gen->error_no);
@@ -162,7 +177,7 @@ int parse_function(t_token **head, t_general *gen)
                 close(filein); // 0
                 dup2(fileout, STDOUT_FILENO);
                 printf("show me the money\n");
-                execute( gen);
+                execute(gen, matrix);
    
             }
             else    //parent
@@ -179,8 +194,8 @@ int parse_function(t_token **head, t_general *gen)
             free(gen->str);
             gen->str = NULL;
         }
-        if (it)
-            it = it->next;
+        if (matrix)
+            matrix = matrix->next;
     }
     if (gen->str)
     {

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 22:21:51 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/03 12:30:18 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 18:45:16 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,73 @@ static int  ft_strcmpc(char type, char c)
 // 	return (0);
 // }
 
-int cmd_searchlst(t_token *head)
+int cmd_searchlst(char *content)
 {
 	int len;
 
-	len = ft_strlen((head->content))+1;
+	len = ft_strlen(content) + 1;
     // Initialize current
 	// printf("valor compare : %d \n",!(ft_strncmp((head)->content, "echo",4)));
     // while (head != NULL)
     // {
 		//encontramos el tipo y comando
-        if (ft_strcmpc((head)->type, 'a'))
-		{
-			if(!(ft_strncmp((head)->content, "echo",len)))
+        // if (ft_strcmpc((head)->type, 'a'))
+		// {
+			if(!(ft_strncmp(content, "echo",len)))
             	return (ECHO_CMD);
-			else if(!(ft_strncmp((head)->content, "cd",len)))
+			else if(!(ft_strncmp(content, "cd",len)))
 				return (CD_CMD);
-			else if(!(ft_strncmp((head)->content, "pwd",len)))
+			else if(!(ft_strncmp(content, "pwd",len)))
 			 	return (PWD_CMD);
-			else if(!(ft_strncmp((head)->content, "export",len)))
+			else if(!(ft_strncmp(content, "export",len)))
 			 	return (EXPORT_CMD);
-			else if(!(ft_strncmp((head)->content, "unset",len)))
+			else if(!(ft_strncmp(content, "unset",len)))
 			 	return (UNSET_CMD);
-			else if(!(ft_strncmp((head)->content, "env",len)))
+			else if(!(ft_strncmp(content, "env",len)))
 			 	return (ENV_CMD);
-			else if(!(ft_strncmp((head)->content, "exit",len)))
+			else if(!(ft_strncmp(content, "exit",len)))
 			 	return (EXIT_CMD);
 			else
 				return(EXTER_CMD);
-		}
+		// }
         // head = head->next;
     // }
     return 0;
 }
+
+// int cmd_searchlst(t_token *head)
+// {
+// 	int len;
+
+// 	len = ft_strlen((head->content))+1;
+//     // Initialize current
+// 	// printf("valor compare : %d \n",!(ft_strncmp((head)->content, "echo",4)));
+//     // while (head != NULL)
+//     // {
+// 		//encontramos el tipo y comando
+//         if (ft_strcmpc((head)->type, 'a'))
+// 		{
+// 			if(!(ft_strncmp((head)->content, "echo",len)))
+//             	return (ECHO_CMD);
+// 			else if(!(ft_strncmp((head)->content, "cd",len)))
+// 				return (CD_CMD);
+// 			else if(!(ft_strncmp((head)->content, "pwd",len)))
+// 			 	return (PWD_CMD);
+// 			else if(!(ft_strncmp((head)->content, "export",len)))
+// 			 	return (EXPORT_CMD);
+// 			else if(!(ft_strncmp((head)->content, "unset",len)))
+// 			 	return (UNSET_CMD);
+// 			else if(!(ft_strncmp((head)->content, "env",len)))
+// 			 	return (ENV_CMD);
+// 			else if(!(ft_strncmp((head)->content, "exit",len)))
+// 			 	return (EXIT_CMD);
+// 			else
+// 				return(EXTER_CMD);
+// 		}
+//         // head = head->next;
+//     // }
+//     return 0;
+// }
 
 int cmd_check_contained(t_token *head)
 {

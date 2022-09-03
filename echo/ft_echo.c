@@ -6,37 +6,29 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 13:06:15 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/03 19:23:53 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-static char *ft_echo_exe(t_token **it)
+static char *ft_echo_exe(char **it)
 {
-    // t_token *iterator;
     char    *buffer;
     char    *final;
+    int     i;
 
     if (!it || !*it)
         return (NULL);
-    // iterator = *head;
-    final = ft_strdup((*it)->content);
-    *it = (*it)->next;
-    while (*it != NULL && (*it)->type == 'a')
+    final = ft_strdup(it[0]);
+    i = 1;
+    while (it[i] != NULL)
     {
-        //to do: space type for indicating whether there was a space
-        // if (iterator->type == 'a')
-        // {
-            buffer = ft_strdup((*it)->content);
-            final = ft_strjoinfree(final, buffer);
-        // }
-        // else
-            // break ;
-        *it = (*it)->next;
+        buffer = ft_strdup(it[i]);
+        final = ft_strjoinfree(final, buffer);
+        i++;
     }
-    //will return a complete string that will either be piped into the next bit of code or printed
     return (final);
 }
 
@@ -58,13 +50,14 @@ static int  parse_nl_flag(char *content)
     return (0);
 }
 
-void    ft_echo(t_token **it, t_general *gen, int *flag)
+void    ft_echo(t_matrix **it, t_general *gen, int *flag)
 {
-    *it = (*it)->next;
-    if (!ft_strncmp((*it)->content, "-n", 2) && !parse_nl_flag((*it)->content))
+    if ((*it)->matrix[1] && !ft_strncmp((*it)->matrix[1], "-n", 2) \
+        && !parse_nl_flag((*it)->matrix[1]))
     {
         *flag = 1;
-        *it = (*it)->next;
+        gen->str = ft_echo_exe((*it)->matrix + 2);
     }
-    gen->str = ft_echo_exe(it);
+    else
+        gen->str = ft_echo_exe((*it)->matrix + 1);
 }
