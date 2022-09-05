@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 19:27:13 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/05 13:25:35 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,21 @@ static int  ft_export_exe(t_env **envp, char *add)
     return (0);
 }
 
-void    ft_export(t_matrix **it, t_general *gen)
+void    ft_export(char **it, t_general *gen)
 {
     char    *buffer;
     char    *final;
     t_env   *existing;
 
     final = NULL;
-    buffer = (*it)->matrix[1];
+    buffer = it[1];
     // printf("matrix[0]: %s, matrix[1]: %s\n", (*it)->matrix[0], (*it)->matrix[0]);
     if (!buffer || !check_variable(buffer))
         return ;
     existing = find_env(gen->envp, buffer);
-    if (!(*it)->matrix[2] || (*it)->matrix[2][0] != '=')
+    if (!(it[2]) || it[2][0] != '=')
         return ;
-    final = ft_strjoin(buffer, (*it)->matrix[2]);
+    final = ft_strjoin(buffer, it[2]);
     if (existing)
     {
         if (ft_export_replace_exe(&gen->envp, final, existing->name))

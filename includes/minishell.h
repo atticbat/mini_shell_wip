@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/05 12:31:00 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/05 15:47:12 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ typedef struct  s_env
 
 typedef struct  s_matrix
 {
-    char            *cmd;
-    // int          operator; = "+-&|<>"  
+    char            operator;
     char            **matrix;
     struct s_matrix *next;
 }   t_matrix;
@@ -94,7 +93,9 @@ typedef struct  s_general
     char        *str;
     t_env       *envp;
     char        *path;
-    char        *cmd_path;
+    char        *cmd_path1;
+    char        *cmd_path2;
+
     t_matrix    *matrix;
     int         last_funct;
     int         last_return;
@@ -132,9 +133,9 @@ void        print_all_token(t_token *lst);
 void        print_all_matrix(t_matrix *lst);
 void        print_execute(t_execute lst);
 /* echo */
-void        ft_echo(t_matrix **it, t_general *gen, int *flag);
+void        ft_echo(t_execute it, t_general *gen, int *flag);
 /* cd */
-int         ft_cd(t_matrix **it);
+int         ft_cd(char **it);
 /* pwd */
 char	    *ft_pwd(char *buff);
 /* env */
@@ -146,10 +147,10 @@ char        *ft_env(t_env *envp);
 char        *ft_getenv(t_env *envp, char *search);
 t_env       *find_env(t_env *envp, char *search);
 /* export */
-void        ft_export(t_matrix **it, t_general *gen);
+void        ft_export(char **it, t_general *gen);
 int         ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
-void        ft_unset(t_matrix **it,t_general *gen);
+void        ft_unset(char **it,t_general *gen);
 /* parse_function */
 int		    parse_function(t_token **head, t_general *gen);
 /* CHECKER FUNCTION */
@@ -171,13 +172,13 @@ void	    matrix_add_front(t_matrix **lst, t_matrix *new);
 void	    matrix_clear(t_matrix **lst, void (*del)(void *));
 void	    matrix_delone(t_matrix *lst, void (*del)(void *));
 t_matrix	*matrix_last(t_matrix *lst);
-t_matrix	*matrix_new(char *cmd, char **matrix);
+t_matrix	*matrix_new(char operator, char **matrix);
 /* signals */
 void        set_listeners(void);
 /* error handling */
 int	        handle_error(int error, char *inpt, t_token **head, t_general *gen);
 /* find path */
-int         find_path(t_general *gen, char *content);
+int         find_path(t_general *gen, t_execute temp);
 int         check_valid_path(t_general *gen, char *content);	
 
 

@@ -6,27 +6,27 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/05 12:35:05 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/05 16:54:09 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static int    execute(t_general *gen, t_matrix *matrix)
-// {
-//     // char    **cmd_matrix;
-//     //     cmd_matrix = malloc (sizeof (char *) * 2);
-//     //     cmd_matrix[1] = NULL;
-//     //     cmd_matrix[0] = ft_strdup("");
-//     if (gen->cmd_path)
-//     {
-//         //our command is wc -l
-//         //redirect for wc to read from fileout
-//         if(execv(gen->cmd_path, matrix->matrix) == -1)
-//             return(-1);
-//     }
-//     return(0);
-// }
+static int    execute(char *cmd_path, char **arg)
+{
+    // char    **cmd_matrix;
+    //     cmd_matrix = malloc (sizeof (char *) * 2);
+    //     cmd_matrix[1] = NULL;
+    //     cmd_matrix[0] = ft_strdup("");
+    if (cmd_path)
+    {
+        //our command is wc -l
+        //redirect for wc to read from fileout
+        if(execv(cmd_path, arg) == -1)
+            return(-1);
+    }
+    return(0);
+}
 
 int count_args(t_token *it)
 {
@@ -57,16 +57,15 @@ int parse_function(t_token **head, t_general *gen)
 		gen->error_no = -1;
 		return (gen->error_no);	
 	}
-    //matrix creation here
+        //matrix creation here
     {
         char    **matrix;
-        char    *cmd;
+        char    operator;
         int     i;
         int     len;
 
         gen->matrix = NULL;
         matrix = NULL;
-        cmd = NULL;
         i = 0;
         len = 0;
         while (it != NULL)
@@ -78,9 +77,9 @@ int parse_function(t_token **head, t_general *gen)
                 if (it->content[ft_strlen(it->content) - 1] == ' ')
                     it->content[ft_strlen(it->content) - 1] = '\0'; 
                 if (!check_valid_path(gen, it->content))
-                    cmd = ft_strdup(it->content);
+                    operator = 'F';
                 else
-                    cmd = ft_strdup("N");
+                    operator = 'N';
                 if (len == 0)
                 {
                     matrix = malloc (sizeof (char*) * 2);
@@ -94,31 +93,27 @@ int parse_function(t_token **head, t_general *gen)
                     i = 0;
                     while (it && it->type == 'a')
                     {
-                        if (it->content[ft_strlen(it->content) - 1] == ' ' && (ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4))
+                        if (it->content[ft_strlen(it->content) - 1] == ' ' && (ft_strncmp(matrix[0], "echo", 4) && ft_strlen(matrix[0]) == 4))
                             it->content[ft_strlen(it->content) - 1] = '\0'; 
                         matrix[i] = ft_strdup(it->content);
                         it = it->next;
                         i++;
                     }
                 }
-                matrix_add_back(&gen->matrix, matrix_new(cmd, matrix));
+                matrix_add_back(&gen->matrix, matrix_new(operator, matrix));
             }
             else if (it)
             {
-                cmd = malloc (sizeof(char) * 2);
-                cmd[0] = it->type;
-                cmd[1] = '\0';
+                operator = it->type;
                 matrix = malloc (sizeof(char *) * 2);
                 matrix[0] = ft_strdup("");
                 matrix[1] = NULL;
-                matrix_add_back(&gen->matrix, matrix_new(cmd, matrix));
+                matrix_add_back(&gen->matrix, matrix_new(operator, matrix));
                 it = it->next;
             }
-            // if (it)
-            //     it = it->next;
         }
 
-        print_all_matrix(gen->matrix);
+        // print_all_matrix(gen->matrix);
     }
     //
     t_matrix    *matrix;
@@ -128,96 +123,110 @@ int parse_function(t_token **head, t_general *gen)
     /* select the type of arg */
     // t_matrix    *arg1;
     // t_matrix    *arg2;
-
+    // int i =0;
     t_execute temp;
     ft_bzero(&temp, sizeof(t_execute));
-    if(matrix->matrix && matrix->next != NULL)
+    if(matrix)
     {
         temp.arg1 = matrix->matrix;
-        // temp.operator = matrix->operator;
         matrix = matrix->next;
-        if(matrix->next == NULL)
-            exit(3);
-        matrix = matrix->next;
-        temp.arg2 = matrix->matrix;
+        if(matrix)
+        {
+            temp.operator = matrix->operator;
+            matrix = matrix->next;
+            if(matrix)
+                temp.arg2 = matrix->matrix;
+        }
     }
     print_execute(temp);
-
-    /* till here    /// work here with execute arg1 */
-    // while (matrix != NULL)
+    //we need to separate this, till now arg1 only used
+    // if (cmd_searchlst(temp.arg1[0]) == ECHO_CMD)
+    //     ft_echo(temp, gen, &flag);
+    // else if (cmd_searchlst(temp.arg1[0]) == CD_CMD)
+    //     ft_cd(temp.arg1);
+    // else if (cmd_searchlst(temp.arg1[0]) == PWD_CMD)
+    //     gen->str = ft_strdup(getcwd(cwd, PATH_MAX));
+    // else if (cmd_searchlst(temp.arg1[0]) == EXPORT_CMD)
+    //     ft_export(temp.arg1, gen);
+    // else if (cmd_searchlst(temp.arg1[0]) == UNSET_CMD)
+    //     ft_unset(temp.arg1, gen);
+    // else if (cmd_searchlst(temp.arg1[0]) == ENV_CMD)
+    //     gen->str = ft_env(gen->envp);
+    // else if (cmd_searchlst(temp.arg1[0]) == EXIT_CMD)
     // {
-    //     if (cmd_searchlst(matrix->matrix) == ECHO_CMD)
-    //         ft_echo(&matrix, gen, &flag);
-    //     else if (cmd_searchlst(matrix->cmd) == CD_CMD)
-    //         ft_cd(&matrix);
-    //     else if (cmd_searchlst(matrix->cmd) == PWD_CMD)
-    //         gen->str = ft_strdup(getcwd(cwd, PATH_MAX));
-    //     else if (cmd_searchlst(matrix->cmd) == EXPORT_CMD)
-    //         ft_export(&matrix, gen);
-    //     else if (cmd_searchlst(matrix->cmd) == UNSET_CMD)
-    //         ft_unset(&matrix, gen);
-    //     else if (cmd_searchlst(matrix->cmd) == ENV_CMD)
-    //         gen->str = ft_env(gen->envp);
-    //     else if (cmd_searchlst(matrix->cmd) == EXIT_CMD)
-    //     {
-    //         gen->error_no = 1;
-    //         return (gen->error_no);
-    //     }
-    //     else if (ft_strncmp(matrix->cmd, "N", 1))
-    //     {
-    //         int     fileout;
-    //         int     filein;
-    //         pid_t   pid;
-    //         int     p[2];
-    //         if(find_path(gen, matrix->cmd) == -1)
-    //         {
-    //             gen->error_no = -1;
-    //             return (gen->error_no);
-    //         }
-    //         if (pipe(p) == -1)
-    //         {
-    //             gen->error_no = -1;
-    //             return (gen->error_no);
-    //         }
-    //         fileout = open(PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);
-    //         filein = open(PATH_FILE_2, O_RDONLY | O_CREAT, 0777);
-    //         if(fileout == -1)
-    //         {
-    //             gen->error_no = -1;
-    //             return (gen->error_no);
-    //         }
-    //         pid = fork();
-    //         if (pid == -1)
-    //         {
-    //             gen->error_no = -1;
-    //             return (gen->error_no);
-    //         }
-    //         if (pid == 0)  //child
-    //         {
-    //             close(filein); // 0
-    //             dup2(fileout, STDOUT_FILENO);
-    //             printf("show me the money\n");
-    //             execute(gen, matrix);
-   
-    //         }
-    //         else    //parent
-    //         {
-    //             printf("show me the bill\n");
-    //             close(fileout); //1
-    //         }
-    //     }
-    //     if (gen->str)
-    //     {
-    //         int fileout = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);
-    //         write(fileout, gen->str, ft_strlen(gen->str));
-    //         close (fileout);
-    //         free(gen->str);
-    //         gen->str = NULL;
-    //     }
-    //     if (matrix)
-    //         matrix = matrix->next;
+    //     gen->error_no = 1;
+    //     return (gen->error_no);
     // }
+    ///////repeat arg2
+    // if (temp.operator == '|' && temp.arg1 && temp.arg2)
+    if(temp.arg1)
+    {
 
+        /*  checkerfor our CMD 
+        check list
+
+        check 
+        if(arg1 &&arg2)
+            if(cmd_searchlst(temp.arg2[0]) == "commands" )
+                execute our cmd
+        */
+        
+
+
+
+
+        if(find_path(gen, temp) == -1)
+        {
+            gen->error_no = -1;
+            return (gen->error_no);
+        }
+        int fd[2];
+        if(pipe(fd) == -1)
+        {
+            gen->error_no = -1;
+            return (gen->error_no);
+        }
+
+        int pid1;
+        pid1 = fork();
+
+        if(pid1 == 0)
+        {
+            dup2(fd[1], STDOUT_FILENO);
+            close(fd[0]); 
+            close(fd[1]); 
+            execute(gen->cmd_path1, temp.arg1);
+        }
+        int pid2;
+        pid2 = fork();
+        int fileout = open(PATH_FILE_1, O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);
+        if(pid2 == 0)
+        {
+            dup2(fd[0], STDIN_FILENO);
+            dup2(fileout, STDOUT_FILENO);
+            close(fd[1]); 
+            close(fd[0]); 
+            close(fileout);
+            if()
+            execute(gen->cmd_path2, temp.arg2);
+        }
+        close(fd[1]); 
+        close(fd[0]); 
+        close(fileout); 
+        waitpid(pid2, NULL, 0);
+        waitpid(pid1, NULL, 0);
+    }
+/////////////////////////////////////////
+
+
+    if (gen->str)
+    {
+        int fileout = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);
+        write(fileout, gen->str, ft_strlen(gen->str));
+        close (fileout);
+        free(gen->str);
+        gen->str = NULL;
+    }
     if (gen->str)
     {
         printf("%s", gen->str);

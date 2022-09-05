@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 08:25:31 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 19:29:23 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/05 13:27:19 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ static int ft_unset_exe(t_env **envp, char *name)
     return (0);
 }
 
-void ft_unset(t_matrix **it,t_general *gen)
+void ft_unset(char **it,t_general *gen)
 {
         t_env   *existing;
 
-        if (!(*it) || !(*it)->matrix[1])
+        if (!it || !it[1])
         {
             gen->error_no = -1;
             return ;
         }
-        existing = find_env(gen->envp, (*it)->matrix[1]);
+        existing = find_env(gen->envp, it[1]);
         if (existing)
         {
             if (ft_unset_exe(&gen->envp, existing->name))

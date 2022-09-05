@@ -16,7 +16,6 @@ void	matrix_delone(t_matrix *lst, void (*del)(void *))
 {
 	int	i;
 	i = 0;
-	del (lst->cmd);
 	while (lst->matrix && lst->matrix[i] != NULL)
 	{
 		del(lst->matrix[i]);

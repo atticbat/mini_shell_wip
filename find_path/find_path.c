@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 15:22:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 18:41:12 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/05 16:07:36 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int     check_valid_path(t_general *gen, char *content)
         || (!ft_strncmp(content, "exit", 4) && ft_strlen(content) == 4))
         return (0);
     paths = NULL;
-    gen->cmd_path = NULL;
+    gen->cmd_path1 = NULL;
     paths = ft_split(gen->path, ':');
     i = 0;
     while (paths[i])
@@ -57,30 +57,52 @@ int     check_valid_path(t_general *gen, char *content)
     return (-1);
 }
 
-int     find_path(t_general *gen, char *content)
+int     find_path(t_general *gen, t_execute temp)
 {
     char    **paths;
     char    *part_path;
     char    *path;
     int     i;
+    int     flag;
 
+    flag = 0;
     paths = NULL;
-    gen->cmd_path = NULL;
+    gen->cmd_path1 = NULL;
+    gen->cmd_path2 = NULL;
+
     paths = ft_split(gen->path, ':');
     i = 0;
     while (paths[i])
     {
         part_path = ft_strjoin(paths[i], "/");
-        path = ft_strjoin(part_path, content);
+        path = ft_strjoin(part_path, temp.arg1[0]);
         free (part_path);
         if (access(path, F_OK) == 0)
         {
-            gen->cmd_path = path;
+            gen->cmd_path1 = path;
+            if (temp.arg2 == NULL)
+            {           
+                free_paths(paths);
+                return(0);
+            }
+            break;
+        }
+        free (path);
+        i++;
+    }
+    i = 0;
+    while (paths[i])
+    {
+        part_path = ft_strjoin(paths[i], "/");
+        path = ft_strjoin(part_path, temp.arg2[0]);
+        free (part_path);
+        if (access(path, F_OK) == 0)
+        {
+            gen->cmd_path2 = path;
             free_paths(paths);
             return (0);
         }
         i++;
     }
-    free_paths(paths);
     return (-1);
 }

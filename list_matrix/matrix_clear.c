@@ -20,7 +20,6 @@ void	matrix_clear(t_matrix **lst, void (*del)(void *))
 	buffer = *lst;
 	while (buffer != NULL)
 	{
-		del(buffer->cmd);
 		i = 0;
 		while (buffer->matrix && buffer->matrix[i] != NULL)
 		{

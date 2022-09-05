@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-t_matrix	*matrix_new(char *cmd, char **matrix)
+t_matrix	*matrix_new(char operator, char **matrix)
 {
 	t_matrix	*result;
 
 	result = malloc(sizeof(t_matrix));
 	if (!result)
 		return (NULL);
-	result->cmd = cmd;
+	result->operator = operator;
 	result->matrix = matrix;
 	result->next = NULL;
 	return (result);

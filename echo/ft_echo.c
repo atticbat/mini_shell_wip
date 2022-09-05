@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 19:23:53 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/05 13:09:28 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ static int  parse_nl_flag(char *content)
     return (0);
 }
 
-void    ft_echo(t_matrix **it, t_general *gen, int *flag)
+void    ft_echo(t_execute it, t_general *gen, int *flag)
 {
-    if ((*it)->matrix[1] && !ft_strncmp((*it)->matrix[1], "-n", 2) \
-        && !parse_nl_flag((*it)->matrix[1]))
+    if (it.arg1[1] && !ft_strncmp(it.arg1[1], "-n", 2) \
+        && !parse_nl_flag(it.arg1[1]))
     {
         *flag = 1;
-        gen->str = ft_echo_exe((*it)->matrix + 2);
+        gen->str = ft_echo_exe(it.arg1 + 2);
     }
     else
-        gen->str = ft_echo_exe((*it)->matrix + 1);
+        gen->str = ft_echo_exe(it.arg1 + 1);
 }
