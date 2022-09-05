@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 12:18:32 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 17:20:16 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/05 12:29:52 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,19 @@ void    print_all_matrix(t_matrix *lst)
 		printf("\n");
 		buffer = buffer->next;
 	}
+}
+
+void    print_execute(t_execute lst)
+{
+	int i;
+
+	i = 0;
+	while(lst.arg1[i] != NULL)
+	    printf("arg1: %s \t", lst.arg1[i++]);
+	i = 0;
+	printf("\n");
+	while(lst.arg2[i] != NULL)
+	    printf("arg2: %s\t", lst.arg2[i++]);
+	// printf("\noperator: %c", lst.operator);
+	printf("\n");
 }

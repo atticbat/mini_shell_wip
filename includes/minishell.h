@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 18:36:08 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/05 12:31:00 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define WHITESPACE "\t\r\n\v "
 # define QUOTES "\"\'"
 # define TOKENS "<|>&"
+# define OPERATOR "+-&|<>"  
+
 /* Nomenclature for type of cmd's asked  */
 # define ECHO_CMD 1
 # define CD_CMD 2
@@ -70,9 +72,18 @@ typedef struct  s_env
 typedef struct  s_matrix
 {
     char            *cmd;
+    // int          operator; = "+-&|<>"  
     char            **matrix;
     struct s_matrix *next;
 }   t_matrix;
+
+typedef struct  s_execute
+{
+    char            **arg1;
+    char            **arg2;
+    char            operator;
+    char            *res_exe;
+}   t_execute;
 
 typedef struct  s_general
 {
@@ -119,6 +130,7 @@ int	        expand_variable(t_token **head, t_general *gen);
 /* helper */
 void        print_all_token(t_token *lst);
 void        print_all_matrix(t_matrix *lst);
+void        print_execute(t_execute lst);
 /* echo */
 void        ft_echo(t_matrix **it, t_general *gen, int *flag);
 /* cd */
@@ -167,5 +179,7 @@ int	        handle_error(int error, char *inpt, t_token **head, t_general *gen);
 /* find path */
 int         find_path(t_general *gen, char *content);
 int         check_valid_path(t_general *gen, char *content);	
+
+
 
 #endif
