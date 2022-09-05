@@ -2,7 +2,7 @@
 
 VPATH	=	parsing helper includes list_token variable_expansion echo \
 			utility pwd env export cd list_env unset signals error_handling \
-			find_path list_matrix
+			find_path list_matrix gnl
 
 NAME	=	minishell
 FUNCTS	=	minishell.c					\
@@ -28,6 +28,8 @@ FUNCTS	=	minishell.c					\
 				ft_export.c				\
 				ft_unset.c				\
 				ft_cd.c					\
+				get_next_line_utils.c 	\
+				get_next_line.c 		\
 				extract_quote_node.c	\
 				extract_var_node.c		\
 				extract_arg_node.c		\

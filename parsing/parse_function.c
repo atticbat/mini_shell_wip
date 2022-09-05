@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/05 16:54:09 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/05 18:24:33 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int parse_function(t_token **head, t_general *gen)
     buffer = NULL;
     if (!head || !*head)
         return (-1);
-    int     flag = 0;
+    // int     flag = 0;
     it = *head;
     if (!check_format(it))
     {
@@ -170,11 +170,6 @@ int parse_function(t_token **head, t_general *gen)
             if(cmd_searchlst(temp.arg2[0]) == "commands" )
                 execute our cmd
         */
-        
-
-
-
-
         if(find_path(gen, temp) == -1)
         {
             gen->error_no = -1;
@@ -199,7 +194,9 @@ int parse_function(t_token **head, t_general *gen)
         }
         int pid2;
         pid2 = fork();
-        int fileout = open(PATH_FILE_1, O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);
+        int fileout;
+        fileout = open(PATH_FILE_1, O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);
+
         if(pid2 == 0)
         {
             dup2(fd[0], STDIN_FILENO);
@@ -207,7 +204,6 @@ int parse_function(t_token **head, t_general *gen)
             close(fd[1]); 
             close(fd[0]); 
             close(fileout);
-            if()
             execute(gen->cmd_path2, temp.arg2);
         }
         close(fd[1]); 
@@ -216,24 +212,43 @@ int parse_function(t_token **head, t_general *gen)
         waitpid(pid2, NULL, 0);
         waitpid(pid1, NULL, 0);
     }
+
 /////////////////////////////////////////
+/* print from the fileout */
 
+    char *buffer_rst;
+    int file_open;
 
-    if (gen->str)
+    file_open = open(PATH_FILE_1, O_RDONLY, 0777);
+    if(file_open == -1)
+        return 0;
+    buffer_rst = NULL;
+    while(1)
     {
-        int fileout = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);
-        write(fileout, gen->str, ft_strlen(gen->str));
-        close (fileout);
-        free(gen->str);
-        gen->str = NULL;
+        buffer_rst = get_next_line(file_open);
+        if(!buffer_rst)
+            break;
+        printf("%s",buffer_rst);
+        free(buffer_rst);
     }
-    if (gen->str)
-    {
-        printf("%s", gen->str);
-        if (flag)
-            printf("%%\n");
-        else
-            printf("\n");
-    }
+    close (file_open);
+//////////////////////////////////////////
+
+    // if (gen->str)
+    // {
+    //     int fileout = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0777);
+    //     write(fileout, gen->str, ft_strlen(gen->str));
+    //     close (fileout);
+    //     free(gen->str);
+    //     gen->str = NULL;
+    // }
+    // if (gen->str)
+    // {
+    //     printf("%s", gen->str);
+    //     if (flag)
+    //         printf("%%\n");
+    //     else
+    //         printf("\n");
+    // }
     return (0);
 }

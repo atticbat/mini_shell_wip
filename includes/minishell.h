@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/05 15:47:12 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/05 18:19:18 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include "get_next_line.h"
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -132,6 +133,10 @@ int	        expand_variable(t_token **head, t_general *gen);
 void        print_all_token(t_token *lst);
 void        print_all_matrix(t_matrix *lst);
 void        print_execute(t_execute lst);
+char	    *get_next_line(int fd);
+
+
+
 /* echo */
 void        ft_echo(t_execute it, t_general *gen, int *flag);
 /* cd */
