@@ -1,9 +1,10 @@
 # -*- MakeFile -*-
 
-VPATH	=	parsing helper includes list_token variable_expansion echo \
-			utility pwd env export cd list_env unset signals error_handling \
-			find_path list_matrix gnl
-
+CUSTOM	=	./custom_functions
+VPATH	=	parsing helper includes list_token variable_expansion gnl \
+			$(CUSTOM)/echo $(CUSTOM)/cd $(CUSTOM)/export $(CUSTOM)/unset \
+			$(CUSTOM)/pwd $(CUSTOM)/env utility list_env signals \
+			error_handling find_path list_matrix execution
 NAME	=	minishell
 FUNCTS	=	minishell.c					\
 				find_token.c			\
@@ -54,6 +55,7 @@ FUNCTS	=	minishell.c					\
 				signal_handlers.c		\
 				handle_error.c			\
 				find_path.c				\
+				execute.c				\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))
@@ -89,14 +91,14 @@ $(OBJ_PATH)%.o: %.c | $(OBJ_PATH)
 clean:
 	make clean -C $(LIBFTPATH)
 	make mostlyclean -C $(RLPATH)
+	@if [ -e "./readline/config.log" ]; then\
+		cd $(RLPATH) && rm config.log;\
+	fi
 	$(RMR) $(OBJ_PATH)
 
 fclean: clean
 	make fclean -C $(LIBFTPATH)
 	make clean -C $(RLPATH)
-	@if [ -e "./readline/config.log" ]; then\
-		cd $(RLPATH) && rm config.log;\
-	fi
 	$(RM) $(NAME)
 
 re: fclean all

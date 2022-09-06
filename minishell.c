@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/06 19:38:01 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/06 21:21:48 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,53 +29,49 @@ static int	check_empty(char *in)
     return (0);
 }
 
-static void	initialise(t_token **head, t_general *gen, char **envp)
+static void	initialise(t_general *gen, char **envp)
 {
 	copy_envp(envp, gen);
-	*head = NULL;
+	gen->tokens = NULL;
 	gen->str = NULL;
+	gen->matrix = NULL;
 	gen->error_no = 0;
 	env_find(gen, "PATH");
-	reset(gen, head, NULL);
+	reset(gen);
 	set_listeners();
 }
 
-static int	input_loop(t_token **head, t_general *gen)
+static int	input_loop(t_general *gen)
 {
-    char		*inpt;
-
 	while (1)
     {
-		inpt = readline(PROMPT);
-		if (!inpt || *inpt == EOF)
-			handle_error(1, inpt, head, gen);
-		if (check_empty(inpt))
+		gen->in = readline(PROMPT);
+		if (!gen->in || gen->in[0] == EOF)
+			handle_error(1, gen);
+		if (check_empty(gen->in) || !gen->in[0])
 			continue ;
-		if (!*inpt)
-		    continue ;
-		add_history(inpt);
-		if (handle_error(find_token(inpt, head, gen), inpt, head, gen))
+		add_history(gen->in);
+		if (handle_error(find_token(gen), gen))
 			continue ;
-		if (handle_error(expand_variable(head, gen), inpt, head, gen))
+		if (handle_error(expand_variable(gen), gen))
 			continue ;
-		if (handle_error(parse_function(head, gen), inpt, head, gen))
+		if (handle_error(parse_function(gen), gen))
 			continue ;
-		// if (handle_error(pipe_function(head, gen), inpt, head, gen))
-		// 	continue ;
-		reset(gen, head, inpt);
+		if (handle_error(execute_cases(gen), gen))
+			continue;
+		reset(gen);
     }
-	free_all(inpt, head, gen);
+	free_all(gen);
 	return (0);
 }
 
 int main (int argc, char **argv, char **envp)
 {
-	t_token		*head;
 	t_general	gen;
 
 	(void) argc;
 	(void) argv;
-	initialise(&head, &gen, envp);
-	input_loop(&head, &gen);
+	initialise(&gen, envp);
+	input_loop(&gen);
     return (0);
 }

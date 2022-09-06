@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 08:28:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/06 21:11:59 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,15 +134,15 @@ static char	*expand_dquote(char *content, t_env *envp, int last_return)
 	return (final);
 }
 
-int	expand_variable(t_token **head, t_general *gen)
+int	expand_variable(t_general *gen)
 {
 	char	*buffer;
 	t_token	*iterator;
 
-	if (!head || !*head)
+	if (!gen->tokens)
 		return (-1);
 	buffer = NULL;
-	iterator = *head;
+	iterator = gen->tokens;
 	if (!iterator->content)
 	{
 		gen->error_no = -1;

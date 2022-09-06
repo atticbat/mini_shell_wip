@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/06 19:12:47 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/06 21:23:55 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct  s_general
     int         to;
     int         from;
     int         flag;
-    char        *inpt;
+    char        *in;
     t_token     *tokens;
     t_matrix    *matrix;
     char        *str;
@@ -104,8 +104,8 @@ typedef struct  s_general
 }   t_general;
 
 /* utilities */
-void	    reset(t_general *gen, t_token **head, char *inpt);
-void	    free_all(char *inpt, t_token **head, t_general *gen);
+void	    reset(t_general *gen);
+void	    free_all(t_general *gen);
 /* format checks */
 int		    check_variable(char *var);
 int         check_variable_char(char c);
@@ -114,12 +114,12 @@ int         check_arg_char(char c);
 int         check_arg_end(char *in);
 char        *append_space(char *in, char *str, int to);
 /* initial parsing */
-int 	    find_token(char *in, t_token **head, t_general *gen);
-int         extract_quote_node(char *in, t_token **head, t_general *gen);
-int         extract_var_node(char *in, t_token **head, t_general *gen);
-int         extract_arg_node(char *in, t_token **head, t_general *gen);
-int         find_final_arg(char *in, t_token **head, t_general *gen);
-int         extract_token_node(char *in, t_token **head, t_general *gen);
+int 	    find_token(t_general *gen);
+int         extract_quote_node(t_general *gen);
+int         extract_var_node(t_general *gen);
+int         extract_arg_node(t_general *gen);
+int         find_final_arg(t_general *gen);
+int         extract_token_node(t_general *gen);
 /* linked list token */
 void	    token_add_back(t_token **lst, t_token *new);
 void	    token_add_front(t_token **lst, t_token *new);
@@ -129,15 +129,12 @@ t_token	    *token_last(t_token *lst);
 t_token	    *token_new(char type, char *content);
 int	        token_size(t_token *lst);
 /* variable expansion */ 
-int	        expand_variable(t_token **head, t_general *gen);
+int	        expand_variable(t_general *gen);
 /* helper */
 void        print_all_token(t_token *lst);
 void        print_all_matrix(t_matrix *lst);
 void        print_execute(t_execute lst);
 char	    *get_next_line(int fd);
-
-
-
 /* echo */
 void        ft_echo(t_execute it, t_general *gen, int *flag);
 /* cd */
@@ -158,7 +155,7 @@ int         ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
 void        ft_unset(char **it,t_general *gen);
 /* parse_function */
-int		    parse_function(t_token **head, t_general *gen);
+int		    parse_function(t_general *gen);
 /* CHECKER FUNCTION */
 void	    check_cmd(t_token **inpt,int flag);
 int         check_format(t_token *in);
@@ -185,11 +182,11 @@ char        **extract_matrix(t_token **it);
 /* signals */
 void        set_listeners(void);
 /* error handling */
-int	        handle_error(int error, char *inpt, t_token **head, t_general *gen);
+int	        handle_error(int error, t_general *gen);
 /* find path */
 int         find_path(t_general *gen, t_execute temp);
 int         check_valid_path(t_general *gen, char *content);	
-
-
+/* execute */
+int         execute_cases(t_general *gen);
 
 #endif
