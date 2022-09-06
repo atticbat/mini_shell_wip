@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_function.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/05 18:24:33 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/06 19:05:32 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,22 @@
 
 static int    execute(char *cmd_path, char **arg)
 {
-    // char    **cmd_matrix;
-    //     cmd_matrix = malloc (sizeof (char *) * 2);
-    //     cmd_matrix[1] = NULL;
-    //     cmd_matrix[0] = ft_strdup("");
     if (cmd_path)
     {
-        //our command is wc -l
-        //redirect for wc to read from fileout
         if(execv(cmd_path, arg) == -1)
             return(-1);
     }
     return(0);
 }
 
-int count_args(t_token *it)
-{
-    int i;
-
-    i = 0;
-    while (it && it->type == 'a')
-    {
-        it = it->next;
-        i++;
-    }
-    return (i);
-}
-
 int parse_function(t_token **head, t_general *gen)
 {
     t_token *it;
     char    *buffer;
-    // char    cwd[PATH_MAX];
 
     buffer = NULL;
     if (!head || !*head)
         return (-1);
-    // int     flag = 0;
     it = *head;
     if (!check_format(it))
     {
@@ -58,64 +37,65 @@ int parse_function(t_token **head, t_general *gen)
 		return (gen->error_no);	
 	}
         //matrix creation here
-    {
-        char    **matrix;
-        char    operator;
-        int     i;
-        int     len;
+    // {
+    //     char    **matrix;
+    //     char    operator;
+    //     int     i;
+    //     int     len;
 
-        gen->matrix = NULL;
-        matrix = NULL;
-        i = 0;
-        len = 0;
-        while (it != NULL)
-        {
-            //count args funct
-            if (it->type == 'a')
-            {
-                len = count_args(it);
-                if (it->content[ft_strlen(it->content) - 1] == ' ')
-                    it->content[ft_strlen(it->content) - 1] = '\0'; 
-                if (!check_valid_path(gen, it->content))
-                    operator = 'F';
-                else
-                    operator = 'N';
-                if (len == 0)
-                {
-                    matrix = malloc (sizeof (char*) * 2);
-                    matrix[0] = ft_strdup("");
-                    matrix[1] = NULL;
-                }
-                else
-                {
-                    matrix = malloc (sizeof(char *) * (len + 1));
-                    matrix[len] = NULL;
-                    i = 0;
-                    while (it && it->type == 'a')
-                    {
-                        if (it->content[ft_strlen(it->content) - 1] == ' ' && (ft_strncmp(matrix[0], "echo", 4) && ft_strlen(matrix[0]) == 4))
-                            it->content[ft_strlen(it->content) - 1] = '\0'; 
-                        matrix[i] = ft_strdup(it->content);
-                        it = it->next;
-                        i++;
-                    }
-                }
-                matrix_add_back(&gen->matrix, matrix_new(operator, matrix));
-            }
-            else if (it)
-            {
-                operator = it->type;
-                matrix = malloc (sizeof(char *) * 2);
-                matrix[0] = ft_strdup("");
-                matrix[1] = NULL;
-                matrix_add_back(&gen->matrix, matrix_new(operator, matrix));
-                it = it->next;
-            }
-        }
+    //     gen->matrix = NULL;
+    //     matrix = NULL;
+    //     i = 0;
+    //     len = 0;
+    //     while (it != NULL)
+    //     {
+    //         //count args funct
+    //         if (it->type == 'a')
+    //         {
+    //             len = count_args(it);
+    //             if (it->content[ft_strlen(it->content) - 1] == ' ')
+    //                 it->content[ft_strlen(it->content) - 1] = '\0'; 
+    //             if (!check_valid_path(gen, it->content))
+    //                 operator = 'F';
+    //             else
+    //                 operator = 'N';
+    //             if (len == 0)
+    //             {
+    //                 matrix = malloc (sizeof (char*) * 2);
+    //                 matrix[0] = ft_strdup("");
+    //                 matrix[1] = NULL;
+    //             }
+    //             else
+    //             {
+    //                 matrix = malloc (sizeof(char *) * (len + 1));
+    //                 matrix[len] = NULL;
+    //                 i = 0;
+    //                 while (it && it->type == 'a')
+    //                 {
+    //                     if (it->content[ft_strlen(it->content) - 1] == ' ' && (ft_strncmp(matrix[0], "echo", 4) && ft_strlen(matrix[0]) == 4))
+    //                         it->content[ft_strlen(it->content) - 1] = '\0'; 
+    //                     matrix[i] = ft_strdup(it->content);
+    //                     it = it->next;
+    //                     i++;
+    //                 }
+    //             }
+    //             matrix_add_back(&gen->matrix, matrix_new(operator, matrix));
+    //         }
+    //         else if (it)
+    //         {
+    //             operator = it->type;
+    //             matrix = malloc (sizeof(char *) * 2);
+    //             matrix[0] = ft_strdup("");
+    //             matrix[1] = NULL;
+    //             matrix_add_back(&gen->matrix, matrix_new(operator, matrix));
+    //             it = it->next;
+    //         }
+    //     }
 
-        // print_all_matrix(gen->matrix);
-    }
+    // }
     //
+    create_matrix(&it, gen);
+    print_all_matrix(gen->matrix);
     t_matrix    *matrix;
     matrix = gen->matrix;
 

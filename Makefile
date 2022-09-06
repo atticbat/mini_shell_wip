@@ -49,6 +49,8 @@ FUNCTS	=	minishell.c					\
 				matrix_last.c			\
 				matrix_new.c			\
 				matrix_size.c			\
+				create_matrix.c			\
+				extract_matrix.c		\
 				signal_handlers.c		\
 				handle_error.c			\
 				find_path.c				\

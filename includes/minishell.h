@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/05 18:19:18 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/06 19:12:47 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,14 @@ typedef struct  s_general
     int         to;
     int         from;
     int         flag;
+    char        *inpt;
+    t_token     *tokens;
+    t_matrix    *matrix;
     char        *str;
     t_env       *envp;
     char        *path;
     char        *cmd_path1;
     char        *cmd_path2;
-
-    t_matrix    *matrix;
     int         last_funct;
     int         last_return;
 }   t_general;
@@ -171,13 +172,16 @@ void	    env_delone(t_env *lst, void (*del)(void *));
 t_env	    *env_last(t_env *lst);
 t_env	    *env_new(char *name, char *content);
 void        env_find(t_general *gen, char *search);
-/* linked list env */
+/* linked list matrix */
 void	    matrix_add_back(t_matrix **lst, t_matrix *new);
 void	    matrix_add_front(t_matrix **lst, t_matrix *new);
 void	    matrix_clear(t_matrix **lst, void (*del)(void *));
 void	    matrix_delone(t_matrix *lst, void (*del)(void *));
 t_matrix	*matrix_last(t_matrix *lst);
 t_matrix	*matrix_new(char operator, char **matrix);
+/* utility matrix */
+void        create_matrix(t_token **it, t_general *gen);
+char        **extract_matrix(t_token **it);
 /* signals */
 void        set_listeners(void);
 /* error handling */

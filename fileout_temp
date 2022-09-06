@@ -1,1 +1,31 @@
-      27      27     227
+total 808
+drwxr-xr-x   30 khatlas  2022_heilbronn    1020 Sep  6 19:38 .
+drwxr-xr-x   16 khatlas  2022_heilbronn     544 Sep  3 14:27 ..
+drwxr-xr-x   15 khatlas  2022_heilbronn     510 Sep  6 17:27 .git
+-rw-r--r--    1 khatlas  2022_heilbronn    2397 Sep  6 18:57 Makefile
+-rw-r--r--    1 khatlas  2022_heilbronn     604 Sep  3 12:29 README.md
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  6 17:27 cd
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  6 17:27 echo
+drwxr-xr-x    5 khatlas  2022_heilbronn     170 Sep  3 12:29 env
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  3 12:29 error_handling
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  6 17:27 export
+-rwxr-xr-x    1 khatlas  2022_heilbronn       0 Sep  6 19:39 fileout_temp
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  6 17:27 find_path
+drwxr-xr-x    4 khatlas  2022_heilbronn     136 Sep  6 17:27 gnl
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  6 17:27 helper
+drwxr-xr-x    5 khatlas  2022_heilbronn     170 Sep  6 17:27 includes
+drwxr-xr-x   40 khatlas  2022_heilbronn    1360 Sep  6 19:03 libft
+drwxr-xr-x   10 khatlas  2022_heilbronn     340 Sep  3 12:29 list_env
+drwxr-xr-x   11 khatlas  2022_heilbronn     374 Sep  6 18:52 list_matrix
+drwxr-xr-x   10 khatlas  2022_heilbronn     340 Sep  3 12:29 list_token
+-rwxr-xr-x    1 khatlas  2022_heilbronn  394696 Sep  6 19:38 minishell
+-rw-r--r--    1 khatlas  2022_heilbronn    2235 Sep  6 19:38 minishell.c
+drwxr-xr-x  102 khatlas  2022_heilbronn    3468 Sep  6 19:38 obj
+drwxr-xr-x    8 khatlas  2022_heilbronn     272 Sep  6 17:27 parsing
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  3 12:29 pwd
+drwxr-xr-x  124 khatlas  2022_heilbronn    4216 Sep  6 19:03 readline
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  3 12:29 signals
+-rw-r--r--    1 khatlas  2022_heilbronn      12 Sep  5 12:37 test
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  6 17:27 unset
+drwxr-xr-x    5 khatlas  2022_heilbronn     170 Sep  3 12:29 utility
+drwxr-xr-x    3 khatlas  2022_heilbronn     102 Sep  3 12:29 variable_expansion
