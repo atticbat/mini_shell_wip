@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:48:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/03 17:42:24 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/07 18:28:10 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int     check_arg_char(char c)
 {
     if (c < '!' || c == '\"' || (c >= '&' && c <= '*') || c == ';' \
         || c == '<' || c == '>' || c == '?' || c == '\\' || c == '`' \
-        || c == '|' || c >= '~' || c == '=')
+        || c == '|' || c >= '~' || c == '=' || c == '$')
         return(0);
     return (1);
 }
@@ -40,11 +40,8 @@ int     check_variable(char *var)
 	{
 		return (0);
     }
-    // printf("flag isaplha %d\n", ft_isalpha(*(var + i)));
-    // printf("var %d\n",check_variable_char(var[i]));
     while (i < len)
     {
-        // printf("valores de str %c\n", (var[i]));
 	    if (!check_variable_char(var[i]))
             return(0);
         else
@@ -52,12 +49,7 @@ int     check_variable(char *var)
     }
 	return (1);
 }
-/* TO handle the error we need to confirm the type when it is a quote going on 
-    check also the problem with the quotes.
-    
-    NOTE : till now >> doesnt create a file just an error.
-            same for >
-*/
+
 int check_format(t_token *var)
 {
     int flag;

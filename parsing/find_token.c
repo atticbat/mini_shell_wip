@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/06 21:11:43 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/07 18:16:22 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ int 	find_token(t_general *gen)
 	gen->in += i;
 	if (get_token(gen))
 		return (gen->error_no);
-	// print_all_token(*head);
+	print_all_token(gen->tokens);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/05 13:25:35 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:26:39 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int  ft_export_exe(t_env **envp, char *add)
     return (0);
 }
 
-void    ft_export(char **it, t_general *gen)
+void    ft_export(char **it, t_env **envp)
 {
     char    *buffer;
     char    *final;
@@ -62,30 +62,28 @@ void    ft_export(char **it, t_general *gen)
 
     final = NULL;
     buffer = it[1];
-    // printf("matrix[0]: %s, matrix[1]: %s\n", (*it)->matrix[0], (*it)->matrix[0]);
     if (!buffer || !check_variable(buffer))
-        return ;
-    existing = find_env(gen->envp, buffer);
+        exit (-1);
+    existing = find_env(*envp, buffer);
     if (!(it[2]) || it[2][0] != '=')
-        return ;
+        exit (-1);
     final = ft_strjoin(buffer, it[2]);
     if (existing)
     {
-        if (ft_export_replace_exe(&gen->envp, final, existing->name))
+        if (ft_export_replace_exe(envp, final, existing->name))
         {
             free (final);
-            gen->error_no = -1;
-            return ;
+            exit (-1);
         }
     }
     else
     {
-        if (ft_export_exe(&gen->envp, final))
+        if (ft_export_exe(envp, final))
         {
             free (final);
-            gen->error_no = -1;
-            return ;
+            exit (-1);
         }
     }
     free (final);
+    // exit (0);
 }

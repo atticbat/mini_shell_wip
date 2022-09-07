@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/06 21:23:55 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/07 17:14:08 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct  s_general
     char        *in;
     t_token     *tokens;
     t_matrix    *matrix;
-    char        *str;
+    // char        *str;
     t_env       *envp;
     char        *path;
     char        *cmd_path1;
@@ -136,9 +136,9 @@ void        print_all_matrix(t_matrix *lst);
 void        print_execute(t_execute lst);
 char	    *get_next_line(int fd);
 /* echo */
-void        ft_echo(t_execute it, t_general *gen, int *flag);
+void        ft_echo(char **it);
 /* cd */
-int         ft_cd(char **it);
+void        ft_cd(char **it);
 /* pwd */
 char	    *ft_pwd(char *buff);
 /* env */
@@ -146,14 +146,14 @@ int	        copy_envp(char **envp, t_general *gen);
 char	    *extract_env_content(char *str);
 char	    *extract_env_name(char *str);
 int	        count_envp(t_env *envp);
-char        *ft_env(t_env *envp);
+void        ft_env(t_env *envp);
 char        *ft_getenv(t_env *envp, char *search);
 t_env       *find_env(t_env *envp, char *search);
 /* export */
-void        ft_export(char **it, t_general *gen);
+void        ft_export(char **it, t_env **envp);
 int         ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
-void        ft_unset(char **it,t_general *gen);
+void        ft_unset(char **it, t_env **envp);
 /* parse_function */
 int		    parse_function(t_general *gen);
 /* CHECKER FUNCTION */

@@ -6,20 +6,34 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 21:15:13 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/06 22:42:03 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/07 18:31:25 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int    execute(char *cmd_path, char **arg)
+static void execute(char *cmd_path, char **arg, t_env **envp)
 {
-    if (cmd_path)
-    {
+    char    cwd[PATH_MAX];
+
+    if (cmd_searchlst(arg[0]) == ECHO_CMD)
+        ft_echo(arg);
+    else if (cmd_searchlst(arg[0]) == CD_CMD)
+        ft_cd(arg);
+    else if (cmd_searchlst(arg[0]) == PWD_CMD)
+        printf("%s\n", getcwd(cwd, PATH_MAX));
+    else if (cmd_searchlst(arg[0]) == EXPORT_CMD)
+        ft_export(arg, envp);
+    else if (cmd_searchlst(arg[0]) == UNSET_CMD)
+        ft_unset(arg, envp);
+    else if (cmd_searchlst(arg[0]) == ENV_CMD)
+        ft_env(*envp);
+    else if (cmd_searchlst(arg[0]) == EXIT_CMD)
+        ;
+    else if (cmd_path)
         if(execv(cmd_path, arg) == -1)
-            return(-1);
-    }
-    return(0);
+            exit (-1);
+    exit (0);
 }
 
 int execute_cases(t_general *gen)
@@ -43,23 +57,7 @@ int execute_cases(t_general *gen)
     }
     print_execute(temp);
     //we need to separate this, till now arg1 only used
-    // if (cmd_searchlst(temp.arg1[0]) == ECHO_CMD)
-    //     ft_echo(temp, gen, &flag);
-    // else if (cmd_searchlst(temp.arg1[0]) == CD_CMD)
-    //     ft_cd(temp.arg1);
-    // else if (cmd_searchlst(temp.arg1[0]) == PWD_CMD)
-    //     gen->str = ft_strdup(getcwd(cwd, PATH_MAX));
-    // else if (cmd_searchlst(temp.arg1[0]) == EXPORT_CMD)
-    //     ft_export(temp.arg1, gen);
-    // else if (cmd_searchlst(temp.arg1[0]) == UNSET_CMD)
-    //     ft_unset(temp.arg1, gen);
-    // else if (cmd_searchlst(temp.arg1[0]) == ENV_CMD)
-    //     gen->str = ft_env(gen->envp);
-    // else if (cmd_searchlst(temp.arg1[0]) == EXIT_CMD)
-    // {
-    //     gen->error_no = 1;
-    //     return (gen->error_no);
-    // }
+
     ///////repeat arg2
     // if (temp.operator == '|' && temp.arg1 && temp.arg2)
     if(temp.arg1)
@@ -84,7 +82,7 @@ int execute_cases(t_general *gen)
             dup2(fd[1], STDOUT_FILENO);
             close(fd[0]); 
             close(fd[1]); 
-            execute(gen->cmd_path1, temp.arg1);
+            execute(gen->cmd_path1, temp.arg1, &gen->envp);
         }
         int pid2;
         pid2 = fork();
@@ -98,7 +96,7 @@ int execute_cases(t_general *gen)
             close(fd[1]); 
             close(fd[0]); 
             close(fileout);
-            execute(gen->cmd_path2, temp.arg2);
+            execute(gen->cmd_path2, temp.arg2, &gen->envp);
         }
         close(fd[1]); 
         close(fd[0]); 

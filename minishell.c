@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/06 21:21:48 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/07 16:48:35 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	initialise(t_general *gen, char **envp)
 {
 	copy_envp(envp, gen);
 	gen->tokens = NULL;
-	gen->str = NULL;
 	gen->matrix = NULL;
 	gen->error_no = 0;
 	env_find(gen, "PATH");

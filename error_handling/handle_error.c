@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/06 19:47:08 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/07 18:34:12 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	handle_error(int error, t_general *gen)
 {
 	if (error == 1)
 	{
-		write (2, "you typed exit xddd lmao\n", 25); //temp
+		write (2, "you pressed ctrl d xddd lmao\n", 29); //temp
 		free_all(gen);
 		exit (0);
 	}

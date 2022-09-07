@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/05 13:09:28 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:26:24 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,27 @@ static int  parse_nl_flag(char *content)
     return (0);
 }
 
-void    ft_echo(t_execute it, t_general *gen, int *flag)
+void    ft_echo(char **it)
 {
-    if (it.arg1[1] && !ft_strncmp(it.arg1[1], "-n", 2) \
-        && !parse_nl_flag(it.arg1[1]))
+    char    *str;
+    int     flag;
+
+    str = NULL;
+    flag = 0;
+    if (it[1] && !ft_strncmp(it[1], "-n", 2) \
+        && !parse_nl_flag(it[1]))
     {
-        *flag = 1;
-        gen->str = ft_echo_exe(it.arg1 + 2);
+        flag = 1;
+        str = ft_echo_exe(it + 2);
     }
     else
-        gen->str = ft_echo_exe(it.arg1 + 1);
+        str = ft_echo_exe(it + 1);
+    if (!str)
+        return ;
+    if (flag)
+        printf("%s%%\n", str);
+    else
+        printf("%s\n", str);
+    free (str);
+    // exit (0);
 }

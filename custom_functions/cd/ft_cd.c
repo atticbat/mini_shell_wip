@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 21:05:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/05 13:23:00 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:30:34 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,19 @@ static int  cd_no_arg(void)
     return (0);
 }
 
-int ft_cd(char **it)
+void    ft_cd(char **it)
 {
-    // *it = (*it)->next;
     if (it[1] == NULL)
     {
         if (!cd_no_arg())
-            return (0);
+            exit (0);
         else
-            return (-1);
+            exit (-1);
     }
-    // else if ((*it)->content[ft_strlen((*it)->content) - 1] == ' ')
-        // (*it)->content[ft_strlen((*it)->content) - 1] = '\0';
     if (chdir(it[1]) != 0) 
     {
         perror("chdir() failed");
-        return (-1);
+        exit (-1);
     }
-    return (0);
+    // exit (0);
 }
