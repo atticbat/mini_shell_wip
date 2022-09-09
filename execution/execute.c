@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 21:15:13 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/08 15:09:44 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/09 16:05:36 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int execute_cases(t_general *gen)
                 temp.arg2 = matrix->matrix;
         }
     }
-    print_execute(temp);
+    // print_execute(temp);
     //we need to separate this, till now arg1 only used
 
     ///////repeat arg2
@@ -63,7 +63,7 @@ int execute_cases(t_general *gen)
     int n_pipes;
 
     n_pipes = count_pipes(gen->matrix);
-    printf("n_pipes: %d\n", n_pipes);
+    // printf("n_pipes: %d\n", n_pipes);
     matrix = gen->matrix;
     exe_cmd(matrix, n_pipes);
 //     if(temp.arg1)

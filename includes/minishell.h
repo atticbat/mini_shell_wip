@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/09 11:20:15 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/09 15:02:28 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define TOKENS "<|>&"
 # define OPERATOR "+-&|<>"
 # define REDIRECTIONS "+-<>"
+# define BASH_NULL ""
 
 /* Nomenclature for type of cmd's asked  */
 # define ECHO_CMD 1
