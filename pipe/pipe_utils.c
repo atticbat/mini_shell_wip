@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/09 11:29:28 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/09 14:54:13 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,32 @@ static void execute(char *cmd_path, char **arg)
     exit (0);
 }
 
+static int  redirect_right(t_matrix *matrix)
+{
+    if (matrix->next && matrix->next->operator == '>')
+    {
+        int fd;
+        fd = open (matrix->next->next->matrix[0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+        if (fd == -1)
+            return (-1);
+        dup2(fd, STDOUT_FILENO);
+        close (fd);
+    }
+    else if (matrix->next && matrix->next->operator == '+')
+    {
+        int fd;
+        fd = open (matrix->next->next->matrix[0], O_CREAT | O_WRONLY | O_APPEND, 0777);
+        if (fd == -1)
+            return (-1);
+        dup2(fd, STDOUT_FILENO);
+        close (fd);
+    }
+    else
+        return (-1);
+    return (0);
+}
+
+
 static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j)
 {
     pid_t   pid;
@@ -45,7 +71,7 @@ static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j)
     if (pid == 0) //child
     {
         printf("operator type: '%c'\n", matrix->operator);
-        if (matrix->next) //check if this is not the last node, if it isn't then redirect the stdout
+        if (matrix->next && matrix->next->operator != '<') //check if this is not the last node, if it isn't then redirect the stdout
         {
             if (dup2(pipefds[j + 1], 1) == -1) //otherwise it will just print, so we won't need gnl
                 printf("redirect stdout didnt work!\n");
@@ -56,6 +82,33 @@ static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j)
                 printf("redirect stdin didnt work!\n");
         }
         i = 0;
+
+        /////
+        if (matrix->next && matrix->next->operator == '<')
+        {
+            int fd;
+            // int i = 10;
+            fd = open (matrix->next->next->matrix[0], O_CREAT | O_RDONLY, 0777);
+            if (fd == -1)
+            {
+                printf("error file not found");
+                exit (-1);
+            }
+            if (matrix->next && matrix->next->next && matrix->next->next->next)
+            {
+                if (redirect_right(matrix->next->next))
+                {
+                    printf("shouldve dumped\n");
+                    dup2(pipefds[0], STDOUT_FILENO);
+                }
+            }
+            dup2(fd, STDIN_FILENO);
+            close (fd);
+        }
+        redirect_right(matrix);
+        // redirect_right(matrix);
+            // dup2(pipefds[0], STDIN_FILENO); 
+        ///////
         while (i < 2 * pipe_count) //close all fds in current child since we've already made our redirections
         {
             close(pipefds[i]);
@@ -65,24 +118,24 @@ static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j)
         if (!buffer)
             printf("find path didnt work!\n");
         /////wip
-        if (matrix->next && matrix->next->operator == '>')
-        {
-            int fd;
 
-            // matrix = matrix->next;
-            fd = open (matrix->next->next->matrix[0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
-            dup2(fd, STDOUT_FILENO);
-            close (fd);
-        }
-        else if (matrix->next && matrix->next->operator == '+')
-        {
-            int fd;
 
-            // matrix = matrix->next;
-            fd = open (matrix->next->next->matrix[0], O_CREAT | O_WRONLY | O_APPEND, 0777);
-            dup2(fd, STDOUT_FILENO);
-            close (fd);
-        }
+        // if (matrix->next && matrix->next->operator == '>')
+        // {
+        //     int fd;
+
+        //     fd = open (matrix->next->next->matrix[0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+        //     dup2(fd, STDOUT_FILENO);
+        //     close (fd);
+        // }
+        // else if (matrix->next && matrix->next->operator == '+')
+        // {
+        //     int fd;
+
+        //     fd = open (matrix->next->next->matrix[0], O_CREAT | O_WRONLY | O_APPEND, 0777);
+        //     dup2(fd, STDOUT_FILENO);
+        //     close (fd);
+        // }
         //////
         execute(buffer, matrix->matrix);
         free (buffer);
@@ -119,7 +172,7 @@ void    exe_cmd(t_matrix *matrix, int pipe_count)
             if (!matrix)
                 break ;
         }
-        if (matrix->operator == '>' || matrix->operator == '+')
+        if (matrix->operator == '>' || matrix->operator == '+' || matrix->operator == '<')
         {
             matrix = matrix->next;
             if (matrix)
@@ -127,7 +180,7 @@ void    exe_cmd(t_matrix *matrix, int pipe_count)
             if (!matrix)
                 break ;
         }
-        printf("matrix arg: '%s'\n", matrix->matrix[0]);
+        // printf("matrix arg: '%s'\n", matrix->matrix[0]);
         exe_pipe (matrix, pipe_count, pipefds, j);
         if (matrix)
             matrix = matrix->next;
