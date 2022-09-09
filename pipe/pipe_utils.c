@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/09 10:40:01 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/09 11:29:28 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j)
     pid = fork();
     if (pid == 0) //child
     {
+        printf("operator type: '%c'\n", matrix->operator);
         if (matrix->next) //check if this is not the last node, if it isn't then redirect the stdout
         {
             if (dup2(pipefds[j + 1], 1) == -1) //otherwise it will just print, so we won't need gnl
@@ -63,6 +64,26 @@ static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j)
         buffer = find_path_str(matrix->matrix[0]);
         if (!buffer)
             printf("find path didnt work!\n");
+        /////wip
+        if (matrix->next && matrix->next->operator == '>')
+        {
+            int fd;
+
+            // matrix = matrix->next;
+            fd = open (matrix->next->next->matrix[0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+            dup2(fd, STDOUT_FILENO);
+            close (fd);
+        }
+        else if (matrix->next && matrix->next->operator == '+')
+        {
+            int fd;
+
+            // matrix = matrix->next;
+            fd = open (matrix->next->next->matrix[0], O_CREAT | O_WRONLY | O_APPEND, 0777);
+            dup2(fd, STDOUT_FILENO);
+            close (fd);
+        }
+        //////
         execute(buffer, matrix->matrix);
         free (buffer);
     }
@@ -93,9 +114,23 @@ void    exe_cmd(t_matrix *matrix, int pipe_count)
     while (matrix)
     {
         if (matrix->operator == '|')
+        {
             matrix = matrix->next;
+            if (!matrix)
+                break ;
+        }
+        if (matrix->operator == '>' || matrix->operator == '+')
+        {
+            matrix = matrix->next;
+            if (matrix)
+                matrix = matrix->next;
+            if (!matrix)
+                break ;
+        }
+        printf("matrix arg: '%s'\n", matrix->matrix[0]);
         exe_pipe (matrix, pipe_count, pipefds, j);
-        matrix = matrix->next;
+        if (matrix)
+            matrix = matrix->next;
         j += 2;
     }
     i = 0;

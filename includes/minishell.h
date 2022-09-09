@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/08 15:09:22 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/09 11:20:15 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@
 # define WHITESPACE "\t\r\n\v "
 # define QUOTES "\"\'"
 # define TOKENS "<|>&"
-# define OPERATOR "+-&|<>"  
+# define OPERATOR "+-&|<>"
+# define REDIRECTIONS "+-<>"
 
 /* Nomenclature for type of cmd's asked  */
 # define ECHO_CMD 1
