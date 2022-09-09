@@ -4,7 +4,7 @@ CUSTOM	=	./custom_functions
 VPATH	=	parsing helper includes list_token variable_expansion gnl \
 			$(CUSTOM)/echo $(CUSTOM)/cd $(CUSTOM)/export $(CUSTOM)/unset \
 			$(CUSTOM)/pwd $(CUSTOM)/env utility list_env signals \
-			error_handling find_path list_matrix execution
+			error_handling find_path list_matrix execution pipe
 NAME	=	minishell
 FUNCTS	=	minishell.c					\
 				find_token.c			\
@@ -56,6 +56,7 @@ FUNCTS	=	minishell.c					\
 				handle_error.c			\
 				find_path.c				\
 				execute.c				\
+				pipe_utils.c			\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))
