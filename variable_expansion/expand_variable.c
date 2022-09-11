@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/09 17:56:26 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/11 18:36:00 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ static char	*extract_variable(char *content, int *i, t_env *envp)
 	{
 		if (content[*i + 1] == '}' && bracket_flag)
 			return (extract_bracketed(content, i, start, envp));
-		//need alex's checker instead of checking for null & $ sign
-		if (ft_strchr(WHITESPACE, content[*i + 1]) || content[*i + 1] == '\0' || content[*i + 1] == '$')
+		if (ft_strchr(WHITESPACE, content[*i + 1]) || content[*i + 1] == '\0' \
+			|| content[*i + 1] == '$')
 			return (extract_regular(content, i, start, envp));
 		*i = *i + 1;
 	}
@@ -143,11 +143,6 @@ int	expand_variable(t_general *gen)
 		return (-1);
 	buffer = NULL;
 	iterator = gen->tokens;
-	// if (!iterator->content)
-	// {
-	// 	gen->error_no = -1;
-	// 	return (gen->error_no);	
-	// }
 	while (iterator != NULL)
 	{
 		if (iterator->type == '$' && !ft_strncmp(iterator->content, "?", 1))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/11 17:01:21 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/11 18:32:53 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 static int	check_empty(char *in)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (in[i] != '\0' && ft_strchr(WHITESPACE, in[i]))
-        i++;
-    if (i == 0)
-        return (0);
-    if (in[i] == '\0')
+	i = 0;
+	while (in[i] != '\0' && ft_strchr(WHITESPACE, in[i]))
+		i++;
+	if (i == 0)
+		return (0);
+	if (in[i] == '\0')
 	{
 		free (in);
-        return (1);
+		return (1);
 	}
-    return (0);
+	return (0);
 }
 
 static void	initialise(t_general *gen, char **envp)
@@ -43,7 +43,7 @@ static void	initialise(t_general *gen, char **envp)
 static int	input_loop(t_general *gen)
 {
 	while (1)
-    {
+	{
 		gen->in = readline(PROMPT);
 		if (!gen->in || gen->in[0] == EOF)
 			handle_error(1, gen);
@@ -57,21 +57,20 @@ static int	input_loop(t_general *gen)
 		if (handle_error(parse_function(gen), gen))
 			continue ;
 		if (handle_error(execute_cases(gen), gen))
-			continue;
+			continue ;
 		reset(gen);
-    }
+	}
 	free_all(gen);
 	return (0);
 }
 
-int main (int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_general	gen;
 
 	(void) argc;
 	(void) argv;
-	initialise(&gen, envp);
-	input_loop(&gen);
-
-    return (0);
+	initialise (&gen, envp);
+	input_loop (&gen);
+	return (0);
 }
