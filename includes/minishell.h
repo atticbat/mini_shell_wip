@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/09 15:02:28 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/11 13:27:22 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 # define PROMPT "minishell $ "
+# define HEREDOC "heredoc> "
 # define WHITESPACE "\t\r\n\v "
 # define QUOTES "\"\'"
 # define TOKENS "<|>&"
@@ -50,7 +51,7 @@
 # define READ_END   0
 # define WRITE_END  1
 # define PATH_FILE_1  "fileout_temp"
-# define PATH_FILE_2  "filein_temp"
+// # define PATH_FILE_2  "filein_temp"
 
 // # define MAX_WORDS 8000
 /* for pwd function */
@@ -108,6 +109,7 @@ typedef struct  s_general
 /* utilities */
 void	    reset(t_general *gen);
 void	    free_all(t_general *gen);
+void        erase_temp(void);
 /* format checks */
 int		    check_variable(char *var);
 int         check_variable_char(char c);

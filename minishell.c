@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/07 16:48:35 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/11 13:26:02 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,12 @@ int main (int argc, char **argv, char **envp)
 	(void) argv;
 	initialise(&gen, envp);
 	input_loop(&gen);
+	char	**matrix;
+
+	matrix = malloc (sizeof (char *) * 3);
+	matrix[0] = ft_strdup("rm -f");
+	matrix[1] = ft_strdup(PATH_FILE_1);
+	matrix[2] = NULL;
+	execv("rm", matrix);
     return (0);
 }

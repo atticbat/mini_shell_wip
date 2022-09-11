@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/07 16:49:03 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/11 13:34:15 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,18 @@ void	free_all(t_general *gen)
 	env_clear(&gen->envp, free);
     if (gen->path)
         free (gen->path);
+}
+
+void    erase_temp(void)
+{
+	char	**matrix;
+    int     tempfile;
+
+	matrix = malloc (sizeof (char *) * 3);
+	matrix[0] = ft_strdup("rm -f");
+	matrix[1] = ft_strdup(PATH_FILE_1);
+	matrix[2] = NULL;
+    tempfile = open (PATH_FILE_1, O_CREAT, 0777);
+    close (tempfile);
+	execv("/bin/rm", matrix);
 }

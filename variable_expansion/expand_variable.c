@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/06 21:11:59 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/09 17:56:26 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,11 +143,11 @@ int	expand_variable(t_general *gen)
 		return (-1);
 	buffer = NULL;
 	iterator = gen->tokens;
-	if (!iterator->content)
-	{
-		gen->error_no = -1;
-		return (gen->error_no);	
-	}
+	// if (!iterator->content)
+	// {
+	// 	gen->error_no = -1;
+	// 	return (gen->error_no);	
+	// }
 	while (iterator != NULL)
 	{
 		if (iterator->type == '$' && !ft_strncmp(iterator->content, "?", 1))
