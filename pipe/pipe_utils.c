@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/11 17:20:10 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/11 18:39:00 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int count_pipes(t_matrix *matrix)
 	return (i);
 }
 
-static void execute(char **arg, t_env **envp)
+static void execute(char **arg, t_env *envp)
 {
     char    cwd[PATH_MAX];
     char    *buffer;
@@ -38,14 +38,11 @@ static void execute(char **arg, t_env **envp)
     else if (cmd_searchlst(arg[0]) == PWD_CMD)
         printf("%s\n", getcwd(cwd, PATH_MAX));
     else if (cmd_searchlst(arg[0]) == EXPORT_CMD)
-    {
-        printf("asdf\n");
-        ft_export(arg, envp);
-    }
+        ;
     else if (cmd_searchlst(arg[0]) == UNSET_CMD)
-        ft_unset(arg, envp);
+        ;
     else if (cmd_searchlst(arg[0]) == ENV_CMD)
-        ft_env(*envp);
+        ft_env(envp);
     else if (cmd_searchlst(arg[0]) == EXIT_CMD)
         ;
 	else if (buffer)
@@ -95,7 +92,7 @@ int find_pipes(t_matrix *matrix)
     return (i);
 }
 
-static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j, t_env **envp)
+static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j, t_env *envp)
 {
     pid_t   pid;
     int     i;
@@ -196,7 +193,11 @@ void    exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp)
             continue ;
         }
         // printf("matrix[0]: '%s'\n", matrix->matrix[0]);
-        exe_pipe (matrix, pipe_count, pipefds, j, envp);
+        exe_pipe (matrix, pipe_count, pipefds, j, *envp);
+        if (cmd_searchlst(matrix->matrix[0]) == EXPORT_CMD)
+            ft_export(matrix->matrix, envp);
+        else if (cmd_searchlst(matrix->matrix[0]) == UNSET_CMD)
+            ft_unset(matrix->matrix, envp);
         if (matrix)
             matrix = matrix->next;
         j += 2;
