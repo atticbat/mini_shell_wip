@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/11 17:14:24 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/11 18:42:58 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,11 @@ t_token	    *token_new(char type, char *content);
 int	        token_size(t_token *lst);
 /* variable expansion */ 
 int	        expand_variable(t_general *gen);
+char	    *expand_dquote(char *content, t_env *envp, int last_return);
+char	    *extract_q_mark(char *content, int start, int last_return);
+char	    *extract_variable(char *content, int *i, t_env *envp);
+char	    *extract_regular(char *content, int *i, int start, t_env *envp);
+char	    *extract_bracketed(char *content, int *i, int start, t_env *envp);
 /* helper */
 void        print_all_token(t_token *lst);
 void        print_all_matrix(t_matrix *lst);
