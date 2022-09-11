@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/11 13:27:22 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/11 17:14:24 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,6 @@ char        *find_path_str(char *name);
 int         execute_cases(t_general *gen);
 /* pipe */
 int         count_pipes(t_matrix *matrix);
-void        exe_cmd(t_matrix *matrix, int pipe_count);
+void        exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp);
 
 #endif

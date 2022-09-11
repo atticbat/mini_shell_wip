@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/11 13:22:42 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/11 17:20:10 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,34 @@ int count_pipes(t_matrix *matrix)
 	return (i);
 }
 
-static void execute(char *cmd_path, char **arg)
+static void execute(char **arg, t_env **envp)
 {
-	if (cmd_path)
-		if (execv(cmd_path, arg) == -1)
+    char    cwd[PATH_MAX];
+    char    *buffer;
+
+    buffer = find_path_str(arg[0]);
+    if (cmd_searchlst(arg[0]) == ECHO_CMD)
+        ft_echo(arg);
+    else if (cmd_searchlst(arg[0]) == CD_CMD)
+        ft_cd(arg);
+    else if (cmd_searchlst(arg[0]) == PWD_CMD)
+        printf("%s\n", getcwd(cwd, PATH_MAX));
+    else if (cmd_searchlst(arg[0]) == EXPORT_CMD)
+    {
+        printf("asdf\n");
+        ft_export(arg, envp);
+    }
+    else if (cmd_searchlst(arg[0]) == UNSET_CMD)
+        ft_unset(arg, envp);
+    else if (cmd_searchlst(arg[0]) == ENV_CMD)
+        ft_env(*envp);
+    else if (cmd_searchlst(arg[0]) == EXIT_CMD)
+        ;
+	else if (buffer)
+    {    
+		if (execv(buffer, arg) == -1)
 			exit (-1);
+    }
 	exit (0);
 }
 
@@ -72,17 +95,15 @@ int find_pipes(t_matrix *matrix)
     return (i);
 }
 
-static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j)
+static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j, t_env **envp)
 {
     pid_t   pid;
-    char    *buffer;
     int     i;
 
-    buffer = NULL;
     pid = fork();
     if (pid == 0) //child
     {
-        if (matrix->next && matrix->next->operator != '-')
+        if (matrix->next && matrix->next->operator != '-' && matrix->next->operator != '<')
         {
             if (dup2(pipefds[j + 1], 1) == -1)
                 printf("redirect stdout didnt work!\n");
@@ -137,14 +158,11 @@ static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j)
             close(pipefds[i]);
             i++;
         }
-        buffer = find_path_str(matrix->matrix[0]);
-        if (!buffer)
-            printf("find path didnt work! (end of child)\n");
-        execute(buffer, matrix->matrix);
+        execute(matrix->matrix, envp);
     }
 }
 
-void    exe_cmd(t_matrix *matrix, int pipe_count)
+void    exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp)
 {
     int status;
     int i;
@@ -178,7 +196,7 @@ void    exe_cmd(t_matrix *matrix, int pipe_count)
             continue ;
         }
         // printf("matrix[0]: '%s'\n", matrix->matrix[0]);
-        exe_pipe (matrix, pipe_count, pipefds, j);
+        exe_pipe (matrix, pipe_count, pipefds, j, envp);
         if (matrix)
             matrix = matrix->next;
         j += 2;
