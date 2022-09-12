@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_envp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/26 18:42:22 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 11:02:51 by khatlas          ###   ########.fr       */
+/*   Created: 2022/09/12 13:58:52 by aparedes          #+#    #+#             */
+/*   Updated: 2022/09/12 14:02:14 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	find_eq(char *str)
 	int	i;
 
 	i = 0;
-	while(str[i] != '\0')
+	while (str[i] != '\0')
 	{
 		if (str[i] == '=')
 			return (i);

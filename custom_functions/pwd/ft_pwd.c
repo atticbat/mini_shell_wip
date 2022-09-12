@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 20:15:55 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/07 17:31:29 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/12 13:38:03 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_pwd(char *buff)
 {
-	int size_buff;
-	char *path;
+	int		size_buff;
+	char	*path;
 
 	path = NULL;
 	size_buff = ft_strlen(buff);
