@@ -3,51 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   find_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/07 18:16:22 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/12 15:43:46 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void cycle_whitespace(t_general *gen)
+static void	cycle_whitespace(t_general *gen)
 {
-    if ((gen->in[gen->to] != '\0' && ft_strchr(WHITESPACE, gen->in[gen->to])))
-    {
-        gen->to++;
-        gen->from = gen->to;
-        if (gen->in[gen->to] != '\0' && check_arg_char(gen->in[gen->to]))
-            gen->flag = 0;
-    }
-    else if (gen->in[gen->to] != '\0')
-        gen->to++;
+	if ((gen->in[gen->to] != '\0' && ft_strchr(WHITESPACE, gen->in[gen->to])))
+	{
+		gen->to++;
+		gen->from = gen->to;
+		if (gen->in[gen->to] != '\0' && check_arg_char(gen->in[gen->to]))
+			gen->flag = 0;
+	}
+	else if (gen->in[gen->to] != '\0')
+		gen->to++;
 }
 
-static int  get_token(t_general *gen)
+static int	get_token(t_general *gen)
 {
-    while (gen->in[gen->to] != '\0')
-    {
-        if (extract_arg_node(gen))
-            return (gen->error_no);
-        else if (extract_token_node(gen))
-            return (gen->error_no);
-        else if (extract_quote_node(gen))
-            return (gen->error_no);
-        else if (extract_var_node(gen))
-            return (gen->error_no);
-        else
-            cycle_whitespace(gen);
-    }
-    if (find_final_arg(gen))
-        return (gen->error_no);
-    return (0);
+	while (gen->in[gen->to] != '\0')
+	{
+		if (extract_arg_node(gen))
+			return (gen->error_no);
+		else if (extract_token_node(gen))
+			return (gen->error_no);
+		else if (extract_quote_node(gen))
+			return (gen->error_no);
+		else if (extract_var_node(gen))
+			return (gen->error_no);
+		else
+			cycle_whitespace(gen);
+	}
+	if (find_final_arg(gen))
+		return (gen->error_no);
+	return (0);
 }
 
-int 	find_token(t_general *gen)
+int	find_token(t_general *gen)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (ft_strchr(WHITESPACE, gen->in[i]))

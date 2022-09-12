@@ -15,7 +15,7 @@
 int	matrix_size(t_matrix *lst)
 {
 	t_matrix	*temp;
-	int		i;
+	int			i;
 
 	temp = lst;
 	i = 0;

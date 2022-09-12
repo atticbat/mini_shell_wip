@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoinfree.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 18:26:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/20 18:26:44 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/12 15:31:49 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strjoinfree(char *s1, char *s2)
 		return (0);
 	ft_strlcpy (ptr, s1, len);
 	ft_strlcat (ptr, s2, len);
-    free (s1);
-    free (s2);
+	free (s1);
+	free (s2);
 	return (ptr);
 }

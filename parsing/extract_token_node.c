@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   extract_token_node.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:22:50 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/06 20:09:36 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/12 15:42:33 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int extract_token_node(t_general *gen)
+int	extract_token_node(t_general *gen)
 {
-    if (gen->in[gen->to] != '\0' && ft_strchr(TOKENS, gen->in[gen->to]))
-    {
-        if (gen->in[gen->to + 1] == gen->in[gen->to])
-        {
-            if (gen->in[gen->to] == '<')
-                token_add_back(&gen->tokens, token_new('-', NULL));
-            if (gen->in[gen->to] == '>')
-                token_add_back(&gen->tokens, token_new('+', NULL));
-            gen->to++;
-        }
-        else
-            token_add_back(&gen->tokens, token_new(gen->in[gen->to], NULL));
-        if (!ft_strchr(TOKENS, gen->in[gen->to + 1]))
-        {
-            gen->flag = 0;
-            gen->to++;
-        }
-        else
-            gen->flag = 1;
-        gen->from = gen->to;
-    }
-    return (0);
+	if (gen->in[gen->to] != '\0' && ft_strchr(TOKENS, gen->in[gen->to]))
+	{
+		if (gen->in[gen->to + 1] == gen->in[gen->to])
+		{
+			if (gen->in[gen->to] == '<')
+				token_add_back(&gen->tokens, token_new('-', NULL));
+			if (gen->in[gen->to] == '>')
+				token_add_back(&gen->tokens, token_new('+', NULL));
+			gen->to++;
+		}
+		else
+			token_add_back(&gen->tokens, token_new(gen->in[gen->to], NULL));
+		if (!ft_strchr(TOKENS, gen->in[gen->to + 1]))
+		{
+			gen->flag = 0;
+			gen->to++;
+		}
+		else
+			gen->flag = 1;
+		gen->from = gen->to;
+	}
+	return (0);
 }
