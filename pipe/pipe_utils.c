@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/11 18:39:00 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/12 13:10:05 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,63 @@ int find_pipes(t_matrix *matrix)
     }
     return (i);
 }
+static void exe_heredoc(t_matrix *matrix, int pipe_count, int *pipefds, t_env *envp)
+{
+    pid_t   pid;
+    int     i;
 
+    pid = fork();
+    if (pid == 0) //child
+    {
+        // if (matrix->next && matrix->next->operator != '-' && matrix->next->operator != '<')
+        // {
+        //     if (dup2(pipefds[j + 1], 1) == -1)
+        //         printf("redirect stdout didnt work!\n");
+        // }
+        // if (j != 0)
+        // {
+        //     if (dup2(pipefds[j - 2], 0) == -1)
+        //         printf("redirect stdin didnt work!\n");
+        // }
+        i = 0;
+        if (matrix && matrix->operator == '-')
+        {
+            if (matrix->next->matrix[0])
+            {
+                char    *buffer1;
+                char    *buffer2;
+                int     filetemp;
+
+                filetemp = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+                buffer2 = NULL;
+                buffer1 = NULL;
+                while (1)
+                {
+                    write(1, HEREDOC, 9);
+                    buffer2 = get_next_line(0);
+                    if (!ft_strncmp(matrix->next->matrix[0], buffer2, ft_strlen(matrix->next->matrix[0])))
+                        break ;
+                    buffer1 = expand_dquote(buffer2, envp, 0);
+                    free (buffer2);
+                    ft_putstr_fd(buffer1, filetemp);
+                    free (buffer1);
+                }
+                close (filetemp);
+                filetemp = open (PATH_FILE_1, O_RDONLY, 0777);
+                dup2(filetemp, STDIN_FILENO);
+                close (filetemp);
+            }
+        }
+        // redirect_right(matrix->next);
+        while (i < 2 * pipe_count) //close all fds in current child since we've already made our redirections
+        {
+            close(pipefds[i]);
+            i++;
+        }
+        exit (0);
+        // execute(matrix->matrix, envp);
+    }
+}
 static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j, t_env *envp)
 {
     pid_t   pid;
@@ -115,19 +171,23 @@ static void exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j, t_en
         {
             if (matrix->next->next->matrix[0])
             {
+                char    *buffer1;
                 char    *buffer2;
                 int     filetemp;
 
                 filetemp = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC, 0777);
                 buffer2 = NULL;
+                buffer1 = NULL;
                 while (1)
                 {
                     write(1, HEREDOC, 9);
                     buffer2 = get_next_line(0);
                     if (!ft_strncmp(matrix->next->next->matrix[0], buffer2, ft_strlen(matrix->next->next->matrix[0])))
                         break ;
-                    ft_putstr_fd(buffer2, filetemp);
+                    buffer1 = expand_dquote(buffer2, envp, 0);
                     free (buffer2);
+                    ft_putstr_fd(buffer1, filetemp);
+                    free (buffer1);
                 }
                 close (filetemp);
                 filetemp = open (PATH_FILE_1, O_RDONLY, 0777);
@@ -178,6 +238,7 @@ void    exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp)
         i++;
     }
     j = 0;
+    exe_heredoc(matrix, pipe_count, pipefds, *envp);
     while (matrix)
     {
         if (matrix->operator == '|')

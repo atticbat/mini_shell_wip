@@ -17,6 +17,7 @@ FUNCTS	=	minishell.c					\
 				token_size.c			\
 				cmd_searchlst.c			\
 				expand_variable.c		\
+				expand_var_utils.c		\
 				utilities.c				\
 				string_operations.c		\
 				format_checks.c			\
