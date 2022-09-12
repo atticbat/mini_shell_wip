@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 15:22:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 14:03:19 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/12 17:00:14 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,9 @@ char	*find_path_str(char *name)
 	char	*part_path;
 	char	*path;
 	int		i;
-	char	genpath[] = "/Users/khatlas/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/khatlas/.brew/bin";
+	char	*genpath;
 
+	genpath = getenv("PATH");
 	paths_split = ft_split(genpath, ':');
 	i = 0;
 	while (paths_split[i])

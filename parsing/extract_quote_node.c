@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_quote_node.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:14:44 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 15:42:05 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/12 17:01:05 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	extract_quote_node(t_general *gen)
 			if (gen->in[gen->to] == gen->in[start])
 			{
 				if (gen->in[start] == '\'')
-					token_add_back(&gen->tokens, token_new('a', \
+					token_add_back(&gen->tokens, token_new('s', \
 						append_space(gen->in, ft_substr(gen->in, \
 						start + 1, gen->to - start - 1), gen->to)));
 				else if (gen->in[start] == '\"')

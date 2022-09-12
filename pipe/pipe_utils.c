@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 15:51:18 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/12 17:10:01 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static int	redirect_right(t_matrix *matrix)
 {
 	int	fd;
 
-	fd = open (matrix->next->matrix[0], O_CREAT | O_WRONLY | O_APPEND, 0777);
 	if (matrix && matrix->operator == '>')
 	{
+		fd = open (matrix->next->matrix[0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		if (fd == -1)
 			return (-1);
 		dup2(fd, STDOUT_FILENO);
@@ -68,6 +68,7 @@ static int	redirect_right(t_matrix *matrix)
 	}
 	else if (matrix && matrix->operator == '+')
 	{
+		fd = open (matrix->next->matrix[0], O_CREAT | O_WRONLY | O_APPEND, 0777);
 		if (fd == -1)
 			return (-1);
 		dup2(fd, STDOUT_FILENO);
@@ -177,7 +178,12 @@ static void	exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j, t_en
 					buffer2 = get_next_line(0);
 					if (!ft_strncmp(matrix->next->next->matrix[0], buffer2, ft_strlen(matrix->next->next->matrix[0])))
 						break ;
-					buffer1 = expand_dquote(buffer2, envp, 0);
+                    if (!ft_strncmp(matrix->next->next->matrix[0] + 1, buffer2, ft_strlen(matrix->next->next->matrix[0] + 1)))
+                        break ;
+                    if (matrix->next->next->matrix[0][0] == '<')
+                        buffer1 = expand_dquote(buffer2, envp, 0);
+                    else
+                        buffer1 = ft_strdup(buffer2);
 					free (buffer2);
 					ft_putstr_fd(buffer1, filetemp);
 					free (buffer1);
@@ -231,7 +237,13 @@ void	exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp)
 		i++;
 	}
 	j = 0;
-	exe_heredoc(matrix, pipe_count, pipefds, *envp);
+	if (matrix && matrix->operator == '-')
+	{
+		exe_heredoc(matrix, pipe_count, pipefds, *envp);
+		matrix = matrix->next;
+		if (matrix)
+			matrix = matrix->next;
+	}
 	while (matrix)
 	{
 		if (matrix->operator == '|')
