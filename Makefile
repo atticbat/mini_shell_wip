@@ -56,8 +56,11 @@ FUNCTS	=	minishell.c					\
 				signal_handlers.c		\
 				handle_error.c			\
 				find_path.c				\
+				check_valid_path.c		\
 				execute.c				\
 				pipe_utils.c			\
+				pipe_utils2.c			\
+				pipe_utils3.c			\
 				testing.c
 LIBFTNAME =	ft
 OBJS	=	$(addprefix $(OBJ_PATH),$(notdir $(FUNCTS:.c=.o)))

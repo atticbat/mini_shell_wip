@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 14:09:43 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/15 18:17:56 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ int			ft_export_replace_exe(t_env **envp, char *add, char *name);
 void		ft_unset(char **it, t_env **envp);
 /* parse_function */
 int			parse_function(t_general *gen);
+void		check_quote(t_general *gen);
+
 /* CHECKER FUNCTION */
 void		check_cmd(t_token **inpt, int flag);
 int			check_format(t_token *in);
@@ -182,14 +184,29 @@ char		**extract_matrix(t_token **it);
 void		set_listeners(void);
 /* error handling */
 int			handle_error(int error, t_general *gen);
+int			error_extract_var(t_general *gen);
+
 /* find path */
 int			find_path(t_general *gen, t_execute temp);
 int			check_valid_path(t_general *gen, char *content);	
 char		*find_path_str(char *name);
+void		free_paths(char **paths);
+void		path_arg1(char **paths, t_execute temp, t_general *gen);
+void		path_arg2(char **paths, t_execute temp, t_general *gen);
 /* execute */
 int			execute_cases(t_general *gen);
 /* pipe */
 int			count_pipes(t_matrix *matrix);
 void		exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp);
+void		execute(char **arg, t_env *envp);
+int			redirect_right(t_matrix *matrix);
+void		exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j, t_env *envp);
+void		exe_heredoc(t_matrix *matrix, int pipe_count, int *pipefds, t_env *envp);
+void		looping_files(t_matrix *matrix, t_env *envp);
+void		looping_files2(t_matrix *matrix, t_env *envp);
+void		looping_files3(t_matrix *matrix);
+
+
+
 
 #endif
