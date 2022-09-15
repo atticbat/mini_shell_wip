@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 13:40:33 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/15 17:48:01 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,16 @@ int	handle_error(int error, t_general *gen)
 	else
 		return (0);
 	return (-1);
+}
+
+int	error_extract_var(t_general *gen)
+{
+	if (ft_strchr(TOKENS, gen->in[gen->to]))
+	{
+		gen->error_no = -1;
+		return (gen->error_no);
+	}
+	else
+		gen->error_no = 0;
+	return (gen->error_no);
 }

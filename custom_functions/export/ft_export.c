@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 13:37:29 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:06:36 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,8 @@ static int	ft_export_exe(t_env **envp, char *add)
 	return (0);
 }
 
-void	ft_export(char **it, t_env **envp)
+static void	check_existing(t_env **envp, char *final, t_env *existing)
 {
-	char	*buffer;
-	char	*final;
-	t_env	*existing;
-
-	final = NULL;
-	buffer = it[1];
-	if (!buffer || !check_variable(buffer))
-		exit (-1);
-	existing = find_env(*envp, buffer);
-	if (!(it[2]) || it[2][0] != '=')
-		exit (-1);
-	final = ft_strjoin(buffer, it[2]);
 	if (existing)
 	{
 		if (ft_export_replace_exe(envp, final, existing->name))
@@ -84,5 +72,22 @@ void	ft_export(char **it, t_env **envp)
 			exit (-1);
 		}
 	}
+}
+
+void	ft_export(char **it, t_env **envp)
+{
+	char	*buffer;
+	char	*final;
+	t_env	*existing;
+
+	final = NULL;
+	buffer = it[1];
+	if (!buffer || !check_variable(buffer))
+		exit (-1);
+	existing = find_env(*envp, buffer);
+	if (!(it[2]) || it[2][0] != '=')
+		exit (-1);
+	final = ft_strjoin(buffer, it[2]);
+	check_existing (envp, final, existing);
 	free (final);
 }

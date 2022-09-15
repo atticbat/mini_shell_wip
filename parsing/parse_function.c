@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_function.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 15:44:33 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/16 01:26:51 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	parse_function(t_general *gen)
 		return (gen->error_no);
 	}
 	create_matrix(&it, gen);
-	print_all_matrix(gen->matrix);
+	// print_all_matrix(gen->matrix);
 	return (0);
 }

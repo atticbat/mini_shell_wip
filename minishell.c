@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/11 18:32:53 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/16 01:19:30 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//extern int	g_flag;
 
 static int	check_empty(char *in)
 {
@@ -35,8 +34,8 @@ static void	initialise(t_general *gen, char **envp)
 	copy_envp(envp, gen);
 	gen->tokens = NULL;
 	gen->matrix = NULL;
+	gen->in = NULL;
 	gen->error_no = 0;
-	env_find(gen, "PATH");
 	reset(gen);
 	set_listeners();
 }
@@ -57,10 +56,8 @@ static int	input_loop(t_general *gen)
 			continue ;
 		if (handle_error(parse_function(gen), gen))
 			continue ;
-		toggle_interrupt_listener();
 		if (handle_error(execute_cases(gen), gen))
 			continue ;
-		toggle_interrupt_listener();
 		reset(gen);
 	}
 	free_all(gen);
