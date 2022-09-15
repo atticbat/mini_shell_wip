@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 21:05:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 13:26:50 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/15 14:38:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ static int	cd_no_arg(void)
 	getcwd(cwd, PATH_MAX);
 	buffer = extract_home_path(cwd);
 	if (chdir(buffer) != 0)
-	{
-		perror("chdir() failed");
 		return (-1);
-	}
 	if (buffer)
 		free (buffer);
 	return (0);
@@ -56,14 +53,9 @@ void	ft_cd(char **it)
 {
 	if (it[1] == NULL)
 	{
-		if (!cd_no_arg())
-			exit (0);
-		else
-			exit (-1);
+		if (cd_no_arg())
+			perror("chdir() failed");
 	}
-	if (chdir(it[1]) != 0)
-	{
+	else if (chdir(it[1]) != 0)
 		perror("chdir() failed");
-		exit (-1);
-	}
 }

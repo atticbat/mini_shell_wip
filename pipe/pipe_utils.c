@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 17:10:01 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/15 14:42:01 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	execute(char **arg, t_env *envp)
 	if (cmd_searchlst(arg[0]) == ECHO_CMD)
 		ft_echo(arg);
 	else if (cmd_searchlst(arg[0]) == CD_CMD)
-		ft_cd(arg);
+		;
 	else if (cmd_searchlst(arg[0]) == PWD_CMD)
 		printf("%s\n", getcwd(cwd, PATH_MAX));
 	else if (cmd_searchlst(arg[0]) == EXPORT_CMD)
@@ -263,6 +263,10 @@ void	exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp)
 			ft_export(matrix->matrix, envp);
 		else if (cmd_searchlst(matrix->matrix[0]) == UNSET_CMD)
 			ft_unset(matrix->matrix, envp);
+		else if (cmd_searchlst(matrix->matrix[0]) == CD_CMD)
+			ft_cd(matrix->matrix);
+		else if (cmd_searchlst(matrix->matrix[0]) == EXIT_CMD)
+			exit(0);
 		if (matrix)
 			matrix = matrix->next;
 		j += 2;
