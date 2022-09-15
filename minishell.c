@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+//extern int	g_flag;
 
 static int	check_empty(char *in)
 {
@@ -56,8 +57,10 @@ static int	input_loop(t_general *gen)
 			continue ;
 		if (handle_error(parse_function(gen), gen))
 			continue ;
+		toggle_interrupt_listener();
 		if (handle_error(execute_cases(gen), gen))
 			continue ;
+		toggle_interrupt_listener();
 		reset(gen);
 	}
 	free_all(gen);

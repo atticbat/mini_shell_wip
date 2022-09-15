@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+int	g_flag = 0;
 
-static void interrupt_handler(int signum)
+static void interrupt_handler_input(int signum)
 {
     (void) signum;
     write (1, "\n", 1);
@@ -20,6 +21,13 @@ static void interrupt_handler(int signum)
     rl_on_new_line();
 	rl_replace_line("", 0);
     rl_redisplay();
+}
+
+static void interrupt_handler_heredoc(int signum)
+{
+    (void) signum;
+	write (0, "\0", 1);
+	g_flag = EXIT_HEREDOC;
 }
 
 static void	do_nothing_handler(int signum)
@@ -30,16 +38,19 @@ static void	do_nothing_handler(int signum)
     rl_redisplay();
 }
 
-// static void exit_handler(int signum)
-// {
-//     (void) signum;
-//     write(2, "exit via writing exit xdd\n", 26);
-//     exit (0);
-// }
+void	toggle_interrupt_listener(void)
+{
+	static int	toggle = -1;
+
+	if (toggle > 0)
+		signal(SIGINT, interrupt_handler_input);
+	else
+		signal(SIGINT, interrupt_handler_heredoc);
+	toggle *= -1;
+}
 
 void    set_listeners(void)
 {
-    signal(SIGINT, interrupt_handler);
+	signal(SIGINT, interrupt_handler_input);
 	signal(SIGQUIT, do_nothing_handler);
-    // signal(SIGUSR1, exit_handler);
 }

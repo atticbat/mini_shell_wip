@@ -50,6 +50,9 @@
 # define WRITE_END  1
 # define PATH_FILE_1  "fileout_temp"
 
+extern int	g_flag;
+# define EXIT_HEREDOC 1;
+
 typedef struct s_token
 {
 	char			type;
@@ -180,6 +183,7 @@ void		create_matrix(t_token **it, t_general *gen);
 char		**extract_matrix(t_token **it);
 /* signals */
 void		set_listeners(void);
+void		toggle_interrupt_listener(void);
 /* error handling */
 int			handle_error(int error, t_general *gen);
 /* find path */

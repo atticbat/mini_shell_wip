@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+//extern int	g_flag;
 
 int	count_pipes(t_matrix *matrix)
 {
@@ -115,7 +116,7 @@ static void	exe_heredoc(t_matrix *matrix, int pipe_count, int *pipefds, t_env *e
 				| O_CREAT | O_TRUNC, 0777);
 				buffer2 = NULL;
 				buffer1 = NULL;
-				while (1)
+				while (!g_flag)
 				{
 					write(1, HEREDOC, 9);
 					buffer2 = get_next_line(0);
@@ -172,7 +173,7 @@ static void	exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, int j, t_en
 				filetemp = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 				buffer2 = NULL;
 				buffer1 = NULL;
-				while (1)
+				while (!g_flag)
 				{
 					write(1, HEREDOC, 9);
 					buffer2 = get_next_line(0);
@@ -269,6 +270,7 @@ void	exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp)
 			exit(0);
 		if (matrix)
 			matrix = matrix->next;
+		g_flag = 0;
 		j += 2;
 	}
 	i = 0;
