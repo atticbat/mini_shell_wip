@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 12:18:32 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 13:52:31 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 00:51:39 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,3 @@ void	print_all_matrix(t_matrix *lst)
 		buffer = buffer->next;
 	}
 }
-

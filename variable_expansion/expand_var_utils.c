@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 18:36:17 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/11 18:42:12 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:23:20 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*extract_variable(char *content, int *i, t_env *envp)
 		if (content[*i + 1] == '}' && bracket_flag)
 			return (extract_bracketed(content, i, start, envp));
 		if (ft_strchr(WHITESPACE, content[*i + 1]) || content[*i + 1] == '\0' \
-			|| content[*i + 1] == '$')
+			|| check_exception_char(content[*i + 1]) || content[*i + 1] == '$')
 			return (extract_regular(content, i, start, envp));
 		*i = *i + 1;
 	}

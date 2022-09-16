@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 20:18:21 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 01:02:11 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void		erase_temp(void);
 int			check_variable(char *var);
 int			check_variable_char(char c);
 int			check_arg_char(char c);
+int			check_exception_char(char c);
 /* string operations */
 int			check_arg_end(char *in);
 char		*append_space(char *in, char *str, int to);
@@ -152,7 +153,7 @@ int			ft_export_replace_exe(t_env **envp, char *add, char *name);
 void		ft_unset(char **it, t_env **envp);
 /* parse_function */
 int			parse_function(t_general *gen);
-void		check_quote(t_general *gen);
+void		check_quote(t_general *gen, int (*f)(char));
 
 /* CHECKER FUNCTION */
 void		check_cmd(t_token **inpt, int flag);

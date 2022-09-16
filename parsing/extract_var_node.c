@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_var_node.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 16:59:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/15 17:45:40 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:02:18 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	extract_var_node(t_general *gen)
 		start = gen->to;
 		error_extract_var(gen);
 		loop_extract_var(gen, start, bracket_flag);
-		check_quote(gen);
+		check_quote(gen, check_exception_char);
 		gen->from = gen->to;
 	}
 	return (0);

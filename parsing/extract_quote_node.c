@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   extract_quote_node.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:14:44 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/15 17:23:12 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:02:51 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_quote(t_general *gen)
+void	check_quote(t_general *gen, int (*f)(char))
 {
-	if (check_variable_char(gen->in[gen->to + 1]))
+	if ((*f)(gen->in[gen->to + 1]))
 	{
 		gen->to++;
 		gen->flag = 0;
@@ -52,7 +52,7 @@ int	extract_quote_node(t_general *gen)
 			}
 			gen->to++;
 		}
-		check_quote(gen);
+		check_quote(gen, check_variable_char);
 		gen->from = gen->to;
 	}
 	return (0);
