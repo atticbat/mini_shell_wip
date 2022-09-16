@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 01:19:30 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/16 17:57:09 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ static int	check_empty(char *in)
 	if (i == 0)
 		return (0);
 	if (in[i] == '\0')
-	{
-		free (in);
 		return (1);
-	}
 	return (0);
 }
 
@@ -40,23 +37,45 @@ static void	initialise(t_general *gen, char **envp)
 	set_listeners();
 }
 
+static int  check_exit(t_general *gen)
+{
+    t_token *temp;
+    temp = gen->tokens;
+    while (temp->next)
+    {
+        if ((temp->type) == '|')
+            return (0);
+        temp = temp->next;
+    }
+    return (1);
+}
+
 static int	input_loop(t_general *gen)
 {
 	while (1)
 	{
 		gen->in = readline(PROMPT);
 		if (!gen->in || gen->in[0] == EOF)
+		{
 			handle_error(1, gen);
+			continue ;
+		}
 		if (check_empty(gen->in) || !gen->in[0])
 			continue ;
 		add_history(gen->in);
 		if (handle_error(find_token(gen), gen))
 			continue ;
+		if (check_exit(gen) == 1 && !ft_strncmp(gen->tokens->content, "exit", 4) \
+            && ft_strlen(gen->tokens->content) == 4)
+        {
+        	printf("exit \n");
+        	break ;
+        }
 		if (handle_error(expand_variable(gen), gen))
 			continue ;
 		if (handle_error(parse_function(gen), gen))
 			continue ;
-		if (handle_error(execute_cases(gen), gen))
+		if (handle_error(execute_prep(gen), gen))
 			continue ;
 		reset(gen);
 	}

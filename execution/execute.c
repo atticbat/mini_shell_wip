@@ -12,28 +12,33 @@
 
 #include "minishell.h"
 
-int	execute_cases(t_general *gen)
+static void	open_pipes(int pipe_count, int *pipefds)
 {
-	t_execute	temp;
+	int	i;
+	
+	i = 0;
+	while (i < pipe_count)
+	{
+		if (pipe(pipefds + i * 2) < 0)
+		{
+			printf("piping fails\n");
+			exit (-1);
+		}
+		i++;
+	}
+}
+
+int	execute_prep(t_general *gen)
+{
+	t_execute	exevars;
 	t_matrix	*matrix;
-	int			n_pipes;
 
 	matrix = gen->matrix;
-	ft_bzero(&temp, sizeof(t_execute));
-	if (matrix)
-	{
-		temp.arg1 = matrix->matrix;
-		matrix = matrix->next;
-		if (matrix)
-		{
-			temp.operator = matrix->operator;
-			matrix = matrix->next;
-			if (matrix)
-				temp.arg2 = matrix->matrix;
-		}
-	}
-	n_pipes = count_pipes(gen->matrix);
-	matrix = gen->matrix;
-	exe_cmd (matrix, n_pipes, &gen->envp);
+	ft_bzero(&exevars, sizeof(t_execute));
+	exevars.pipe_count = count_pipes(gen->matrix);
+	exevars.pipefds = malloc (sizeof (int) * (exevars.pipe_count * 2));
+	open_pipes(exevars.pipe_count, exevars.pipefds);
+	exevars.index = 0;
+	exe_cmd (gen->matrix, &exevars, &gen->envp);
 	return (0);
 }

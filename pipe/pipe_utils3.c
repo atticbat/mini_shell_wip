@@ -12,44 +12,21 @@
 
 #include "minishell.h"
 
-static int	error_pipe_count(int pipe_count, int *pipefds)
+
+
+void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 {
 	int	i;
-	
-	i = 0;
-	while (i < pipe_count)
-	{
-		if (pipe(pipefds + i * 2) < 0)
-		{
-			printf("piping fails\n");
-			exit (-1);
-		}
-		i++;
-	}
-	return i;
-}
 
-void	exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp)
-{
-	int	status;
-	int	i;
-	int	j;
-	int	*pipefds;
-	// int	exit_flag;
-
-	pipefds = malloc (sizeof (int) * (pipe_count * 2));
-	i = error_pipe_count(pipe_count, pipefds);
-	j = 0;
 	if (matrix && matrix->operator == '-')
 	{
-		exe_heredoc(matrix, pipe_count, pipefds, *envp);
+		exe_heredoc(matrix, exevars, *envp);
 		matrix = matrix->next;
 		if (matrix)
 			matrix = matrix->next;
 	}
 	while (matrix)
 	{
-		// exit_flag = 0;
 		if (matrix->operator == '|')
 		{
 			matrix = matrix->next;
@@ -63,31 +40,27 @@ void	exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp)
 				matrix = matrix->next;
 			continue ;
 		}
-		exe_pipe (matrix, pipe_count, pipefds, j, *envp);
+		exe_pipe (matrix, exevars, *envp);
 		if (cmd_searchlst(matrix->matrix[0]) == EXPORT_CMD)
 			ft_export(matrix->matrix, envp);
 		else if (cmd_searchlst(matrix->matrix[0]) == UNSET_CMD)
 			ft_unset(matrix->matrix, envp);
 		else if (cmd_searchlst(matrix->matrix[0]) == CD_CMD)
 			ft_cd(matrix->matrix);
-		// else if (cmd_searchlst(matrix->matrix[0]) == EXIT_CMD)
-			// exit_flag = 1;
 		if (matrix)
 			matrix = matrix->next;
-		j += 2;
+		exevars->index += 2;
 	}
 	i = 0;
-	while (i < pipe_count * 2)
+	while (i < exevars->pipe_count * 2)
 	{
-		close (pipefds[i]);
+		close (exevars->pipefds[i]);
 		i++;
 	}
 	i = 0;
-	while (i < pipe_count + 1)
+	while (i < exevars->pipe_count + 1)
 	{
-		wait (&status);
+		wait (&(exevars->status));
 		i++;
 	}
-	// if (exit_flag)
-		// exit(0);
 }

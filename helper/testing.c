@@ -45,21 +45,3 @@ void	print_all_matrix(t_matrix *lst)
 	}
 }
 
-void	print_execute(t_execute lst)
-{
-	int	i;
-
-	i = 0;
-	if (lst.arg1 == NULL)
-		return ;
-	while (lst.arg1[i] != NULL)
-		printf("arg1: %s \t", lst.arg1[i++]);
-	i = 0;
-	printf("\n");
-	if (lst.arg2 == NULL)
-		return ;
-	while (lst.arg2[i] != NULL)
-		printf("arg2: %s\t", lst.arg2[i++]);
-	printf("\noperator: %c", lst.operator);
-	printf("\n");
-}

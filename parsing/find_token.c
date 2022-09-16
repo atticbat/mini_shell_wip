@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 01:27:42 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/16 17:54:41 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ static int	get_token(t_general *gen)
 int	find_token(t_general *gen)
 {
 	int	i;
+	char	*buffer;
 
 	i = 0;
+	buffer = gen->in;
 	while (ft_strchr(WHITESPACE, gen->in[i]))
 		i++;
 	gen->in += i;
 	if (get_token(gen))
 		return (gen->error_no);
-	// print_all_token(gen->tokens);
+	free (buffer);
 	return (0);
 }

@@ -73,10 +73,10 @@ typedef struct s_matrix
 
 typedef struct s_execute
 {
-	char			**arg1;
-	char			**arg2;
-	char			operator;
-	char			*res_exe;
+	int	pipe_count;
+	int	*pipefds;
+	int	index;
+	int	status;
 }	t_execute;
 
 typedef struct s_general
@@ -188,16 +188,14 @@ int			check_valid_path(char *content);
 char		*find_path_str(char *name);
 void		free_paths(char **paths);
 /* execute */
-int			execute_cases(t_general *gen);
+int			execute_prep(t_general *gen);
 /* pipe */
 int			count_pipes(t_matrix *matrix);
-void		exe_cmd(t_matrix *matrix, int pipe_count, t_env **envp);
+void		exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);
 void		execute(char **arg, t_env *envp);
 int			redirect_right(t_matrix *matrix);
-void		exe_pipe(t_matrix *matrix, int pipe_count, int *pipefds, \
-	int j, t_env *envp);
-void		exe_heredoc(t_matrix *matrix, int pipe_count, int *pipefds, \
-	t_env *envp);
+void		exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp);
+void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp);
 void		looping_files(t_matrix *matrix, t_env *envp);
 void		looping_files2(t_matrix *matrix, t_env *envp);
 void		looping_files3(t_matrix *matrix);
