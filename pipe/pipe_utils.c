@@ -6,90 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 00:52:09 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/16 20:13:55 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*heredoc_input_stream(void)
-{
-	char	*final;
-
-	final = NULL;
-	write(1, HEREDOC, 9);
-	final = get_next_line(0);
-	if (!final)
-		write(1, "\n", 1);
-	return (final);
-}
-
-void	ft_heredoc(t_matrix *matrix, t_env *envp)
-{
-	char	*buffer1;
-	char	*buffer2;
-	int		filetemp;
-
-	filetemp = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	while (1)
-	{
-		buffer2 = heredoc_input_stream();
-		if (!ft_strncmp(matrix->next->matrix[0] + 1, buffer2, \
-			ft_strlen(matrix->next->matrix[0] + 1)) \
-			&& ft_strlen(matrix->next->matrix[0] + 1) == ft_strlen(buffer2) - 1)
-			break ;
-		if (matrix->next->matrix[0][0] == '<')
-			buffer1 = expand_dquote(buffer2, envp, 0);
-		else
-			buffer1 = ft_strdup(buffer2);
-		free (buffer2);
-		ft_putstr_fd(buffer1, filetemp);
-		free (buffer1);
-	}
-	close (filetemp);
-	filetemp = open (PATH_FILE_1, O_RDONLY, 0777);
-	dup2(filetemp, STDIN_FILENO);
-	close (filetemp);
-}
-
-void	exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp)
-{
-	pid_t	pid;
-	int		i;
-
-	i = 0;
-	pid = fork ();
-	if (pid == 0)
-	{
-		if (matrix && matrix->operator == '-')
-		{
-			if (matrix->next->matrix[0])
-				ft_heredoc(matrix, envp);
-		}
-		while (i < 2 * exevars->pipe_count)
-		{
-			close(exevars->pipefds[i]);
-			i++;
-		}
-		exit (0);
-	}
-}
-
-void	redirect_left(t_matrix *matrix)
-{	
-	int	fd;
-
-	fd = open (matrix->next->next->matrix[0], O_CREAT | O_RDONLY, 0777);
-	if (fd == -1)
-	{
-		printf("error file not found");
-		exit (-1);
-	}
-	if (matrix->next && matrix->next->next && matrix->next->next->next)
-		redirect_right(matrix->next->next->next);
-	dup2(fd, STDIN_FILENO);
-	close (fd);
-}
 
 static void	child_redirections(t_matrix *matrix, t_execute *exevars, \
 	t_env *envp)
@@ -126,4 +47,57 @@ void	exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp)
 		}
 		execute(matrix->matrix, envp);
 	}
+}
+
+int	count_pipes(t_matrix *matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix != NULL)
+	{
+		if (ft_strchr(OPERATOR, matrix->operator))
+			i++;
+		matrix = matrix->next;
+	}
+	return (i);
+}
+
+int	find_pipes(t_matrix *matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix)
+	{
+		if (matrix->operator == '|')
+			i++;
+		matrix = matrix->next;
+	}
+	return (i);
+}
+
+void	execute(char **arg, t_env *envp)
+{
+	char	cwd[PATH_MAX];
+	char	*buffer;
+
+	buffer = find_path_str(arg[0]);
+	if (cmd_searchlst(arg[0]) == ECHO_CMD)
+		ft_echo(arg);
+	else if (cmd_searchlst(arg[0]) == CD_CMD \
+		|| cmd_searchlst(arg[0]) == EXPORT_CMD \
+		|| cmd_searchlst(arg[0]) == UNSET_CMD \
+		|| cmd_searchlst(arg[0]) == EXIT_CMD)
+		;
+	else if (cmd_searchlst(arg[0]) == PWD_CMD)
+		printf("%s\n", getcwd(cwd, PATH_MAX));
+	else if (cmd_searchlst(arg[0]) == ENV_CMD)
+		ft_env(envp);
+	else if (buffer)
+	{
+		if (execv(buffer, arg) == -1)
+			exit (-1);
+	}
+	exit (0);
 }

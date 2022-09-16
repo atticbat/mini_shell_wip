@@ -6,87 +6,81 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/16 01:00:19 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/16 20:30:56 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_pipes(t_matrix *matrix)
+static void	heredoc_alone(t_matrix *matrix, t_execute *exevars, t_env *envp)
 {
-	int	i;
-
-	i = 0;
-	while (matrix != NULL)
+	if (matrix && matrix->operator == '-')
 	{
-		if (ft_strchr(OPERATOR, matrix->operator))
-			i++;
+		exe_heredoc(matrix, exevars, envp);
 		matrix = matrix->next;
+		if (matrix)
+			matrix = matrix->next;
 	}
-	return (i);
 }
 
-int	find_pipes(t_matrix *matrix)
+static int	skip_tokens(t_matrix **matrix)
+{
+	if ((*matrix)->operator == '|')
+	{
+		*matrix = (*matrix)->next;
+		return (1);
+	}
+	if ((*matrix)->operator == '>' || (*matrix)->operator == '+' \
+		|| (*matrix)->operator == '<' || (*matrix)->operator == '-')
+	{
+		*matrix = (*matrix)->next;
+		if (*matrix)
+			*matrix = (*matrix)->next;
+		return (1);
+	}
+	return (0);
+}
+
+static void	external_functions(t_matrix *matrix, t_env **envp)
+{
+	if (cmd_searchlst(matrix->matrix[0]) == EXPORT_CMD)
+		ft_export(matrix->matrix, envp);
+	else if (cmd_searchlst(matrix->matrix[0]) == UNSET_CMD)
+		ft_unset(matrix->matrix, envp);
+	else if (cmd_searchlst(matrix->matrix[0]) == CD_CMD)
+		ft_cd(matrix->matrix);
+}
+
+static void	close_all(t_execute *exevars)
 {
 	int	i;
 
 	i = 0;
+	while (i < exevars->pipe_count * 2)
+	{
+		close (exevars->pipefds[i]);
+		i++;
+	}
+	i = 0;
+	while (i < exevars->pipe_count + 1)
+	{
+		wait (&(exevars->status));
+		i++;
+	}
+}
+
+void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
+{
+	heredoc_alone(matrix, exevars, *envp);
 	while (matrix)
 	{
-		if (matrix->operator == '|')
-			i++;
-		matrix = matrix->next;
+		if (skip_tokens(&matrix))
+			continue ;
+		exe_pipe (matrix, exevars, *envp);
+		external_functions(matrix, envp);
+		if (matrix)
+			matrix = matrix->next;
+		exevars->index += 2;
 	}
-	return (i);
-}
-
-void	execute(char **arg, t_env *envp)
-{
-	char	cwd[PATH_MAX];
-	char	*buffer;
-
-	buffer = find_path_str(arg[0]);
-	if (cmd_searchlst(arg[0]) == ECHO_CMD)
-		ft_echo(arg);
-	else if (cmd_searchlst(arg[0]) == CD_CMD \
-		|| cmd_searchlst(arg[0]) == EXPORT_CMD \
-		|| cmd_searchlst(arg[0]) == UNSET_CMD \
-		|| cmd_searchlst(arg[0]) == EXIT_CMD)
-		;
-	else if (cmd_searchlst(arg[0]) == PWD_CMD)
-		printf("%s\n", getcwd(cwd, PATH_MAX));
-	else if (cmd_searchlst(arg[0]) == ENV_CMD)
-		ft_env(envp);
-	else if (buffer)
-	{
-		if (execv(buffer, arg) == -1)
-			exit (-1);
-	}
-	exit (0);
-}
-
-int	redirect_right(t_matrix *matrix)
-{
-	int	fd;
-
-	if (matrix && matrix->operator == '>')
-	{
-		fd = open(matrix->next->matrix[0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
-		if (fd == -1)
-			return (-1);
-		dup2(fd, STDOUT_FILENO);
-		close (fd);
-	}
-	else if (matrix && matrix->operator == '+')
-	{
-		fd = open(matrix->next->matrix[0], O_CREAT | O_WRONLY | O_APPEND, 0777);
-		if (fd == -1)
-			return (-1);
-		dup2(fd, STDOUT_FILENO);
-		close (fd);
-	}
-	else
-		return (-1);
-	close(fd);
-	return (0);
+	close_all(exevars);
 }

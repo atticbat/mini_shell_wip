@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 01:31:10 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/16 20:18:21 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,13 +194,9 @@ int			count_pipes(t_matrix *matrix);
 void		exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);
 void		execute(char **arg, t_env *envp);
 int			redirect_right(t_matrix *matrix);
+void		redirect_left(t_matrix *matrix);
 void		exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp);
 void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp);
-void		looping_files(t_matrix *matrix, t_env *envp);
-void		looping_files2(t_matrix *matrix, t_env *envp);
-void		looping_files3(t_matrix *matrix);
-
-
-
+void		ft_heredoc(t_matrix *matrix, t_env *envp);
 
 #endif
