@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 13:29:31 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/16 20:58:33 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,22 @@ static int	parse_nl_flag(char *content)
 	return (0);
 }
 
+static int	count_nl_flags(char **it)
+{
+	int	i;
+	int	count;
+
+	i = 1;
+	count = 0;
+	while (it[i])
+	{
+		if (!parse_nl_flag(it[i]))
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 void	ft_echo(char **it)
 {
 	char	*str;
@@ -60,7 +76,7 @@ void	ft_echo(char **it)
 		&& !parse_nl_flag(it[1]))
 	{
 		flag = 1;
-		str = ft_echo_exe(it + 2);
+		str = ft_echo_exe(it + count_nl_flags(it) + 1);
 	}
 	else
 		str = ft_echo_exe(it + 1);
