@@ -40,8 +40,9 @@ static void	initialise(t_general *gen, char **envp)
 static int  check_exit(t_general *gen)
 {
     t_token *temp;
+
     temp = gen->tokens;
-    while (temp->next)
+    while (temp)
     {
         if ((temp->type) == '|')
             return (0);
@@ -65,7 +66,9 @@ static int	input_loop(t_general *gen)
 		add_history(gen->in);
 		if (handle_error(find_token(gen), gen))
 			continue ;
-		if (check_exit(gen) == 1 && !ft_strncmp(gen->tokens->content, "exit", 4) \
+
+		if (check_exit(gen) == 1 &&  gen->tokens->content \
+			&& !ft_strncmp(gen->tokens->content, "exit", 4) \
             && ft_strlen(gen->tokens->content) == 4)
         {
         	printf("exit \n");
@@ -73,6 +76,7 @@ static int	input_loop(t_general *gen)
         }
 		if (handle_error(expand_variable(gen), gen))
 			continue ;
+
 		if (handle_error(parse_function(gen), gen))
 			continue ;
 		if (handle_error(execute_prep(gen), gen))
