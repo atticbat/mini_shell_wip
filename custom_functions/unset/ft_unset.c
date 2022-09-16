@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 08:25:31 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 13:39:42 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/16 20:43:28 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	ft_unset(char **it, t_env **envp)
 	t_env	*existing;
 
 	if (!it || !it[1])
-		exit (-1);
+		return ;
 	existing = find_env(*envp, it[1]);
 	if (existing)
 	{
 		if (ft_unset_exe(envp, existing->name))
-			exit (-1);
+			return ;
 	}
 }

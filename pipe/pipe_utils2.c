@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/16 20:30:56 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/16 20:40:39 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ static int	skip_tokens(t_matrix **matrix)
 
 static void	external_functions(t_matrix *matrix, t_env **envp)
 {
-	if (cmd_searchlst(matrix->matrix[0]) == EXPORT_CMD)
+	if (!matrix)
+		;
+	else if (cmd_searchlst(matrix->matrix[0]) == EXPORT_CMD)
 		ft_export(matrix->matrix, envp);
 	else if (cmd_searchlst(matrix->matrix[0]) == UNSET_CMD)
 		ft_unset(matrix->matrix, envp);

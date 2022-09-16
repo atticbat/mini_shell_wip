@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/15 15:06:36 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/16 20:43:06 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,12 @@ static void	check_existing(t_env **envp, char *final, t_env *existing)
 	if (existing)
 	{
 		if (ft_export_replace_exe(envp, final, existing->name))
-		{
 			free (final);
-			exit (-1);
-		}
 	}
 	else
 	{
 		if (ft_export_exe(envp, final))
-		{
 			free (final);
-			exit (-1);
-		}
 	}
 }
 
@@ -83,10 +77,10 @@ void	ft_export(char **it, t_env **envp)
 	final = NULL;
 	buffer = it[1];
 	if (!buffer || !check_variable(buffer))
-		exit (-1);
+		return ;
 	existing = find_env(*envp, buffer);
 	if (!(it[2]) || it[2][0] != '=')
-		exit (-1);
+		return ;
 	final = ft_strjoin(buffer, it[2]);
 	check_existing (envp, final, existing);
 	free (final);
