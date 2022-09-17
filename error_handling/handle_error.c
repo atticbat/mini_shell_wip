@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/15 17:48:01 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 18:48:24 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@ int	handle_error(int error, t_general *gen)
 {
 	if (error == 1)
 	{
-		write (2, "you pressed ctrl d xddd lmao\n", 29);
+		write (2, "minishell $ exit\n", 17);
 		free_all(gen);
 		erase_temp();
+	}
+	else if (error == 2)
+	{
+		write (2, "command not found\n", 18);
+		reset(gen);
 	}
 	else if (error)
 	{

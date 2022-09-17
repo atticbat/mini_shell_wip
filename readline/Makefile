@@ -31,7 +31,7 @@ PACKAGE_TARNAME = readline
 srcdir = .
 
 top_srcdir = .
-BUILD_DIR = /Users/khatlas/Submissions/ms_new/readline
+BUILD_DIR = /Users/aparedes/Desktop/advancemini/mini_shell_wip/readline
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}

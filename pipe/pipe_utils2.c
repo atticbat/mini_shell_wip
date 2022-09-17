@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/16 20:40:39 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 19:20:21 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void	external_functions(t_matrix *matrix, t_env **envp)
 		ft_unset(matrix->matrix, envp);
 	else if (cmd_searchlst(matrix->matrix[0]) == CD_CMD)
 		ft_cd(matrix->matrix);
+	else if(matrix->operator == 'N' && !matrix->matrix[1])
+		perror("Command not found");
 }
 
 static void	close_all(t_execute *exevars)

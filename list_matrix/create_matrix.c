@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_matrix.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 18:27:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 01:21:30 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 19:22:21 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	add_funct(t_general *gen, t_token **it)
 	matrix_c = NULL;
 	if ((*it)->content[ft_strlen((*it)->content) - 1] == ' ')
 		(*it)->content[ft_strlen((*it)->content) - 1] = '\0';
-	if (!check_valid_path((*it)->content))
+	if (!check_valid_path((*it)->content) || cmd_searchlst((*it)->content))
 		operator = 'F';
 	else
 		operator = 'N';

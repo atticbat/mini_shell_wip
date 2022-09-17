@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 17:57:09 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 18:48:14 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static int	input_loop(t_general *gen)
 	while (1)
 	{
 		gen->in = readline(PROMPT);
+		
 		if (!gen->in || gen->in[0] == EOF)
 		{
 			handle_error(1, gen);
@@ -66,7 +67,6 @@ static int	input_loop(t_general *gen)
 		add_history(gen->in);
 		if (handle_error(find_token(gen), gen))
 			continue ;
-
 		if (check_exit(gen) == 1 &&  gen->tokens->content \
 			&& !ft_strncmp(gen->tokens->content, "exit", 4) \
             && ft_strlen(gen->tokens->content) == 4)

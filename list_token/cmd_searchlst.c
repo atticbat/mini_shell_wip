@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 22:21:51 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/12 15:40:08 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 19:22:59 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	cmd_searchlst(char *content)
 		return (ENV_CMD);
 	else if (!(ft_strncmp(content, "exit", len)))
 		return (EXIT_CMD);
-	else
-		return (EXTER_CMD);
+	// else
+	// 	return (EXTER_CMD);
 	return (0);
 }
 
