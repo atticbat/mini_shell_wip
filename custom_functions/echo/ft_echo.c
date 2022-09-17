@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 20:58:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 17:49:00 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_echo(char **it)
 	if (!str)
 		return ;
 	if (flag)
-		printf("%s%%\n", str);
+		printf("%s", str);
 	else
 		printf("%s\n", str);
 	free (str);
