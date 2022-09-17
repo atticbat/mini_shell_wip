@@ -6,20 +6,24 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 17:49:00 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 20:00:08 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_echo_exe(char **it)
+static char	*ft_echo_exe(char **it, int flag)
 {
 	char	*buffer;
 	char	*final;
 	int		i;
 
 	if (!it || !*it)
-		return (NULL);
+	{
+		if (!flag)
+			printf("\n");
+		exit (-1);
+	}
 	final = ft_strdup(it[0]);
 	i = 1;
 	while (it[i] != NULL)
@@ -76,10 +80,10 @@ void	ft_echo(char **it)
 		&& !parse_nl_flag(it[1]))
 	{
 		flag = 1;
-		str = ft_echo_exe(it + count_nl_flags(it) + 1);
+		str = ft_echo_exe(it + count_nl_flags(it) + 1, flag);
 	}
 	else
-		str = ft_echo_exe(it + 1);
+		str = ft_echo_exe(it + 1, flag);
 	if (!str)
 		return ;
 	if (flag)
