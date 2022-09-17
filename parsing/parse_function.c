@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:11:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 01:26:51 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 01:51:37 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,5 @@ int	parse_function(t_general *gen)
 		return (gen->error_no);
 	}
 	create_matrix(&it, gen);
-	// print_all_matrix(gen->matrix);
 	return (0);
 }

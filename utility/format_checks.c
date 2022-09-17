@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:48:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 01:19:45 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 03:30:13 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int		check_variable_char(char c)
 {
-    if (c < '0' || (c >= ':' && c <= '@') || (c >= '[' && c < '_') \
-        || (c > '_' && c <= '`') || (c >= '{' && c <= 127))
+    if (c < '-' || (c > '-' && c < '0') || (c >= ':' && c <= '@') \
+		|| (c >= '[' && c < '_') || (c > '_' && c <= '`') \
+		|| (c >= '{' && c <= 127))
         return(0);
     return (1);
 }
@@ -31,7 +32,7 @@ int		check_exception_char(char c)
 int		check_arg_char(char c)
 {
     if (c < '!' || c == '\"' || (c >= '&' && c <= '*') || c == ';' \
-        || c == '<' || c == '>' || c == '?' || c == '\\' || c == '`' \
+        || c == '<' || c == '>' || c == '?' || c == '`' || c == '\\' \
         || c == '|' || c >= '~' || c == '=' || c == '$')
         return(0);
     return (1);
@@ -67,9 +68,9 @@ int check_format(t_token *var)
 	{
 		var = var->next;
 	}
-	if (var->type == '&' || (var->type) == '\"' || (var->type) == '\''
-		||  (var->type) == '>' ||(var->type) == '<' ||(var->type ) == '+'
-		|| (var->type ) == '|' || (var->type ) == '-')
+	if ((var->type) == 'd' || (var->type) == 's' || (var->type) == '>' \
+		|| (var->type) == '<' ||(var->type ) == '+' || (var->type ) == '|' \
+		|| (var->type ) == '-')
 	{
 		if(var->next == NULL)
 			return (0);
@@ -83,9 +84,9 @@ int check_format(t_token *var)
 		else
 			var = var->next;
 	}
-	if (var->type == '&' || (var->type) == 's' || (var->type) == 'd'
-		||  (var->type) == '>' ||(var->type) == '<' ||(var->type ) == '+'
-		|| (var->type ) == '|' || (var->type ) == '-')
+	if ((var->type) == 's' || (var->type) == 'd' || (var->type) == '>' \
+		|| (var->type) == '<' ||(var->type ) == '+' || (var->type ) == '|' \
+		|| (var->type ) == '-')
 		flag = 0;
 	if(flag == 0)
 		return (0);
