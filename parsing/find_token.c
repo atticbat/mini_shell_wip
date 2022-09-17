@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 18:49:16 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 19:51:17 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,35 @@ static void	cycle_whitespace(t_general *gen)
 		if (gen->in[gen->to] != '\0' && check_arg_char(gen->in[gen->to]))
 			gen->flag = 0;
 	}
-	else if (gen->in[gen->to] != '\0')
+	else if (gen->in[gen->to] != '\0' && gen->in[gen->to] != '\\')
 		gen->to++;
+}
+
+static int	extract_escaped_chars(t_general *gen)
+{
+	char	new_char[2];
+	int		flag;
+
+	flag = 0;
+	if (gen->in[gen->to] == '\\')
+	{
+		if (gen->in[gen->to + 1] != '\0' \
+			&& !ft_strchr(WHITESPACE, gen->in[gen->to + 1]))
+		{
+			gen->to++;
+			new_char[0] = gen->in[gen->to];
+			new_char[1] = '\0';
+			token_add_back(&gen->tokens, token_new('a', ft_strdup(new_char)));
+			flag = 1;
+		}
+		gen->to++;
+		gen->from = gen->to;
+		if (gen->in[gen->to] != '\0' && check_arg_char(gen->in[gen->to]))
+			gen->flag = 0;
+	}
+	if (check_arg_end(gen->in + gen->to) && flag)
+		token_add_back(&gen->tokens, token_new('a', ft_strdup(" ")));
+	return (0);
 }
 
 static int	get_token(t_general *gen)
@@ -30,6 +57,8 @@ static int	get_token(t_general *gen)
 	while (gen->in[gen->to] != '\0')
 	{
 		if (extract_arg_node(gen))
+			return (gen->error_no);
+		else if (extract_escaped_chars(gen))
 			return (gen->error_no);
 		else if (extract_token_node(gen))
 			return (gen->error_no);
