@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 23:36:29 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/18 00:51:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,22 @@ static void	check_existing(t_env **envp, char *final, t_env *existing)
 	}
 }
 
+static char	*get_name(char *it)
+{
+	int		i;
+
+	i = 0;
+	if (!it)
+		return (NULL);
+	while (it[i])
+	{
+		if (it[i + 1] == '=')
+			return (ft_substr(it, 0, i));
+		i++;
+	}
+	return (NULL);
+}
+
 void	ft_export(char **it, t_env **envp)
 {
 	char	*buffer;
@@ -75,13 +91,14 @@ void	ft_export(char **it, t_env **envp)
 	t_env	*existing;
 
 	final = NULL;
-	buffer = it[1];
+	buffer = get_name(it[1]);
 	if (!buffer || !check_variable(buffer))
 		return ;
 	existing = find_env(*envp, buffer);
-	if (!(it[2]) || it[2][0] != '=')
+	free (buffer);
+	if (!(it[1]) || !ft_strchr(it[1], '='))
 		return ;
-	final = ft_strjoin(buffer, it[2]);
+	final = ft_strdup(it[1]);
 	check_existing (envp, final, existing);
 	free (final);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_matrix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 18:52:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 15:36:38 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/18 00:57:54 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ char	**extract_matrix(t_token **it)
 	while (*it && (*it)->type == 'a')
 	{
 		if ((*it)->content[ft_strlen((*it)->content) - 1] == ' ' \
-			&& (ft_strncmp(matrix_c[0], "echo", 4) \
-			&& ft_strlen(matrix_c[0]) == 4))
+			&& (ft_strncmp(matrix_c[0], "echo", 4)))
 			(*it)->content[ft_strlen((*it)->content) - 1] = '\0';
 		matrix_c[i] = ft_strdup((*it)->content);
 		*it = (*it)->next;
