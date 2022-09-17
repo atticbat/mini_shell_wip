@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_env	*env_new(char *name, char *content)
+t_env	*env_new(char *name, char *content, int user_set)
 {
 	t_env	*result;
 
@@ -21,6 +21,7 @@ t_env	*env_new(char *name, char *content)
 		return (NULL);
 	result->name = name;
 	result->content = content;
+	result->user_set = user_set;
 	result->next = NULL;
 	return (result);
 }

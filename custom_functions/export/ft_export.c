@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 18:15:08 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 21:51:30 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	ft_export_exe(t_env **envp, char *add)
 		it = it2;
 		it2 = it2->next;
 	}
-	it->next = env_new(extract_env_name(add), extract_env_content(add));
+	it->next = env_new(extract_env_name(add), extract_env_content(add), 1);
 	it = it->next;
 	it->next = it2;
 	return (0);
@@ -75,6 +75,8 @@ void	ft_export(char **it, t_env **envp)
 	t_env	*existing;
 
 	final = NULL;
+	if (!it[1])
+		export_print_vars(*envp);
 	buffer = it[1];
 	if (!buffer || !check_variable(buffer))
 		return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_envp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:58:52 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/17 18:32:56 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 21:51:12 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	copy_envp(char **envp, t_general *gen)
 			gen->error_no = -1;
 			return (gen->error_no);
 		}
-		env_add_back(&gen->envp, env_new(buffer, buffer2));
+		env_add_back(&gen->envp, env_new(buffer, buffer2, 0));
 		index++;
 	}
 	return (0);

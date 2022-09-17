@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 18:42:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 13:35:13 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 20:55:05 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*construct_line(char *name, char *content, char *end)
+static char	*construct_line(char *name, char *content, char *end)
 {
 	char	*final;
 	char	*buffer;

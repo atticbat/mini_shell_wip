@@ -28,6 +28,7 @@ FUNCTS	=	minishell.c					\
 				copy_envp.c				\
 				ft_getenv.c				\
 				ft_export.c				\
+				export_print_vars.c		\
 				ft_unset.c				\
 				ft_cd.c					\
 				get_next_line_utils.c 	\

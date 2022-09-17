@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 01:02:11 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 21:50:54 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_token
 
 typedef struct s_env
 {
+	int				user_set;
 	char			*name;
 	char			*content;
 	struct s_env	*next;
@@ -148,6 +149,7 @@ char		*ft_getenv(t_env *envp, char *search);
 t_env		*find_env(t_env *envp, char *search);
 /* export */
 void		ft_export(char **it, t_env **envp);
+void		export_print_vars(t_env *envp);
 int			ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
 void		ft_unset(char **it, t_env **envp);
@@ -166,8 +168,9 @@ void		env_add_front(t_env **lst, t_env *new);
 void		env_clear(t_env **lst, void (*del)(void *));
 void		env_delone(t_env *lst, void (*del)(void *));
 t_env		*env_last(t_env *lst);
-t_env		*env_new(char *name, char *content);
+t_env		*env_new(char *name, char *content, int user_set);
 void		env_find(t_general *gen, char *search);
+int			env_size(t_env *lst);
 /* linked list matrix */
 void		matrix_add_back(t_matrix **lst, t_matrix *new);
 void		matrix_add_front(t_matrix **lst, t_matrix *new);
