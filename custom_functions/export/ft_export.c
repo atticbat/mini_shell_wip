@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 21:51:30 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/17 23:36:29 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ void	ft_export(char **it, t_env **envp)
 	t_env	*existing;
 
 	final = NULL;
-	if (!it[1])
-		export_print_vars(*envp);
 	buffer = it[1];
 	if (!buffer || !check_variable(buffer))
 		return ;

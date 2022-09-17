@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 18:37:18 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 23:35:23 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,15 @@ void	execute(char **arg, t_env *envp)
 		ft_echo(arg);
 	else if (cmd_searchlst(arg[0]) == CD_CMD \
 		|| cmd_searchlst(arg[0]) == UNSET_CMD \
-		|| cmd_searchlst(arg[0]) == EXIT_CMD)
+		|| cmd_searchlst(arg[0]) == EXIT_CMD
+		|| (cmd_searchlst(arg[0]) == EXPORT_CMD && arg[1]))
 		;
 	else if (cmd_searchlst(arg[0]) == PWD_CMD)
 		printf("%s\n", getcwd(cwd, PATH_MAX));
 	else if (cmd_searchlst(arg[0]) == ENV_CMD && !arg[1])
 		ft_env(envp);
+	else if (cmd_searchlst(arg[0]) == EXPORT_CMD && !arg[1])
+		export_print_vars(envp);
 	else if (buffer)
 	{
 		if (execv(buffer, arg) == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/17 19:20:21 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/17 23:33:02 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static void	external_functions(t_matrix *matrix, t_env **envp)
 {
 	if (!matrix)
 		;
-	else if (cmd_searchlst(matrix->matrix[0]) == EXPORT_CMD)
+	else if (cmd_searchlst(matrix->matrix[0]) == EXPORT_CMD \
+		&& matrix->matrix[1])
 		ft_export(matrix->matrix, envp);
 	else if (cmd_searchlst(matrix->matrix[0]) == UNSET_CMD)
 		ft_unset(matrix->matrix, envp);
