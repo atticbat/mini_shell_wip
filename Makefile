@@ -58,6 +58,7 @@ FUNCTS	=	minishell.c					\
 				find_path.c				\
 				check_valid_path.c		\
 				execute.c				\
+				builtin_executions.c	\
 				pipe_utils.c			\
 				pipe_utils2.c			\
 				redirections.c			\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 18:16:54 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/18 21:38:52 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ char		*get_next_line(int fd);
 /* echo */
 void		ft_echo(char **it);
 /* cd */
-void		ft_cd(char **it);
+void		ft_cd(t_token *it);
 /* pwd */
 char		*ft_pwd(char *buff);
 /* env */
@@ -150,11 +150,11 @@ void		ft_env(t_env *envp);
 char		*ft_getenv(t_env *envp, char *search);
 t_env		*find_env(t_env *envp, char *search);
 /* export */
-void		ft_export(char **it, t_env **envp);
+void		ft_export(t_token *it, t_env **envp);
 void		export_print_vars(t_env *envp);
 int			ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
-void		ft_unset(char **it, t_env **envp);
+void		ft_unset(t_token *it, t_env **envp);
 /* parse_function */
 int			parse_function(t_general *gen);
 void		toggle_arg(t_general *gen, int (*f)(char));
@@ -195,6 +195,7 @@ char		*find_path_str(char *name);
 void		free_paths(char **paths);
 /* execute */
 int			execute_prep(t_general *gen);
+int			builtin_executions(t_general *gen);
 /* pipe */
 int			count_pipes(t_matrix *matrix);
 void		exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);

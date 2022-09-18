@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 08:25:31 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 20:43:28 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/18 21:37:38 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ static int	ft_unset_exe(t_env **envp, char *name)
 	return (0);
 }
 
-void	ft_unset(char **it, t_env **envp)
+void	ft_unset(t_token *it, t_env **envp)
 {
 	t_env	*existing;
 
-	if (!it || !it[1])
+	if (!it || !it->next || !it->next->content)
 		return ;
-	existing = find_env(*envp, it[1]);
+	it = it->next;
+	existing = find_env(*envp, it->content);
 	if (existing)
 	{
 		if (ft_unset_exe(envp, existing->name))

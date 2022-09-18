@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 18:48:14 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/18 21:39:43 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ static void	initialise(t_general *gen, char **envp)
 	set_listeners();
 }
 
-static int  check_exit(t_general *gen)
-{
-    t_token *temp;
+// static int  check_exit(t_general *gen)
+// {
+//     t_token *temp;
 
-    temp = gen->tokens;
-    while (temp)
-    {
-        if ((temp->type) == '|')
-            return (0);
-        temp = temp->next;
-    }
-    return (1);
-}
+//     temp = gen->tokens;
+//     while (temp)
+//     {
+//         if ((temp->type) == '|')
+//             return (0);
+//         temp = temp->next;
+//     }
+//     return (1);
+// }
 
 static int	input_loop(t_general *gen)
 {
@@ -67,13 +67,8 @@ static int	input_loop(t_general *gen)
 		add_history(gen->in);
 		if (handle_error(find_token(gen), gen))
 			continue ;
-		if (check_exit(gen) == 1 &&  gen->tokens->content \
-			&& !ft_strncmp(gen->tokens->content, "exit", 4) \
-            && ft_strlen(gen->tokens->content) == 4)
-        {
-        	printf("exit \n");
+		if (builtin_executions(gen))
         	break ;
-        }
 		if (handle_error(expand_variable(gen), gen))
 			continue ;
 

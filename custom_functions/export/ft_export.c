@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 21:29:47 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/18 21:37:59 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,21 +106,22 @@ static char	*get_name(char *it)
 	return (NULL);
 }
 
-void	ft_export(char **it, t_env **envp)
+void	ft_export(t_token *it, t_env **envp)
 {
 	char	*buffer;
 	char	*final;
 	t_env	*existing;
 
 	final = NULL;
-	buffer = get_name(it[1]);
+	it = it->next;
+	buffer = get_name(it->content);
 	if (!buffer || !check_variable(buffer))
 		return ;
 	existing = find_env(*envp, buffer);
 	free (buffer);
-	if (!(it[1]) || !ft_strchr(it[1], '='))
+	if (!(it->content) || !ft_strchr(it->content, '='))
 		return ;
-	final = ft_strdup(it[1]);
+	final = ft_strdup(it->content);
 	check_existing (envp, final, existing);
 	free (final);
 }
