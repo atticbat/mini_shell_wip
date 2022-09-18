@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 21:50:54 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/18 03:46:01 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int			ft_export_replace_exe(t_env **envp, char *add, char *name);
 void		ft_unset(char **it, t_env **envp);
 /* parse_function */
 int			parse_function(t_general *gen);
-void		check_quote(t_general *gen, int (*f)(char));
+void		toggle_arg(t_general *gen, int (*f)(char));
 
 /* CHECKER FUNCTION */
 void		check_cmd(t_token **inpt, int flag);
@@ -188,7 +188,7 @@ int			handle_error(int error, t_general *gen);
 int			error_extract_var(t_general *gen);
 
 /* find path */
-int			check_valid_path(char *content);	
+int			check_env(char *content);
 char		*find_path_str(char *name);
 void		free_paths(char **paths);
 /* execute */

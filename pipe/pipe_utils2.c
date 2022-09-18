@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/17 23:33:02 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/18 03:36:55 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	external_functions(t_matrix *matrix, t_env **envp)
 		ft_unset(matrix->matrix, envp);
 	else if (cmd_searchlst(matrix->matrix[0]) == CD_CMD)
 		ft_cd(matrix->matrix);
-	else if(matrix->operator == 'N' && !matrix->matrix[1])
+	else if (matrix->operator == 'N')
 		perror("Command not found");
 }
 

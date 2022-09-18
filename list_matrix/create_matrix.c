@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 18:27:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 00:53:37 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/18 03:47:09 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	add_funct(t_general *gen, t_token **it)
 	matrix_c = NULL;
 	if ((*it)->content[ft_strlen((*it)->content) - 1] == ' ')
 		(*it)->content[ft_strlen((*it)->content) - 1] = '\0';
-	if (!check_valid_path((*it)->content) || cmd_searchlst((*it)->content))
+	if (!check_env((*it)->content) || cmd_searchlst((*it)->content))
 		operator = 'F';
 	else
 		operator = 'N';

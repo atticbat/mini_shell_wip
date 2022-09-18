@@ -6,13 +6,13 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 15:43:40 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/16 01:30:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/18 03:46:49 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void	check_env(char *content)
+int	check_env(char *content)
 {
 	int		i;
 	char	*part_path;
@@ -31,19 +31,21 @@ static	void	check_env(char *content)
 		{
 			free (path);
 			free_paths(paths);
-			return ;
+			return (0);
 		}
 		i++;
 	}
 	free_paths(paths);
-}
-
-int	check_valid_path(char *content)
-{
-	if ((!ft_strncmp(content, "unset", 5) && ft_strlen(content) == 5) \
-		|| (!ft_strncmp(content, "export", 6) && ft_strlen(content) == 6) \
-		|| (!ft_strncmp(content, "exit", 4) && ft_strlen(content) == 4))
-		return (0);
-	check_env(content);
 	return (-1);
 }
+
+// int	check_valid_path(char *content)
+// {
+// 	if ((!ft_strncmp(content, "unset", 5) && ft_strlen(content) == 5) \
+// 		|| (!ft_strncmp(content, "export", 6) && ft_strlen(content) == 6) \
+// 		|| (!ft_strncmp(content, "exit", 4) && ft_strlen(content) == 4))
+// 		return (0);
+// 	if (!check_env(content))
+// 		r
+// 	return (-1);
+// }
