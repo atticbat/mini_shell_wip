@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 21:37:59 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/18 22:21:46 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,25 @@ static void	check_existing(t_env **envp, char *final, t_env *existing)
 			free (final);
 	}
 }
-// static int	let_me_finish_many_equals(char *var)
-// {
-// 	int	i;
-// 	int	n_eg;
+static int	check_equals(char *var)
+{
+	int		i;
+	int		n_eg;
+	char	*temp;
 
-// 	i = 0;
-// 	n_eg = 0;
-// 	while (var)
-// 	{
-// 		if (var[i] == '=')
-// 			n_eg += 1;
-// 		i++;
-// 	}
-// 	if (n_eg > 1)
-// 		return (1);
-// 	return (0);
-// } 
+	i = 0;
+	n_eg = 0;
+	temp = var;
+	while (i < (int)ft_strlen(temp))
+	{
+		if (temp[i] == '=')
+			n_eg += 1;
+		i++;
+	}
+	if (n_eg > 1)
+		return (1);
+	return (0);
+} 
 
 static char	*get_name(char *it)
 {
@@ -92,11 +94,8 @@ static char	*get_name(char *it)
 	i = 0;
 	if (!it)
 		return (NULL);
-	// if(!let_me_finish_many_equals(it))
-	// {
-	// 	printf("works\n");
-	// 	return (NULL);
-	// }
+	if(check_equals(it))
+		return (NULL);
 	while (it[i])
 	{
 		if (it[i + 1] == '=')
@@ -114,6 +113,12 @@ void	ft_export(t_token *it, t_env **envp)
 
 	final = NULL;
 	it = it->next;
+	if(it->next && it->next->content
+		&& ft_strchr(it->next->content, '\\'))
+	{
+		printf("export: not a valid identifier\n");
+		return ;
+	}
 	buffer = get_name(it->content);
 	if (!buffer || !check_variable(buffer))
 		return ;
