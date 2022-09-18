@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 03:46:01 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/18 18:16:54 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # define OPERATOR "+-&|<>"
 # define REDIRECTIONS "+-<>"
 # define BASH_NULL ""
+# define EXPO_ERROR "\\-*#@!"
+
 /* Nomenclature for type of cmd's asked  */
 # define ECHO_CMD 1
 # define CD_CMD 2

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_quote_node.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:14:44 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 02:41:02 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/18 16:17:54 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	toggle_arg(t_general *gen, int (*f)(char))
 		gen->flag = 0;
 	}
 	else
+	{
+		printf("export : not a valid command identifier \n");
 		gen->flag = 1;
+	}
 }
 
 static void	check_quote(t_general *gen, int start, char *final)
