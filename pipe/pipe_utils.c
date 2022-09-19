@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 12:19:53 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:10:12 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ void	execute(char **arg, t_env *envp)
 	char	cwd[PATH_MAX];
 	char	*buffer;
 
+	if (!check_file(arg[0]))
+		if (execv(arg[0], arg) == -1)
+			exit (-1);
 	buffer = find_path_str(arg[0]);
 	if (cmd_searchlst(arg[0]) == ECHO_CMD)
 		ft_echo(arg);
@@ -97,9 +100,7 @@ void	execute(char **arg, t_env *envp)
 	else if (cmd_searchlst(arg[0]) == EXPORT_CMD && !arg[1])
 		export_print_vars(envp);
 	else if (buffer)
-	{
 		if (execv(buffer, arg) == -1)
 			exit (-1);
-	}
 	exit (0);
 }

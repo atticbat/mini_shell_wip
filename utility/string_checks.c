@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 00:18:22 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 00:23:13 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/19 17:16:28 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,11 @@ int	check_variable(char *var)
 			i++;
 	}
 	return (1);
+}
+
+int	check_file(char *arg)
+{
+	if (access(arg, F_OK) == 0)
+		return (0);
+	return (-1);
 }

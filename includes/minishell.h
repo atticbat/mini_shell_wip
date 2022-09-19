@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 10:14:07 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:07:56 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ int			check_format(t_token *in);
 int			cmd_searchlst(char *content);
 int			cmd_check_contained(t_token *head);
 int			check_variable_str(char *str);
+int			check_file(char *arg);
+
 /* linked list env */
 void		env_add_back(t_env **lst, t_env *new);
 void		env_add_front(t_env **lst, t_env *new);
