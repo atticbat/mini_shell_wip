@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 21:38:52 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/19 00:21:46 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define WHITESPACE "\t\r\n\v "
 # define QUOTES "\"\'"
 # define TOKENS "<|>&"
-# define OPERATOR "+-&|<>"
+# define OPERATOR "+-|<>"
 # define REDIRECTIONS "+-<>"
 # define BASH_NULL ""
 # define EXPO_ERROR "\\-*#@!"
@@ -101,6 +101,7 @@ void		reset(t_general *gen);
 void		free_all(t_general *gen);
 void		erase_temp(void);
 /* format checks */
+int			check_variable_export(char *var);
 int			check_variable(char *var);
 int			check_variable_char(char c);
 int			check_arg_char(char c);

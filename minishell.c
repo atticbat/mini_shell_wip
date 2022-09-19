@@ -37,26 +37,11 @@ static void	initialise(t_general *gen, char **envp)
 	set_listeners();
 }
 
-// static int  check_exit(t_general *gen)
-// {
-//     t_token *temp;
-
-//     temp = gen->tokens;
-//     while (temp)
-//     {
-//         if ((temp->type) == '|')
-//             return (0);
-//         temp = temp->next;
-//     }
-//     return (1);
-// }
-
-static int	input_loop(t_general *gen)
+static void	input_loop(t_general *gen)
 {
 	while (1)
 	{
 		gen->in = readline(PROMPT);
-		
 		if (!gen->in || gen->in[0] == EOF)
 		{
 			handle_error(1, gen);
@@ -68,27 +53,30 @@ static int	input_loop(t_general *gen)
 		if (handle_error(find_token(gen), gen))
 			continue ;
 		if (builtin_executions(gen))
-        	break ;
+			break ;
 		if (handle_error(expand_variable(gen), gen))
 			continue ;
-
 		if (handle_error(parse_function(gen), gen))
 			continue ;
 		if (handle_error(execute_prep(gen), gen))
 			continue ;
 		reset(gen);
 	}
-	free_all(gen);
-	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_general	gen;
 
+	if (!envp)
+	{
+		printf("Environment not found. Aborting\n");
+		return (-1);
+	}
 	(void) argc;
 	(void) argv;
 	initialise (&gen, envp);
 	input_loop (&gen);
+	free_all(&gen);
 	return (0);
 }

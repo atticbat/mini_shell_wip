@@ -18,9 +18,11 @@ FUNCTS	=	minishell.c					\
 				cmd_searchlst.c			\
 				expand_variable.c		\
 				expand_var_utils.c		\
+				expand_var_utils2.c		\
 				utilities.c				\
 				string_operations.c		\
 				format_checks.c			\
+				string_checks.c			\
 				parse_function.c		\
 				ft_echo.c				\
 				ft_pwd.c				\
@@ -28,6 +30,7 @@ FUNCTS	=	minishell.c					\
 				copy_envp.c				\
 				ft_getenv.c				\
 				ft_export.c				\
+				export_utils.c			\
 				export_print_vars.c		\
 				ft_unset.c				\
 				ft_cd.c					\

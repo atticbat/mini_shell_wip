@@ -15,7 +15,7 @@
 static void	open_pipes(int pipe_count, int *pipefds)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < pipe_count)
 	{

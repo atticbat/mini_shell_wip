@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 22:21:46 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/19 00:41:09 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_export_replace_exe(t_env **envp, char *add, char *name)
-{
-	t_env	*it;
-	size_t	len;
-
-	if (!envp || !*envp || !(*envp)->next || !add)
-		return (-1);
-	it = *envp;
-	len = ft_strlen(name);
-	while (it != NULL)
-	{
-		if (!ft_strncmp(it->name, name, len) && ft_strlen(it->name) == len)
-		{
-			free (it->content);
-			it->content = extract_env_content(add);
-			break ;
-		}
-		it = it->next;
-	}
-	return (0);
-}
 
 static int	ft_export_exe(t_env **envp, char *add)
 {
@@ -67,6 +45,7 @@ static void	check_existing(t_env **envp, char *final, t_env *existing)
 			free (final);
 	}
 }
+
 static int	check_equals(char *var)
 {
 	int		i;
@@ -85,7 +64,7 @@ static int	check_equals(char *var)
 	if (n_eg > 1)
 		return (1);
 	return (0);
-} 
+}
 
 static char	*get_name(char *it)
 {
@@ -94,12 +73,12 @@ static char	*get_name(char *it)
 	i = 0;
 	if (!it)
 		return (NULL);
-	if(check_equals(it))
+	if (check_equals(it))
 		return (NULL);
 	while (it[i])
 	{
 		if (it[i + 1] == '=')
-			return (ft_substr(it, 0, i));
+			return (ft_substr(it, 0, i + 1));
 		i++;
 	}
 	return (NULL);
@@ -113,14 +92,14 @@ void	ft_export(t_token *it, t_env **envp)
 
 	final = NULL;
 	it = it->next;
-	if(it->next && it->next->content
+	if (it->next && it->next->content \
 		&& ft_strchr(it->next->content, '\\'))
 	{
 		printf("export: not a valid identifier\n");
 		return ;
 	}
 	buffer = get_name(it->content);
-	if (!buffer || !check_variable(buffer))
+	if (!buffer || !check_variable_export(buffer))
 		return ;
 	existing = find_env(*envp, buffer);
 	free (buffer);

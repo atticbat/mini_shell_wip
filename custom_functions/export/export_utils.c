@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_valid_path.c                                 :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/15 15:43:40 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/18 03:46:49 by khatlas          ###   ########.fr       */
+/*   Created: 2022/09/18 23:44:17 by khatlas           #+#    #+#             */
+/*   Updated: 2022/09/18 23:44:19 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_env(char *content)
+int	ft_export_replace_exe(t_env **envp, char *add, char *name)
 {
-	int		i;
-	char	*part_path;
-	char	*path;
-	char	**paths;
+	t_env	*it;
+	size_t	len;
 
-	paths = NULL;
-	paths = ft_split(getenv("PATH"), ':');
-	i = 0;
-	while (paths[i])
+	if (!envp || !*envp || !(*envp)->next || !add)
+		return (-1);
+	it = *envp;
+	len = ft_strlen(name);
+	while (it != NULL)
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, content);
-		free (part_path);
-		if (access(path, F_OK) == 0)
+		if (!ft_strncmp(it->name, name, len) && ft_strlen(it->name) == len)
 		{
-			free (path);
-			free_paths(paths);
-			return (0);
+			free (it->content);
+			it->content = extract_env_content(add);
+			break ;
 		}
-		i++;
+		it = it->next;
 	}
-	free_paths(paths);
-	return (-1);
+	return (0);
 }

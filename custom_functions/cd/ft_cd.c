@@ -62,4 +62,3 @@ void	ft_cd(t_token *it)
 	else if (chdir(it->content) != 0)
 		perror("chdir() failed");
 }
-

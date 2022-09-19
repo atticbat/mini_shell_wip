@@ -38,8 +38,6 @@ int	cmd_searchlst(char *content)
 		return (ENV_CMD);
 	else if (!(ft_strncmp(content, "exit", len)))
 		return (EXIT_CMD);
-	// else
-	// 	return (EXTER_CMD);
 	return (0);
 }
 

@@ -76,7 +76,7 @@ static int	get_token(t_general *gen)
 
 int	find_token(t_general *gen)
 {
-	int	i;
+	int		i;
 	char	*buffer;
 
 	i = 0;

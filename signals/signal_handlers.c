@@ -12,17 +12,17 @@
 
 #include "minishell.h"
 
-static void interrupt_handler_input(int signum)
+static void	interrupt_handler_input(int signum)
 {
-    (void) signum;
-    write (1, "\n", 1);
-    rl_free_line_state();
-    rl_on_new_line();
+	(void) signum;
+	write (1, "\n", 1);
+	rl_free_line_state();
+	rl_on_new_line();
 	rl_replace_line("", 0);
-    rl_redisplay();
+	rl_redisplay();
 }
 
-void    set_listeners(void)
+void	set_listeners(void)
 {
 	signal(SIGINT, interrupt_handler_input);
 	signal(SIGQUIT, SIG_IGN);

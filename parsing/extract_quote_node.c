@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_quote_node.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:14:44 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 16:17:54 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/19 00:48:19 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	toggle_arg(t_general *gen, int (*f)(char))
 		gen->flag = 0;
 	}
 	else
-	{
-		printf("export : not a valid command identifier \n");
 		gen->flag = 1;
-	}
 }
 
 static void	check_quote(t_general *gen, int start, char *final)
@@ -54,32 +51,37 @@ static char	*extract_escaped(t_general *gen, char *str)
 	return (final);
 }
 
-int	extract_quote_node(t_general *gen)
+static void	extract_stream(t_general *gen)
 {
 	int		start;
 	char	*final;
 
+	start = gen->to;
+	gen->to++;
+	gen->from = gen->to;
 	final = ft_strdup("");
+	while (gen->in[gen->to] != '\0')
+	{
+		if (gen->in[gen->to] == '\\' && (gen->in[gen->to + 1] == '\\' \
+			|| (gen->in[gen->to + 1] == '\"')))
+			final = extract_escaped(gen, final);
+		else
+			gen->to++;
+		if (gen->in[gen->to] == gen->in[start])
+		{
+			final = ft_strjoinfree(final, ft_substr(gen->in, gen->from, \
+				gen->to - gen->from));
+			check_quote(gen, start, final);
+			break ;
+		}
+	}
+}
+
+int	extract_quote_node(t_general *gen)
+{
 	if (gen->in[gen->to] != '\0' && ft_strchr(QUOTES, gen->in[gen->to]))
 	{
-		start = gen->to;
-		gen->to++;
-		gen->from = gen->to;
-		while (gen->in[gen->to] != '\0')
-		{
-			if (gen->in[gen->to] == '\\' && (gen->in[gen->to + 1] == '\\' \
-				|| (gen->in[gen->to + 1] == '\"')))
-				final = extract_escaped(gen, final);
-			else
-				gen->to++;
-			if (gen->in[gen->to] == gen->in[start])
-			{
-				final = ft_strjoinfree(final, ft_substr(gen->in, gen->from, \
-					gen->to - gen->from));
-				check_quote(gen, start, final);
-				break ;
-			}
-		}
+		extract_stream(gen);
 		toggle_arg(gen, check_variable_char);
 		gen->from = gen->to;
 	}
