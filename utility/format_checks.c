@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:48:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 00:43:47 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/19 10:13:58 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ int	check_variable_char(char c)
 		return (0);
 	else if (c == '-')
 		return (0);
+	return (1);
+}
+
+int	check_variable_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str)
+	{
+		if (!check_variable_char(str[i]))
+			return (0);
+		i++;
+	}
 	return (1);
 }
 

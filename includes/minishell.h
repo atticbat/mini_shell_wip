@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 00:21:46 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/19 10:14:07 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ void		check_cmd(t_token **inpt, int flag);
 int			check_format(t_token *in);
 int			cmd_searchlst(char *content);
 int			cmd_check_contained(t_token *head);
+int			check_variable_str(char *str);
 /* linked list env */
 void		env_add_back(t_env **lst, t_env *new);
 void		env_add_front(t_env **lst, t_env *new);
