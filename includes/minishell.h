@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 04:16:55 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 06:42:33 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void		create_matrix(t_token **it, t_general *gen);
 char		**extract_matrix(t_token **it);
 /* signals */
 void		set_listeners(void);
+void		interrupt_handler_child(int signum);
 /* error handling */
 int			handle_error(int error, t_general *gen);
 int			error_extract_var(t_general *gen);

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/20 06:02:16 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 06:41:53 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	heredoc_alone(t_matrix **matrix, t_execute *exevars, t_env *envp)
 	pid = fork ();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, interrupt_handler_child);
 		exe_heredoc(*matrix, exevars, envp);
 		while (i < 2 * exevars->pipe_count)
 		{
@@ -31,6 +31,7 @@ static void	heredoc_alone(t_matrix **matrix, t_execute *exevars, t_env *envp)
 		kill(getppid(), SIGCONT);
 		exit (0);
 	}
+	rl_replace_line("", 0);
 	*matrix = (*matrix)->next;
 	if (*matrix)
 		*matrix = (*matrix)->next;

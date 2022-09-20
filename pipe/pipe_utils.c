@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 05:57:14 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 06:43:59 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp)
 	pid = fork ();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, interrupt_handler_child);
 		child_redirections(matrix, exevars, envp);
 		i = 0;
 		while (i < 2 * exevars->pipe_count)
