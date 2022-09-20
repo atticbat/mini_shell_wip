@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 18:27:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 02:15:18 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 19:07:38 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	add_funct(t_general *gen, t_token **it)
 	matrix_c = NULL;
 	if ((*it)->content[ft_strlen((*it)->content) - 1] == ' ')
 		(*it)->content[ft_strlen((*it)->content) - 1] = '\0';
-	if (!check_env((*it)->content) || cmd_searchlst((*it)->content)\
+	if (!check_env((*it)->content) || cmd_searchlst((*it)->content) \
 		|| !check_file((*it)->content))
 		operator = 'F';
 	else
@@ -79,7 +79,7 @@ static void	add_rearranged_redir(t_general *gen, t_token **it)
 	if (matrix_c[0][ft_strlen(matrix_c[0]) - 1] == ' ')
 		matrix_c[0][ft_strlen(matrix_c[0]) - 1] = '\0';
 	matrix_c[1] = NULL;
-	matrix_add_back(&gen->matrix, matrix_new('N', matrix_c));	
+	matrix_add_back(&gen->matrix, matrix_new('N', matrix_c));
 	*it = (*it)->next;
 	*it = (*it)->next;
 }

@@ -6,11 +6,31 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:49:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/08/31 12:50:38 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 19:06:37 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_equals(char *var)
+{
+	int		i;
+	int		n_eg;
+	char	*temp;
+
+	i = 0;
+	n_eg = 0;
+	temp = var;
+	while (i < (int)ft_strlen(temp))
+	{
+		if (temp[i] == '=')
+			n_eg += 1;
+		i++;
+	}
+	if (n_eg > 1)
+		return (1);
+	return (0);
+}
 
 int	check_arg_end(char *in)
 {
@@ -37,4 +57,22 @@ char	*append_space(char *in, char *str, int to)
 		free (str);
 	}
 	return (final);
+}
+
+char	*get_name(char *it)
+{
+	int		i;
+
+	i = 0;
+	if (!it)
+		return (NULL);
+	if (check_equals(it))
+		return (NULL);
+	while (it[i])
+	{
+		if (it[i + 1] == '=')
+			return (ft_substr(it, 0, i + 1));
+		i++;
+	}
+	return (NULL);
 }

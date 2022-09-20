@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 06:42:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 19:06:12 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int			check_exception_char(char c);
 /* string operations */
 int			check_arg_end(char *in);
 char		*append_space(char *in, char *str, int to);
+char		*get_name(char *it);
+int			check_equals(char *var);
 /* initial parsing */
 int			find_token(t_general *gen);
 int			extract_quote_node(t_general *gen);

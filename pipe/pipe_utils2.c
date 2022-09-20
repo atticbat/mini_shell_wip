@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/20 06:41:53 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 20:28:12 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,11 @@ static void	close_all(t_execute *exevars)
 
 void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 {
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);	
 	while (matrix)
 	{
 		if (skip_tokens(&matrix, exevars))
 			continue ;
-		if (exevars->index)
-			pause();
 		if (exevars->flag && matrix->operator == '-')
 		{
 			heredoc_alone(&matrix, exevars, *envp);

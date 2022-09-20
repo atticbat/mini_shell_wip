@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 06:43:59 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 19:08:11 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp)
 
 int	count_operators(t_matrix *matrix, char *dataset)
 {
-	t_matrix *it;
-	int	i;
+	t_matrix	*it;
+	int			i;
 
 	it = matrix;
 	i = 0;

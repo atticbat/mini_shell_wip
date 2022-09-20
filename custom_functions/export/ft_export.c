@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 21:46:44 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 19:06:19 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,42 +46,15 @@ static void	check_existing(t_env **envp, char *final, t_env *existing)
 	}
 }
 
-static int	check_equals(char *var)
+static int	check_escape(t_token *it, t_general *gen)
 {
-	int		i;
-	int		n_eg;
-	char	*temp;
-
-	i = 0;
-	n_eg = 0;
-	temp = var;
-	while (i < (int)ft_strlen(temp))
+	if (it && it->content && ft_strchr(it->content, '\\'))
 	{
-		if (temp[i] == '=')
-			n_eg += 1;
-		i++;
-	}
-	if (n_eg > 1)
+		printf("export: not a valid identifier\n");
+		gen->error_no = 1;
 		return (1);
-	return (0);
-}
-
-static char	*get_name(char *it)
-{
-	int		i;
-
-	i = 0;
-	if (!it)
-		return (NULL);
-	if (check_equals(it))
-		return (NULL);
-	while (it[i])
-	{
-		if (it[i + 1] == '=')
-			return (ft_substr(it, 0, i + 1));
-		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 void	ft_export(t_token *it, t_general *gen)
@@ -92,13 +65,8 @@ void	ft_export(t_token *it, t_general *gen)
 
 	final = NULL;
 	it = it->next;
-	if (it->next && it->next->content \
-		&& ft_strchr(it->next->content, '\\'))
-	{
-		printf("export: not a valid identifier\n");
-		gen->error_no = 1;
+	if (check_escape(it->next, gen))
 		return ;
-	}
 	buffer = get_name(it->content);
 	if (!buffer || !check_variable_export(buffer))
 	{
