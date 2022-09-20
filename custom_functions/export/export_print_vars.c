@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 20:56:51 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 23:24:40 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/19 21:43:20 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	export_print_vars(t_env *envp)
 
 	final = NULL;
 	if (!envp || !envp->name || !envp->content)
-		exit (-1);
+		exit (1);
 	final = malloc (sizeof (char *) * (env_size(envp)));
 	it = envp;
 	it = it->next;

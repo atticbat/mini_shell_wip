@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 17:19:43 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/19 21:52:51 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ static void	input_loop(t_general *gen)
 	while (1)
 	{
 		gen->in = readline(PROMPT);
-		if (!gen->in || gen->in[0] == EOF)
+		if (handle_error(!gen->in || gen->in[0] == EOF, gen))
+			break ;
+		if (check_empty(gen->in) || !gen->in[0])
 		{
-			handle_error(1, gen);
+			free (gen->in);
 			continue ;
 		}
-		if (check_empty(gen->in) || !gen->in[0])
-			continue ;
 		add_history(gen->in);
 		if (handle_error(find_token(gen), gen))
 			continue ;
-		if (builtin_executions(gen))
+		if (handle_error(builtin_executions(gen), gen))
 			break ;
 		if (handle_error(expand_variable(gen), gen))
 			continue ;
@@ -78,5 +78,6 @@ int	main(int argc, char **argv, char **envp)
 	initialise (&gen, envp);
 	input_loop (&gen);
 	free_all(&gen);
+	erase_temp();
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 08:25:31 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 10:36:04 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/19 21:44:25 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	ft_unset_exe(t_env **envp, char *name)
 	return (0);
 }
 
-void	ft_unset(t_token *it, t_env **envp)
+void	ft_unset(t_token *it, t_general *gen)
 {
 	t_env	*existing;
 
@@ -44,6 +44,7 @@ void	ft_unset(t_token *it, t_env **envp)
 		&& ft_strchr(it->next->content, '\\'))
 	{
 		printf("unset: not a valid identifier\n");
+		gen->error_no = 1;
 		return ;
 	}
 	if (!it || !it->next || !it->next->content)
@@ -51,13 +52,14 @@ void	ft_unset(t_token *it, t_env **envp)
 	if (!check_variable_str(it->next->content))
 	{
 		printf("unset: not a valid identifier\n");
+		gen->error_no = 1;
 		return ;
 	}
 	it = it->next;
-	existing = find_env(*envp, it->content);
+	existing = find_env(gen->envp, it->content);
 	if (existing)
 	{
-		if (ft_unset_exe(envp, existing->name))
+		if (ft_unset_exe(&gen->envp, existing->name))
 			return ;
 	}
 }

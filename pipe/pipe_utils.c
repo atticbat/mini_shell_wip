@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 17:10:12 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/20 05:57:14 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,27 @@
 static void	child_redirections(t_matrix *matrix, t_execute *exevars, \
 	t_env *envp)
 {
-	if (matrix->next && matrix->next->operator != '-' \
-	&& matrix->next->operator != '<')
+	if (matrix->next && (matrix->next->operator != '-' \
+		&& matrix->next->operator != '<'))
 		if (dup2(exevars->pipefds[exevars->index + 1], 1) == -1)
 			printf("redirect stdout didnt work!\n");
 	if (exevars->index != 0)
-		if (dup2(exevars->pipefds[exevars->index - 2], 0) == -1)
+	{
+		if (matrix->next && matrix->next->operator == '-')
+			;
+		else if (dup2(exevars->pipefds[exevars->index - 2], 0) == -1)
 			printf("redirect stdin didnt work!\n");
+	}
 	if (matrix->next && matrix->next->operator == '-')
 		if (matrix->next->next->matrix[0])
 			ft_heredoc(matrix->next, envp);
 	if (matrix->next && matrix->next->operator == '<')
 		redirect_left(matrix);
 	redirect_right(matrix->next);
+	if (matrix->next && (matrix->next->operator == '-' \
+		&& count_operators(matrix, "|")))
+		if (dup2(exevars->pipefds[exevars->index + 1], 1) == -1)
+			printf("redirect stdout didnt work!\n");
 }
 
 void	exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp)
@@ -38,6 +46,7 @@ void	exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp)
 	pid = fork ();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		child_redirections(matrix, exevars, envp);
 		i = 0;
 		while (i < 2 * exevars->pipe_count)
@@ -45,20 +54,23 @@ void	exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp)
 			close(exevars->pipefds[i]);
 			i++;
 		}
+		kill(getppid(), SIGCONT);
 		execute(matrix->matrix, envp);
 	}
 }
 
-int	count_pipes(t_matrix *matrix)
+int	count_operators(t_matrix *matrix, char *dataset)
 {
+	t_matrix *it;
 	int	i;
 
+	it = matrix;
 	i = 0;
-	while (matrix != NULL)
+	while (it != NULL)
 	{
-		if (ft_strchr(OPERATOR, matrix->operator))
+		if (ft_strchr(dataset, it->operator))
 			i++;
-		matrix = matrix->next;
+		it = it->next;
 	}
 	return (i);
 }

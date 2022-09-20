@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 15:43:40 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/18 03:46:49 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/19 20:44:40 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	check_env(char *content)
 			free_paths(paths);
 			return (0);
 		}
+		free (path);
 		i++;
 	}
 	free_paths(paths);

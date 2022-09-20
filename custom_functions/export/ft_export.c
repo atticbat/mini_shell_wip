@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 00:41:09 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/19 21:46:44 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static char	*get_name(char *it)
 	return (NULL);
 }
 
-void	ft_export(t_token *it, t_env **envp)
+void	ft_export(t_token *it, t_general *gen)
 {
 	char	*buffer;
 	char	*final;
@@ -96,16 +96,21 @@ void	ft_export(t_token *it, t_env **envp)
 		&& ft_strchr(it->next->content, '\\'))
 	{
 		printf("export: not a valid identifier\n");
+		gen->error_no = 1;
 		return ;
 	}
 	buffer = get_name(it->content);
 	if (!buffer || !check_variable_export(buffer))
+	{
+		printf("export: not a valid identifier\n");
+		gen->error_no = 1;
 		return ;
-	existing = find_env(*envp, buffer);
+	}
+	existing = find_env(gen->envp, buffer);
 	free (buffer);
 	if (!(it->content) || !ft_strchr(it->content, '='))
 		return ;
 	final = ft_strdup(it->content);
-	check_existing (envp, final, existing);
+	check_existing (&gen->envp, final, existing);
 	free (final);
 }

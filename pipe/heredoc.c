@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:09:53 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 20:31:15 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 06:04:47 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,19 @@ void	ft_heredoc(t_matrix *matrix, t_env *envp)
 
 void	exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp)
 {
-	pid_t	pid;
 	int		i;
 
 	i = 0;
-	pid = fork ();
-	if (pid == 0)
+	signal(SIGINT, SIG_DFL);
+	if (matrix && matrix->operator == '-')
 	{
-		if (matrix && matrix->operator == '-')
-		{
-			if (matrix->next->matrix[0])
-				ft_heredoc(matrix, envp);
-		}
-		while (i < 2 * exevars->pipe_count)
-		{
-			close(exevars->pipefds[i]);
-			i++;
-		}
-		exit (0);
+		if (matrix->next->matrix[0])
+			ft_heredoc(matrix, envp);
 	}
+	while (i < 2 * exevars->pipe_count)
+	{
+		close(exevars->pipefds[i]);
+		i++;
+	}
+	exit (0);
 }

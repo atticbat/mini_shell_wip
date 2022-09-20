@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 17:07:56 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/20 04:16:55 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_execute
 	int	pipe_count;
 	int	*pipefds;
 	int	index;
+	int	flag;
 	int	status;
 }	t_execute;
 
@@ -151,15 +152,14 @@ void		ft_env(t_env *envp);
 char		*ft_getenv(t_env *envp, char *search);
 t_env		*find_env(t_env *envp, char *search);
 /* export */
-void		ft_export(t_token *it, t_env **envp);
+void		ft_export(t_token *it, t_general *gen);
 void		export_print_vars(t_env *envp);
 int			ft_export_replace_exe(t_env **envp, char *add, char *name);
 /* unset */
-void		ft_unset(t_token *it, t_env **envp);
+void		ft_unset(t_token *it, t_general *gen);
 /* parse_function */
 int			parse_function(t_general *gen);
 void		toggle_arg(t_general *gen, int (*f)(char));
-
 /* CHECKER FUNCTION */
 void		check_cmd(t_token **inpt, int flag);
 int			check_format(t_token *in);
@@ -167,7 +167,6 @@ int			cmd_searchlst(char *content);
 int			cmd_check_contained(t_token *head);
 int			check_variable_str(char *str);
 int			check_file(char *arg);
-
 /* linked list env */
 void		env_add_back(t_env **lst, t_env *new);
 void		env_add_front(t_env **lst, t_env *new);
@@ -192,7 +191,6 @@ void		set_listeners(void);
 /* error handling */
 int			handle_error(int error, t_general *gen);
 int			error_extract_var(t_general *gen);
-
 /* find path */
 int			check_env(char *content);
 char		*find_path_str(char *name);
@@ -201,7 +199,7 @@ void		free_paths(char **paths);
 int			execute_prep(t_general *gen);
 int			builtin_executions(t_general *gen);
 /* pipe */
-int			count_pipes(t_matrix *matrix);
+int			count_operators(t_matrix *matrix, char *dataset);
 void		exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);
 void		execute(char **arg, t_env *envp);
 int			redirect_right(t_matrix *matrix);

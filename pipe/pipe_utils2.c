@@ -6,32 +6,47 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/19 00:38:30 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/20 06:02:16 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	heredoc_alone(t_matrix *matrix, t_execute *exevars, t_env *envp)
+static void	heredoc_alone(t_matrix **matrix, t_execute *exevars, t_env *envp)
 {
-	if (matrix && matrix->operator == '-')
+	pid_t	pid;
+	int		i;
+
+	i = 0;
+	pid = fork ();
+	if (pid == 0)
 	{
-		exe_heredoc(matrix, exevars, envp);
-		matrix = matrix->next;
-		if (matrix)
-			matrix = matrix->next;
+		signal(SIGINT, SIG_DFL);
+		exe_heredoc(*matrix, exevars, envp);
+		while (i < 2 * exevars->pipe_count)
+		{
+			close(exevars->pipefds[i]);
+			i++;
+		}
+		kill(getppid(), SIGCONT);
+		exit (0);
 	}
+	*matrix = (*matrix)->next;
+	if (*matrix)
+		*matrix = (*matrix)->next;
 }
 
-static int	skip_tokens(t_matrix **matrix)
+static int	skip_tokens(t_matrix **matrix, t_execute *exevars)
 {
 	if ((*matrix)->operator == '|')
 	{
 		*matrix = (*matrix)->next;
+		exevars->flag = 1;
 		return (1);
 	}
-	if ((*matrix)->operator == '>' || (*matrix)->operator == '+' \
-		|| (*matrix)->operator == '<' || (*matrix)->operator == '-')
+	else if (((*matrix)->operator == '>' || (*matrix)->operator == '+' \
+		|| (*matrix)->operator == '<' || (*matrix)->operator == '-') \
+		&& !exevars->flag)
 	{
 		*matrix = (*matrix)->next;
 		if (*matrix)
@@ -66,20 +81,31 @@ static void	close_all(t_execute *exevars)
 		wait (&(exevars->status));
 		i++;
 	}
+	set_listeners();
 }
 
 void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 {
-	heredoc_alone(matrix, exevars, *envp);
+	signal(SIGINT, SIG_IGN);
 	while (matrix)
 	{
-		if (skip_tokens(&matrix))
+		if (skip_tokens(&matrix, exevars))
 			continue ;
+		if (exevars->index)
+			pause();
+		if (exevars->flag && matrix->operator == '-')
+		{
+			heredoc_alone(&matrix, exevars, *envp);
+			exevars->index += 2;
+			exevars->flag = 0;
+			continue ;
+		}
 		exe_pipe (matrix, exevars, *envp);
 		external_functions(matrix, envp);
 		if (matrix)
 			matrix = matrix->next;
 		exevars->index += 2;
+		exevars->flag = 0;
 	}
 	close_all(exevars);
 }

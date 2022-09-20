@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 18:48:24 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/09/19 21:26:17 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	handle_error(int error, t_general *gen)
 {
 	if (error == 1)
 	{
-		write (2, "minishell $ exit\n", 17);
-		free_all(gen);
-		erase_temp();
+		write (2, "exit\n", 5);
+		return (-1);
 	}
 	else if (error == 2)
 	{

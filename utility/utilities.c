@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/16 17:44:52 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/19 21:51:26 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	free_all(t_general *gen)
 {
 	reset(gen);
 	env_clear(&gen->envp, free);
+	rl_clear_history();
 }
 
 void	erase_temp(void)
