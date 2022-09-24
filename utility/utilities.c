@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 21:51:26 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/24 13:35:48 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,49 @@ void	free_all(t_general *gen)
 	rl_clear_history();
 }
 
-void	erase_temp(void)
+static void	erase_temp(char *buff)
 {
 	char	**matrix;
 	int		tempfile;
+	pid_t	pid;
+	int		status;
 
-	matrix = malloc (sizeof (char *) * 3);
-	matrix[0] = ft_strdup("rm -f");
-	matrix[1] = ft_strdup(PATH_FILE_1);
-	matrix[2] = NULL;
-	tempfile = open (PATH_FILE_1, O_CREAT, 0777);
-	close (tempfile);
-	execv("/bin/rm", matrix);
+	pid = fork();
+	if (pid == 0)
+	{
+		matrix = malloc (sizeof (char *) * 3);
+		matrix[0] = ft_strdup("rm -f");
+		matrix[1] = buff;
+		matrix[2] = NULL;
+		tempfile = open (buff, O_CREAT, 0777);
+		close (tempfile);
+		execv("/bin/rm", matrix);
+	}
+	wait (&status);
+}
+
+void	remove_files(void)
+{
+	int		i;
+	char	*buffer;
+	char	*buff2;
+
+	i = 0;
+	buff2 = NULL;
+	while (1)
+	{
+		buff2 = ft_itoa(i);
+		buffer = ft_strjoin(PATH_FILE_1, buff2);
+		if (check_file(buffer))
+			erase_temp(buffer);
+		else
+		{
+			free (buffer);
+			free (buff2);
+			break ;
+		}
+		free (buffer);
+		free (buff2);
+		i++;
+	}
 }

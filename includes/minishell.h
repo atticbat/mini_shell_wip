@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 19:06:12 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/24 13:34:12 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 /* defines for pipe */
 # define READ_END   0
 # define WRITE_END  1
-# define PATH_FILE_1  "fileout_temp"
+# define PATH_FILE_1  ".fileout_temp"
 
 typedef struct s_token
 {
@@ -100,7 +100,7 @@ typedef struct s_general
 /* utilities */
 void		reset(t_general *gen);
 void		free_all(t_general *gen);
-void		erase_temp(void);
+void		remove_files(void);
 /* format checks */
 int			check_variable_export(char *var);
 int			check_variable(char *var);
@@ -208,7 +208,7 @@ void		execute(char **arg, t_env *envp);
 int			redirect_right(t_matrix *matrix);
 void		redirect_left(t_matrix *matrix);
 void		exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp);
-void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp);
-void		ft_heredoc(t_matrix *matrix, t_env *envp);
+void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, int heredoc_n);
+void		ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n);
 
 #endif

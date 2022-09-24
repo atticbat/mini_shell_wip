@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 19:08:11 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/24 12:44:18 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	child_redirections(t_matrix *matrix, t_execute *exevars, \
 	t_env *envp)
 {
+	(void)envp;
 	if (matrix->next && (matrix->next->operator != '-' \
 		&& matrix->next->operator != '<'))
 		if (dup2(exevars->pipefds[exevars->index + 1], 1) == -1)
@@ -26,9 +27,9 @@ static void	child_redirections(t_matrix *matrix, t_execute *exevars, \
 		else if (dup2(exevars->pipefds[exevars->index - 2], 0) == -1)
 			printf("redirect stdin didnt work!\n");
 	}
-	if (matrix->next && matrix->next->operator == '-')
-		if (matrix->next->next->matrix[0])
-			ft_heredoc(matrix->next, envp);
+	// if (matrix->next && matrix->next->operator == '-')
+	// 	if (matrix->next->next->matrix[0])
+	// 		ft_heredoc(matrix->next, envp);
 	if (matrix->next && matrix->next->operator == '<')
 		redirect_left(matrix);
 	redirect_right(matrix->next);

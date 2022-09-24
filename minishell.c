@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 21:52:51 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/24 13:31:48 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ int	main(int argc, char **argv, char **envp)
 	initialise (&gen, envp);
 	input_loop (&gen);
 	free_all(&gen);
-	erase_temp();
+	remove_files();
 	return (0);
 }

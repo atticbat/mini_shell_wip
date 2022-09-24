@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:09:53 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 06:04:47 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/24 13:21:06 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ static char	*heredoc_input_stream(void)
 	return (final);
 }
 
-void	ft_heredoc(t_matrix *matrix, t_env *envp)
+void	ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n)
 {
 	char	*buffer1;
 	char	*buffer2;
 	int		filetemp;
 
-	filetemp = open (PATH_FILE_1, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	char	*name;
+	name = ft_strjoin(PATH_FILE_1, ft_itoa(heredoc_n));
+	filetemp = open (name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	while (1)
 	{
 		buffer2 = heredoc_input_stream();
@@ -47,26 +49,35 @@ void	ft_heredoc(t_matrix *matrix, t_env *envp)
 		free (buffer1);
 	}
 	close (filetemp);
-	filetemp = open (PATH_FILE_1, O_RDONLY, 0777);
-	dup2(filetemp, STDIN_FILENO);
-	close (filetemp);
+	free (name);
+	// filetemp = open (name, O_RDONLY, 0777);
+	// dup2(filetemp, STDIN_FILENO);
+	// close (filetemp);
 }
 
-void	exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp)
+void	exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, int heredoc_n)
 {
 	int		i;
+	int		status;
+	pid_t	pid;
 
+	(void)exevars;
 	i = 0;
-	signal(SIGINT, SIG_DFL);
-	if (matrix && matrix->operator == '-')
+	pid = fork ();
+	if (pid == 0)
 	{
-		if (matrix->next->matrix[0])
-			ft_heredoc(matrix, envp);
+		signal(SIGINT, interrupt_handler_child);
+		if (matrix && matrix->operator == '-')
+		{
+			if (matrix->next->matrix[0])
+				ft_heredoc(matrix, envp, heredoc_n);
+		}
+		exit (0);
 	}
-	while (i < 2 * exevars->pipe_count)
-	{
-		close(exevars->pipefds[i]);
-		i++;
-	}
-	exit (0);
+	wait (&status);
+	// while (i < 2 * exevars->pipe_count)
+	// {
+	// 	close(exevars->pipefds[i]);
+	// 	i++;
+	// }
 }
