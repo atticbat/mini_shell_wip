@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:09:53 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/24 13:21:06 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/24 13:47:36 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n)
 	int		filetemp;
 
 	char	*name;
-	name = ft_strjoin(PATH_FILE_1, ft_itoa(heredoc_n));
+	buffer1 = ft_itoa(heredoc_n); 
+	name = ft_strjoin(PATH_FILE_1, buffer1);
+	free (buffer1);
 	filetemp = open (name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	while (1)
 	{

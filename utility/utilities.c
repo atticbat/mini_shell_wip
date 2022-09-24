@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/24 13:35:48 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/24 13:55:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,14 @@ void	remove_files(void)
 	char	*buff2;
 
 	i = 0;
+	buffer = NULL;
 	buff2 = NULL;
 	while (1)
 	{
+		i++;
 		buff2 = ft_itoa(i);
 		buffer = ft_strjoin(PATH_FILE_1, buff2);
-		if (check_file(buffer))
+		if (!check_file(buffer))
 			erase_temp(buffer);
 		else
 		{
@@ -77,6 +79,5 @@ void	remove_files(void)
 		}
 		free (buffer);
 		free (buff2);
-		i++;
 	}
 }
