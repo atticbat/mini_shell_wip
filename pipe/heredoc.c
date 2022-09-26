@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:09:53 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/24 13:47:36 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/26 17:30:22 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n)
 	// dup2(filetemp, STDIN_FILENO);
 	// close (filetemp);
 }
-
+//cuando entra el numero de heredoc se realiza un fork para poder llamar la senal
+// luego realiza una operacion de matrix
 void	exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, int heredoc_n)
 {
 	int		i;

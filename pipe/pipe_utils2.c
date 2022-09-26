@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/24 13:21:59 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/26 21:19:46 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,57 @@
 // 	}
 // 	set_listeners();
 // }
+static void	exe_pipe_test(t_matrix *matrix, t_env *envp )
+{
+	/* empezamos haciendo el conteo de los comandos */
+	char	*cmd_path;
+	char	**arg;
+	int		flag_first = 1;
+	int		flag_last = 0;
 
+
+	arg = matrix->matrix;
+
+	cmd_path = find_path_str(arg[0]);
+	printf("\npath %s \n", cmd_path);
+	if(!matrix)
+		return ;
+	if (cmd_searchlst(arg[0]) == EXPORT_CMD && !arg[1])
+		export_print_vars(envp);
+	
+	pid_t	pid;
+	int		fd[2];
+	int		i;
+
+	if (pipe(fd) = -1)
+	{
+		perror("Fuck me ");
+		return ;
+	}
+	// check of heredoc command
+	while(1)
+	{
+		pid = fork();
+		// child
+		if (pid == 0)
+		{
+			if(flag_first == 1 && flag_last == 1 )
+			{
+				dup2(fd[1])
+			}
+			
+		}
+		if (execv(cmd_path, arg) == -1)
+			exit (-1);
+			}
+	// while (1)
+	// {
+		
+	// }
+
+	
+
+}
 void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 {
 	(void) exevars;
@@ -101,9 +151,15 @@ void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 		{
 			heredoc_n++;
 			exe_heredoc(it, exevars, *envp, heredoc_n);
+			// printf("number of heredoc : %d\n", heredoc_n);
 		}
 		it = it->next;
 	}
+	// exevars->index == heredoc_n;
+
+	// printf("%s \n", (*envp)->name);
+	exe_pipe_test(matrix, *envp);
+
 	//
 	// while (matrix)
 	// {
@@ -116,7 +172,7 @@ void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 	// 		exevars->flag = 0;
 	// 		continue ;
 	// 	}
-	// 	exe_pipe (matrix, exevars, *envp);
+		// exe_pipe (matrix, exevars, *envp);
 	// 	external_functions(matrix, envp);
 	// 	if (matrix)
 	// 		matrix = matrix->next;

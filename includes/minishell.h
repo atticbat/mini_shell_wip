@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/24 13:34:12 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/26 17:34:00 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@
 # define READ_END   0
 # define WRITE_END  1
 # define PATH_FILE_1  ".fileout_temp"
+# define FILE_1  ".temp1"
+# define FILE_2  ".temp2"
+
 
 typedef struct s_token
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 21:15:13 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/24 12:59:52 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/26 17:18:43 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ int	execute_prep(t_general *gen)
 	exevars.pipe_count = count_operators(gen->matrix, OPERATOR);
 	exevars.pipefds = malloc (sizeof (int) * (exevars.pipe_count * 2));
 	// open_pipes(exevars.pipe_count, exevars.pipefds);
+	print_all_matrix(gen->matrix);
 	exevars.index = 0;
 	exevars.flag = 1;
 	exe_cmd (gen->matrix, &exevars, &gen->envp);
+
 	free (exevars.pipefds);
 	return (0);
 }
