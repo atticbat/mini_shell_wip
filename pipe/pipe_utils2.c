@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/09/29 16:29:58 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/02 16:56:09 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@ static int	skip_tokens(t_matrix **matrix, t_execute *exevars)
 	if ((*matrix)->operator == '|')
 	{
 		*matrix = (*matrix)->next;
-		exevars->flag = 1;
+		exevars->last_op = (*matrix)->operator;
 		return (1);
 	}
-	else if (((*matrix)->operator == '>' || (*matrix)->operator == '+' \
-		|| (*matrix)->operator == '<' || (*matrix)->operator == '-') \
-		&& !exevars->flag)
+	else if ((*matrix)->operator == '>' || (*matrix)->operator == '+' \
+		|| (*matrix)->operator == '<' || (*matrix)->operator == '-')
 	{
 		*matrix = (*matrix)->next;
 		if (*matrix)
 			*matrix = (*matrix)->next;
+		exevars->last_op = (*matrix)->operator;
 		return (1);
 	}
 	return (0);
@@ -127,15 +127,49 @@ static int	skip_tokens(t_matrix **matrix, t_execute *exevars)
 // 	}
 
 // }
-void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
+
+
+static void	execute_children(t_matrix **it, t_execute *exevars, t_env *envp)
 {
-	(void) exevars;
+	pid_t	pid;
+	int		status;
+
+	pipe(exevars->pipeA);
+	pid = fork();
+	if (pid == -1)
+		perror("child fork failed\n");
+	else if (pid == 0)
+	{
+		close(exevars->pipeA[READ_END]);
+		if (count_operators(*it, OPERATOR))
+			dup2(exevars->pipeA[WRITE_END], WRITE_END);
+		if (exevars->last_op == '>')
+		{
+			int	fd;
+
+			fd = open ((*it)->matrix[0], O_TRUNC | O_CREAT | O_WRONLY, 0777);
+			dup2(fd, WRITE_END);
+			close (fd);
+		}
+		execute((*it)->matrix, envp);
+	}
+	else
+	{
+		close(exevars->pipeA[WRITE_END]);
+		dup2(exevars->pipeA[READ_END], READ_END);
+		wait(&status);
+	}
+}
+
+int	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
+{
 	t_matrix	*it;
 	int	heredoc_n;
+	int	ret_value;
 
+	ret_value = 0;
 	it = matrix;
 	heredoc_n = 0;
-	//heredoc starts here
 	signal(SIGINT, SIG_IGN);
 	while (it)
 	{
@@ -143,130 +177,79 @@ void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 		{
 			heredoc_n++;
 			exe_heredoc(it, exevars, *envp, heredoc_n);
-			// printf("number of heredoc : %d\n", heredoc_n);
 		}
 		it = it->next;
 	}
 
 	//redirection file creation
-	it = matrix;
-	char	*buffer;
-	buffer = NULL;
-	while (it)
-	{
-		skip_tokens(&it, exevars);
-		//store last argument for the case of '<'
-		if (it->operator == 'F' || it->operator == 'N')
-			buffer = it->matrix[0];
-		if (it->operator == '>' && it->next)
-		{
-			it = it->next;
-			//create a new file with name of following matrix[0]
-			int	fd;
+	// it = matrix;
+	// char	*buffer;
+	// buffer = NULL;
+	// while (it)
+	// {
+	// 	if (skip_tokens(&it, exevars))
+	// 		continue ;
+	// 	//store last argument for the case of '<'
+	// 	if (it->operator == 'F' || it->operator == 'N')
+	// 		buffer = it->matrix[0];
+	// 	if (it->operator == '>' && it->next)
+	// 	{
+	// 		it = it->next;
+	// 		//create a new file with name of following matrix[0]
+	// 		int	fd;
 
-			fd = open (it->matrix[0],  O_WRONLY | O_TRUNC | O_CREAT, 0777);
-			close (fd);
-		}
-		else if (it->operator == '<')
-		{
-			int	fd;
+	// 		fd = open (it->matrix[0],  O_WRONLY | O_TRUNC | O_CREAT, 0777);
+	// 		close (fd);
+	// 	}
+	// 	else if (it->operator == '<')
+	// 	{
+	// 		int	fd;
 
-			fd = open (buffer, O_WRONLY | O_TRUNC | O_CREAT, 0777);
-			close (fd);
-		}
-		else if (it->operator == '+' && it->next)
-		{
-			it = it->next;
-			int	fd;
+	// 		fd = open (buffer, O_WRONLY | O_TRUNC | O_CREAT, 0777);
+	// 		close (fd);
+	// 	}
+	// 	else if (it->operator == '+' && it->next)
+	// 	{
+	// 		it = it->next;
+	// 		int	fd;
 
-			fd = open (it->matrix[0], O_WRONLY | O_CREAT, 0777);
-			close (fd);		
-		}
-		else if ((it->operator == '>' || it->operator == '+') && (!it->next || !it->next->matrix))
-			perror("Invalid redirection\n");
-		it = it->next;
-	}
+	// 		fd = open (it->matrix[0], O_WRONLY | O_CREAT, 0777);
+	// 		close (fd);		
+	// 	}
+	// 	else if ((it->operator == '>' || it->operator == '+') && (!it->next || !it->next->matrix))
+	// 		perror("Invalid redirection\n");
+	// 	it = it->next;
+	// }
 	//redirection file creation
 
 	//now for executions
 	//if there is a redirection or a heredoc then I will set the stdout and stdin respectively as the name of the file, which should be created already
-	it = matrix;
-	int	fd[2];
-	pid_t	pid;
-	int		first;
 
-	exevars->last_output = -1;
-	first = 1;
-	while (it)
+	//so, back to my original idea
+	//but this time, using two pipes simultaneously
+	
+	it = matrix;
 	{
-		if (it->operator == '|')
-			it = it->next;
-		if (pipe(fd) < 0)
-			perror("Pipe failure.\n");
-		signal(SIGINT, SIG_IGN);
+		pid_t	pid;
+
 		pid = fork();
-		if (pid < 0)
-			perror ("fork failed.\n");
+		if (pid == -1)
+			perror ("Fork failed\n");
 		else if (pid == 0)
 		{
-			//here I will have some scenarios based on the current argument
-			// wc < pokemon should keep the result and print it by default, but redirect it in the case of a redirection or a pipe
-			// ls | should print by default or redirect in case or redir or pipe
-			// ls > pokemon > bakugan > yugioh > scoobydoo should pass to the next one indefinitely, erasing the contents of all but the last arg
-			// so read the next three nodes, if there is more nodes after that then redirect to fd[1]
-			// after start redirect fd[0] as contents of fd[1]
-			close(fd[0]);
-			if (matrix->next)
-				dup2(fd[1], 1);
-			if (!first && exevars->last_output != -1)
-				dup2(exevars->last_output, 0);
-			close(fd[1]);
-			// if (first && !matrix->next)
-			// 	exevars->last_output = 0;
-			// else if (!first)
-			// 	dup2(exevars->last_output, 0);
-			// if (matrix->next)
-			// 	dup2(fd[1], 1);
-			// else
-			// 	dup2(1, 1);
-			// close (fd[0]);
-			execute(matrix->matrix, *envp);
+			while (it)
+			{
+				if (skip_tokens(&it, exevars))
+					continue ;
+				execute_children(&it, exevars, *envp);
+				exevars->last_arg = it->matrix[0];
+				it = it->next;
+			}
+			exit(0);
 		}
 		else
-		{
-			close (fd[1]);
-			exevars->last_output = fd[0];
-			close (fd[0]);
-			waitpid(pid, &exevars->status, 0);
-		}
-		it = it->next;
-		first = 0;
+			waitpid(pid, &ret_value, exevars->status);
 	}
-
-
-	// exevars->index == heredoc_n;
-
-	// printf("%s \n", (*envp)->name);
-
-	//
-	// while (matrix)
-	// {
-	// 	if (skip_tokens(&matrix, exevars))
-	// 		continue ;
-	// 	if (exevars->flag && matrix->operator == '-')
-	// 	{
-	// 		// heredoc_alone(&matrix, exevars, *envp);
-	// 		exevars->index += 2;
-	// 		exevars->flag = 0;
-	// 		continue ;
-	// 	}
-		// exe_pipe (matrix, exevars, *envp);
-	// 	external_functions(matrix, envp);
-	// 	if (matrix)
-	// 		matrix = matrix->next;
-	// 	exevars->index += 2;
-	// 	exevars->flag = 0;
-	// }
-	// close_all(exevars);
 	set_listeners();
+	return (ret_value);
 }

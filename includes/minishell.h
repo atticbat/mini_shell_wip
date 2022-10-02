@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/29 14:21:56 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/02 16:46:14 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@
 # define FILE_1  ".temp1"
 # define FILE_2  ".temp2"
 
-
 typedef struct s_token
 {
 	char			type;
@@ -79,12 +78,11 @@ typedef struct s_matrix
 
 typedef struct s_execute
 {
-	int	last_output;
-	int	pipe_count;
-	int	fd[2];
-	int	index;
-	int	flag;
-	int	status;
+	// int		flag;
+	int		pipeA[2];
+	int		status;
+	char	*last_arg;
+	char	last_op;
 }	t_execute;
 
 typedef struct s_general
@@ -207,7 +205,7 @@ int			execute_prep(t_general *gen);
 int			builtin_executions(t_general *gen);
 /* pipe */
 int			count_operators(t_matrix *matrix, char *dataset);
-void		exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);
+int			exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);
 void		execute(char **arg, t_env *envp);
 int			redirect_right(t_matrix *matrix);
 void		redirect_left(t_matrix *matrix);

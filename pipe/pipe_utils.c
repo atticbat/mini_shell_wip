@@ -6,51 +6,51 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/29 16:18:48 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/09/30 16:30:27 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	child_redirections(t_matrix *matrix, t_execute *exevars, \
-	t_env *envp)
-{
-	(void)envp;
-	if (matrix->next && (matrix->next->operator != '-' \
-		&& matrix->next->operator != '<'))
-		if (dup2(exevars->fd[1], 1) == -1)
-			printf("redirect stdout didnt work!\n");
-	if (exevars->index != 0)
-	{
-		if (matrix->next && matrix->next->operator == '-')
-			;
-		else if (dup2(exevars->fd[0], 0) == -1)
-			printf("redirect stdin didnt work!\n");
-	}
-	if (matrix->next && matrix->next->operator == '<')
-		redirect_left(matrix);
-	redirect_right(matrix->next);
-	if (matrix->next && (matrix->next->operator == '-' \
-		&& count_operators(matrix, "|")))
-		if (dup2(exevars->fd[1], 1) == -1)
-			printf("redirect stdout didnt work!\n");
-}
+// static void	child_redirections(t_matrix *matrix, t_execute *exevars, \
+// 	t_env *envp)
+// {
+// 	(void)envp;
+// 	if (matrix->next && (matrix->next->operator != '-' \
+// 		&& matrix->next->operator != '<'))
+// 		if (dup2(exevars->fd[1], 1) == -1)
+// 			printf("redirect stdout didnt work!\n");
+// 	if (exevars->index != 0)
+// 	{
+// 		if (matrix->next && matrix->next->operator == '-')
+// 			;
+// 		else if (dup2(exevars->fd[0], 0) == -1)
+// 			printf("redirect stdin didnt work!\n");
+// 	}
+// 	if (matrix->next && matrix->next->operator == '<')
+// 		redirect_left(matrix);
+// 	redirect_right(matrix->next);
+// 	if (matrix->next && (matrix->next->operator == '-' \
+// 		&& count_operators(matrix, "|")))
+// 		if (dup2(exevars->fd[1], 1) == -1)
+// 			printf("redirect stdout didnt work!\n");
+// }
 
-void	exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp)
-{
-	pid_t	pid;
-	int		i;
+// void	exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp)
+// {
+// 	pid_t	pid;
+// 	int		i;
 
-	pid = fork ();
-	if (pid == 0)
-	{
-		signal(SIGINT, interrupt_handler_child);
-		child_redirections(matrix, exevars, envp);
-		i = 0;
-		kill(getppid(), SIGCONT);
-		execute(matrix->matrix, envp);
-	}
-}
+// 	pid = fork ();
+// 	if (pid == 0)
+// 	{
+// 		signal(SIGINT, interrupt_handler_child);
+// 		child_redirections(matrix, exevars, envp);
+// 		i = 0;
+// 		kill(getppid(), SIGCONT);
+// 		execute(matrix->matrix, envp);
+// 	}
+// }
 
 int	count_operators(t_matrix *matrix, char *dataset)
 {
