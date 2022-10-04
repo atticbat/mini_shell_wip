@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:09:53 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/26 17:30:22 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/04 02:09:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*heredoc_input_stream(void)
 	char	*final;
 
 	final = NULL;
-	write(1, HEREDOC, 9);
+	write(1, HEREDOC, 2);
 	final = get_next_line(0);
 	if (!final)
 		write(1, "\n", 1);

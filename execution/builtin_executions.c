@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 20:14:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 21:48:11 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 03:58:09 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	check_exit(t_general *gen)
 			return (0);
 		temp = temp->next;
 	}
-	return (1);
+	return (-1);
 }
 
 int	builtin_executions(t_general *gen)
@@ -31,7 +31,7 @@ int	builtin_executions(t_general *gen)
 	t_token	*it;
 
 	it = gen->tokens;
-	if (it->content && check_exit(gen) == 1)
+	if (it->content && check_exit(gen) == -1)
 	{
 		if (cmd_searchlst(it->content) == EXPORT_CMD && it->next \
 			&& it->next->content)
@@ -42,10 +42,7 @@ int	builtin_executions(t_general *gen)
 		else if (cmd_searchlst(it->content) == CD_CMD)
 			ft_cd(it);
 		else if (cmd_searchlst(it->content) == EXIT_CMD)
-		{
-			printf("exit\n");
-			return (1);
-		}
+			return (-1);
 	}
 	return (0);
 }

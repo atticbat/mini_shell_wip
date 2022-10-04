@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/10/02 16:56:09 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 04:27:57 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@
 
 static int	skip_tokens(t_matrix **matrix, t_execute *exevars)
 {
+	(void) exevars;
 	if ((*matrix)->operator == '|')
 	{
 		*matrix = (*matrix)->next;
-		exevars->last_op = (*matrix)->operator;
 		return (1);
 	}
 	else if ((*matrix)->operator == '>' || (*matrix)->operator == '+' \
@@ -51,7 +51,6 @@ static int	skip_tokens(t_matrix **matrix, t_execute *exevars)
 		*matrix = (*matrix)->next;
 		if (*matrix)
 			*matrix = (*matrix)->next;
-		exevars->last_op = (*matrix)->operator;
 		return (1);
 	}
 	return (0);
@@ -128,7 +127,6 @@ static int	skip_tokens(t_matrix **matrix, t_execute *exevars)
 
 // }
 
-
 static void	execute_children(t_matrix **it, t_execute *exevars, t_env *envp)
 {
 	pid_t	pid;
@@ -141,16 +139,9 @@ static void	execute_children(t_matrix **it, t_execute *exevars, t_env *envp)
 	else if (pid == 0)
 	{
 		close(exevars->pipeA[READ_END]);
-		if (count_operators(*it, OPERATOR))
+		if (count_operators(*it, "|"))
 			dup2(exevars->pipeA[WRITE_END], WRITE_END);
-		if (exevars->last_op == '>')
-		{
-			int	fd;
-
-			fd = open ((*it)->matrix[0], O_TRUNC | O_CREAT | O_WRONLY, 0777);
-			dup2(fd, WRITE_END);
-			close (fd);
-		}
+		redirect(it, exevars);
 		execute((*it)->matrix, envp);
 	}
 	else
@@ -161,13 +152,42 @@ static void	execute_children(t_matrix **it, t_execute *exevars, t_env *envp)
 	}
 }
 
+static int	create_child(t_matrix *matrix, t_execute *exevars, t_env *envp)
+{
+	pid_t		pid;
+	t_matrix	*it;
+	int	ret_value;
+
+	it = matrix;
+	ret_value = 0;
+	pid = fork();
+	if (pid == -1)
+		perror ("Fork failed\n");
+	else if (pid == 0)
+	{
+		while (it)
+		{
+			if (skip_tokens(&it, exevars))
+				continue ;
+			if (it->next && it->next->operator == '-')
+				exevars->heredoc_n++;
+			execute_children(&it, exevars, envp);
+			exevars->last_arg = it->matrix[0];
+			it = it->next;
+		}
+		exit(0);
+	}
+	else
+		waitpid(pid, &ret_value, exevars->status);
+	set_listeners();
+	return (ret_value);
+}
+
 int	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 {
 	t_matrix	*it;
 	int	heredoc_n;
-	int	ret_value;
 
-	ret_value = 0;
 	it = matrix;
 	heredoc_n = 0;
 	signal(SIGINT, SIG_IGN);
@@ -180,76 +200,5 @@ int	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 		}
 		it = it->next;
 	}
-
-	//redirection file creation
-	// it = matrix;
-	// char	*buffer;
-	// buffer = NULL;
-	// while (it)
-	// {
-	// 	if (skip_tokens(&it, exevars))
-	// 		continue ;
-	// 	//store last argument for the case of '<'
-	// 	if (it->operator == 'F' || it->operator == 'N')
-	// 		buffer = it->matrix[0];
-	// 	if (it->operator == '>' && it->next)
-	// 	{
-	// 		it = it->next;
-	// 		//create a new file with name of following matrix[0]
-	// 		int	fd;
-
-	// 		fd = open (it->matrix[0],  O_WRONLY | O_TRUNC | O_CREAT, 0777);
-	// 		close (fd);
-	// 	}
-	// 	else if (it->operator == '<')
-	// 	{
-	// 		int	fd;
-
-	// 		fd = open (buffer, O_WRONLY | O_TRUNC | O_CREAT, 0777);
-	// 		close (fd);
-	// 	}
-	// 	else if (it->operator == '+' && it->next)
-	// 	{
-	// 		it = it->next;
-	// 		int	fd;
-
-	// 		fd = open (it->matrix[0], O_WRONLY | O_CREAT, 0777);
-	// 		close (fd);		
-	// 	}
-	// 	else if ((it->operator == '>' || it->operator == '+') && (!it->next || !it->next->matrix))
-	// 		perror("Invalid redirection\n");
-	// 	it = it->next;
-	// }
-	//redirection file creation
-
-	//now for executions
-	//if there is a redirection or a heredoc then I will set the stdout and stdin respectively as the name of the file, which should be created already
-
-	//so, back to my original idea
-	//but this time, using two pipes simultaneously
-	
-	it = matrix;
-	{
-		pid_t	pid;
-
-		pid = fork();
-		if (pid == -1)
-			perror ("Fork failed\n");
-		else if (pid == 0)
-		{
-			while (it)
-			{
-				if (skip_tokens(&it, exevars))
-					continue ;
-				execute_children(&it, exevars, *envp);
-				exevars->last_arg = it->matrix[0];
-				it = it->next;
-			}
-			exit(0);
-		}
-		else
-			waitpid(pid, &ret_value, exevars->status);
-	}
-	set_listeners();
-	return (ret_value);
+	return (create_child(matrix, exevars, *envp));
 }

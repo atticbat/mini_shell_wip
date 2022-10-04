@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/24 13:31:48 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 03:57:48 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	initialise(t_general *gen, char **envp)
 	gen->matrix = NULL;
 	gen->in = NULL;
 	gen->error_no = 0;
-	reset(gen);
 	set_listeners();
 }
 
@@ -41,8 +40,9 @@ static void	input_loop(t_general *gen)
 {
 	while (1)
 	{
+		reset(gen);
 		gen->in = readline(PROMPT);
-		if (handle_error(!gen->in || gen->in[0] == EOF, gen))
+		if (handle_error((!gen->in || gen->in[0] == EOF) * -1, gen))
 			break ;
 		if (check_empty(gen->in) || !gen->in[0])
 		{
@@ -60,7 +60,6 @@ static void	input_loop(t_general *gen)
 			continue ;
 		if (handle_error(execute_prep(gen), gen))
 			continue ;
-		reset(gen);
 	}
 }
 
@@ -70,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (!envp)
 	{
-		printf("Environment not found. Aborting\n");
+		write(2, "Environment not found. Aborting\n", 32);
 		return (-1);
 	}
 	(void) argc;

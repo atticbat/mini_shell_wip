@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/02 16:46:14 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 04:10:14 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # define PROMPT "minishell $ "
-# define HEREDOC "heredoc> "
+# define HEREDOC "> "
 # define WHITESPACE "\t\r\n\v "
 # define QUOTES "\"\'"
 # define TOKENS "<|>&"
@@ -53,6 +53,9 @@
 # define PATH_FILE_1  ".fileout_temp"
 # define FILE_1  ".temp1"
 # define FILE_2  ".temp2"
+
+# define NOFILE_ERR 1
+# define SYNTAX_ERR 258
 
 typedef struct s_token
 {
@@ -78,11 +81,11 @@ typedef struct s_matrix
 
 typedef struct s_execute
 {
-	// int		flag;
 	int		pipeA[2];
 	int		status;
 	char	*last_arg;
 	char	last_op;
+	int		heredoc_n;
 }	t_execute;
 
 typedef struct s_general
@@ -207,8 +210,9 @@ int			builtin_executions(t_general *gen);
 int			count_operators(t_matrix *matrix, char *dataset);
 int			exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);
 void		execute(char **arg, t_env *envp);
-int			redirect_right(t_matrix *matrix);
-void		redirect_left(t_matrix *matrix);
+void		redirect(t_matrix **it, t_execute *exevars);
+// int			redirect_right(t_matrix *matrix);
+// void		redirect_left(t_matrix *matrix);
 void		exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp);
 void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, int heredoc_n);
 void		ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n);
