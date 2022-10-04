@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 06:33:39 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 16:04:06 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ int			builtin_executions(t_general *gen);
 int			count_operators(t_matrix *matrix, char *dataset);
 int			exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);
 void		execute(char **arg, t_env *envp);
-void		redirect(t_matrix **it, t_execute *exevars);
+int			redirect(t_matrix **it, t_execute *exevars);
 // int			redirect_right(t_matrix *matrix);
 // void		redirect_left(t_matrix *matrix);
 void		exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp);

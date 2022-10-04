@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:10:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 06:10:27 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 17:48:12 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,25 @@ static void	overwrite(t_matrix **it)
 	close (fd);	
 }
 
-void	redirect(t_matrix **it, t_execute *exevars)
+int	redirect(t_matrix **it, t_execute *exevars)
 {
 	if (*it && (*it)->next && (*it)->next->next)
 	{
 		if ((*it)->next->operator == '-')
+		{
+			exevars->heredoc_n++;
 			read_heredoc(exevars);
+		}
 		if ((*it)->next->operator == '<')
 			read_file(it);
 		else if ((*it)->next->operator == '+')
 			append(it);
 		else if ((*it)->next->operator == '>')
 			overwrite(it);
+		(*it) = (*it)->next;
+		return (1);
 	}
 	else if (*it && (*it)->next)
-		exit (SYNTAX_ERR);	
+		exit (SYNTAX_ERR);
+	return (0);
 }

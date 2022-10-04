@@ -6,32 +6,31 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/10/04 06:08:33 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 17:48:44 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	skip_tokens(t_matrix **matrix, t_execute *exevars)
+static int	skip_tokens(t_matrix **matrix, t_execute *exevars, t_matrix **buffer)
 {
 	(void) exevars;
 	if ((*matrix)->operator == '|')
 	{
 		*matrix = (*matrix)->next;
+		*buffer = *matrix;
 		return (1);
 	}
 	else if ((*matrix)->operator == '>' || (*matrix)->operator == '+' \
 		|| (*matrix)->operator == '<' || (*matrix)->operator == '-')
 	{
 		*matrix = (*matrix)->next;
-		if (*matrix)
-			*matrix = (*matrix)->next;
 		return (1);
 	}
 	return (0);
 }
 
-static void	execute_children(t_matrix **it, t_execute *exevars, t_env *envp)
+static void	execute_children(t_matrix *it, t_execute *exevars, t_env *envp)
 {
 	pid_t	pid;
 	int		status;
@@ -43,10 +42,9 @@ static void	execute_children(t_matrix **it, t_execute *exevars, t_env *envp)
 	else if (pid == 0)
 	{
 		close(exevars->pipeA[READ_END]);
-		if (count_operators(*it, "|"))
+		if (it->next && it->next->operator == '|')
 			dup2(exevars->pipeA[WRITE_END], WRITE_END);
-		redirect(it, exevars);
-		execute((*it)->matrix, envp);
+		execute(it->matrix, envp);
 	}
 	else
 	{
@@ -56,27 +54,56 @@ static void	execute_children(t_matrix **it, t_execute *exevars, t_env *envp)
 	}
 }
 
+static void	filename_args(t_matrix *matrix)
+{
+	int	i;
+	int	fd;
+	t_matrix *it;
+
+	it = matrix;
+	i = 1;
+	if (!it)
+		return ;
+	fd = open (it->matrix[0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	while (it->matrix[i])
+	{
+		if (check_file(it->matrix[i]))
+			perror(it->matrix[i]);
+		else
+		{
+			write (fd, it->matrix[i], ft_strlen(it->matrix[i]));
+			write (fd, "\n", 1);
+		}
+		i++;
+	}
+	close (fd);
+}
+
 static int	create_child(t_matrix *matrix, t_execute *exevars, t_env *envp)
 {
 	pid_t		pid;
 	t_matrix	*it;
 	int	ret_value;
+	t_matrix	*buffer;
 
 	it = matrix;
 	ret_value = 0;
 	pid = fork();
+	buffer = NULL;
 	if (pid == -1)
 		exit (FAILFORK_ERR);
 	else if (pid == 0)
 	{
+		buffer = it;
 		while (it)
 		{
-			if (skip_tokens(&it, exevars))
+			if (skip_tokens(&it, exevars, &buffer))
 				continue ;
-			if (it->next && it->next->operator == '-')
-				exevars->heredoc_n++;
-			execute_children(&it, exevars, envp);
+ 			if (!redirect(&it, exevars))
+				execute_children(buffer, exevars, envp);
 			exevars->last_arg = it->matrix[0];
+			if ((!it->next || it->next->operator == '|') && buffer->next && buffer->next->next)
+				filename_args(buffer->next->next);
 			it = it->next;
 		}
 		exit(0);
