@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 03:58:43 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 06:14:53 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,17 @@
 
 static void	error_bank(int error)
 {
-	if (error == 1)
+	if (error == DEFAULT_ERR)
+		write (2, "Operation not permitted\n", 24);
+	else if (error == NOFILE_ERR)
 		write (2, "No such file or directory\n", 26);
-	else if (error == 258)
+	else if (error == PERMISSION_ERR)
+		write (2, "Permission denied\n", 18);
+	else if (error == FAILFORK_ERR)
+		write (2, "Fork failure\n", 13);
+	else if (error == MALLOC_ERR)
+		write (2, "Insufficient memory\n", 20);
+	else if (error == SYNTAX_ERR)
 		write (2, "Syntax error, unexpected token\n", 31);
 	else if (error == -1)
 		write (2, "exit\n", 5);

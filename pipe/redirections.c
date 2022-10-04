@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:10:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 04:19:19 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 06:10:27 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,5 @@ void	redirect(t_matrix **it, t_execute *exevars)
 			overwrite(it);
 	}
 	else if (*it && (*it)->next)
-	{
-		perror ("Syntax error: no argument provided");
 		exit (SYNTAX_ERR);	
-	}
 }

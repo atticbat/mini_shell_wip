@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 03:57:48 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 06:27:39 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static void	input_loop(t_general *gen)
 int	main(int argc, char **argv, char **envp)
 {
 	t_general	gen;
+	int			exit_no;
 
 	if (!envp)
 	{
@@ -76,7 +77,8 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 	initialise (&gen, envp);
 	input_loop (&gen);
+	exit_no = gen.error_no;
 	free_all(&gen);
 	remove_files();
-	return (0);
+	return (exit_no);
 }

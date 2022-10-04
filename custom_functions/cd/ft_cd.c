@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 21:05:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 21:37:12 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 06:35:32 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,23 @@ static int	cd_no_arg(void)
 	return (0);
 }
 
-void	ft_cd(t_token *it)
+int	ft_cd(t_token *it)
 {
 	if (!it)
-		return ;
+		return (DEFAULT_ERR);
 	it = it->next;
 	if (!it || !it->content)
 	{
 		if (cd_no_arg())
+		{
 			perror("chdir() failed");
+			return (NOFILE_ERR);
+		}
 	}
 	else if (chdir(it->content) != 0)
+	{
 		perror("chdir() failed");
+		return (NOFILE_ERR);
+	}
+	return (0);
 }

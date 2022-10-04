@@ -6,36 +6,11 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/10/04 04:27:57 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 06:08:33 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static void	heredoc_alone(t_matrix **matrix, t_execute *exevars, t_env *envp)
-// {
-// 	pid_t	pid;
-// 	int		i;
-
-// 	i = 0;
-// 	pid = fork ();
-// 	if (pid == 0)
-// 	{
-// 		signal(SIGINT, interrupt_handler_child);
-// 		exe_heredoc(*matrix, exevars, envp);
-// 		while (i < 2 * exevars->pipe_count)
-// 		{
-// 			close(exevars->pipefds[i]);
-// 			i++;
-// 		}
-// 		kill(getppid(), SIGCONT);
-// 		exit (0);
-// 	}
-// 	rl_replace_line("", 0);
-// 	*matrix = (*matrix)->next;
-// 	if (*matrix)
-// 		*matrix = (*matrix)->next;
-// }
 
 static int	skip_tokens(t_matrix **matrix, t_execute *exevars)
 {
@@ -56,77 +31,6 @@ static int	skip_tokens(t_matrix **matrix, t_execute *exevars)
 	return (0);
 }
 
-// static void	external_functions(t_matrix *matrix, t_env **envp)
-// {
-// 	(void) envp;
-// 	if (!matrix)
-// 		;
-// 	else if (matrix->operator == 'N')
-// 		perror("Command not found");
-// }
-
-// static void	close_all(t_execute *exevars)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < exevars->pipe_count * 2)
-// 	{
-// 		close (exevars->pipefds[i]);
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (i < exevars->pipe_count + 1)
-// 	{
-// 		wait (&(exevars->status));
-// 		i++;
-// 	}
-// 	set_listeners();
-// }
-// static void	exe_pipe_test(t_matrix *matrix, t_env *envp)
-// {
-// 	/* empezamos haciendo el conteo de los comandos */
-// 	char	*cmd_path;
-// 	char	**arg;
-// 	int		flag_first = 1;
-// 	int		flag_last = 0;
-
-// 	arg = matrix->matrix;
-// 	cmd_path = find_path_str(arg[0]);
-// 	printf("\npath %s \n", cmd_path);
-// 	if(!matrix)
-// 		return ;
-// 	if (cmd_searchlst(arg[0]) == EXPORT_CMD && !arg[1])
-// 		export_print_vars(envp);
-	
-// 	pid_t	pid;
-// 	int		fd[2];
-// 	int		i;
-
-// 	if (pipe(fd) = -1)
-// 	{
-// 		perror("Pipe failed.");
-// 		return ;
-// 	}
-// 	// check of heredoc command
-// 	while(1)
-// 	{
-// 		pid = fork();
-// 		// child
-// 		if (pid == 0)
-// 		{
-// 			if(flag_first == 1 && flag_last == 1 )
-// 			{
-// 				dup2(fd[1])
-// 			}
-// 			if (execv(cmd_path, arg) == -1)
-// 				exit (-1);
-// 		}
-		
-// 	}
-
-// }
-
 static void	execute_children(t_matrix **it, t_execute *exevars, t_env *envp)
 {
 	pid_t	pid;
@@ -135,7 +39,7 @@ static void	execute_children(t_matrix **it, t_execute *exevars, t_env *envp)
 	pipe(exevars->pipeA);
 	pid = fork();
 	if (pid == -1)
-		perror("child fork failed\n");
+		exit (FAILFORK_ERR);
 	else if (pid == 0)
 	{
 		close(exevars->pipeA[READ_END]);
@@ -162,7 +66,7 @@ static int	create_child(t_matrix *matrix, t_execute *exevars, t_env *envp)
 	ret_value = 0;
 	pid = fork();
 	if (pid == -1)
-		perror ("Fork failed\n");
+		exit (FAILFORK_ERR);
 	else if (pid == 0)
 	{
 		while (it)

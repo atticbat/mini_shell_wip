@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 04:10:14 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/04 06:33:39 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,12 @@
 # define FILE_1  ".temp1"
 # define FILE_2  ".temp2"
 
-# define NOFILE_ERR 1
+# define DEFAULT_ERR 1
+# define NOFILE_ERR 2
+# define FAILFORK_ERR 11
+# define MALLOC_ERR 12
+# define PERMISSION_ERR 13
+//not sure about this one, just have found this from testing
 # define SYNTAX_ERR 258
 
 typedef struct s_token
@@ -147,7 +152,7 @@ char		*get_next_line(int fd);
 /* echo */
 void		ft_echo(char **it);
 /* cd */
-void		ft_cd(t_token *it);
+int			ft_cd(t_token *it);
 /* pwd */
 char		*ft_pwd(char *buff);
 /* env */
