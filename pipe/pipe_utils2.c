@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/10/04 17:48:44 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 06:24:27 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	skip_tokens(t_matrix **matrix, t_execute *exevars, t_matrix **buffer)
 	{
 		*matrix = (*matrix)->next;
 		*buffer = *matrix;
+		dup2(exevars->saved_stdout, WRITE_END);
 		return (1);
 	}
 	else if ((*matrix)->operator == '>' || (*matrix)->operator == '+' \
@@ -54,30 +55,31 @@ static void	execute_children(t_matrix *it, t_execute *exevars, t_env *envp)
 	}
 }
 
-static void	filename_args(t_matrix *matrix)
-{
-	int	i;
-	int	fd;
-	t_matrix *it;
+// static void	filename_args(t_matrix *matrix)
+// {
+// 	int	i;
+// 	int	fd;
+// 	t_matrix *it;
 
-	it = matrix;
-	i = 1;
-	if (!it)
-		return ;
-	fd = open (it->matrix[0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	while (it->matrix[i])
-	{
-		if (check_file(it->matrix[i]))
-			perror(it->matrix[i]);
-		else
-		{
-			write (fd, it->matrix[i], ft_strlen(it->matrix[i]));
-			write (fd, "\n", 1);
-		}
-		i++;
-	}
-	close (fd);
-}
+// 	it = matrix;
+// 	i = 1;
+// 	if (!it)
+// 		return ;
+// 	fd = open (it->matrix[0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+// 	dup2(fd, WRITE_END);
+// 	while (it->matrix[i])
+// 	{
+// 		if (check_file(it->matrix[i]))
+// 			perror(it->matrix[i]);
+// 		else
+// 		{
+// 			write (WRITE_END, it->matrix[i], ft_strlen(it->matrix[i]));
+// 			write (WRITE_END, "\n", 1);
+// 		}
+// 		i++;
+// 	}
+// 	close (fd);
+// }
 
 static int	create_child(t_matrix *matrix, t_execute *exevars, t_env *envp)
 {
@@ -95,17 +97,22 @@ static int	create_child(t_matrix *matrix, t_execute *exevars, t_env *envp)
 	else if (pid == 0)
 	{
 		buffer = it;
+		exevars->saved_stdout = dup(1);
 		while (it)
 		{
 			if (skip_tokens(&it, exevars, &buffer))
 				continue ;
- 			if (!redirect(&it, exevars))
+ 			if (redirect(&it, exevars))
+				continue ;
+			else
 				execute_children(buffer, exevars, envp);
 			exevars->last_arg = it->matrix[0];
-			if ((!it->next || it->next->operator == '|') && buffer->next && buffer->next->next)
-				filename_args(buffer->next->next);
+			// if ((!it->next || it->next->operator == '|') && buffer->next \
+			// 	&& buffer->next->next && buffer != it)
+			// 	filename_args(buffer->next->next);
 			it = it->next;
 		}
+		close (exevars->saved_stdout);
 		exit(0);
 	}
 	else

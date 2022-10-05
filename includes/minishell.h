@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 16:04:06 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 06:07:35 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_matrix
 typedef struct s_execute
 {
 	int		pipeA[2];
+	int		saved_stdout;
 	int		status;
 	char	*last_arg;
 	char	last_op;

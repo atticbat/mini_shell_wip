@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:10:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 17:48:12 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 05:28:05 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,14 @@ int	redirect(t_matrix **it, t_execute *exevars)
 			exevars->heredoc_n++;
 			read_heredoc(exevars);
 		}
-		if ((*it)->next->operator == '<')
+		else if ((*it)->next->operator == '<')
 			read_file(it);
 		else if ((*it)->next->operator == '+')
 			append(it);
 		else if ((*it)->next->operator == '>')
 			overwrite(it);
+		else
+			return (0);
 		(*it) = (*it)->next;
 		return (1);
 	}
