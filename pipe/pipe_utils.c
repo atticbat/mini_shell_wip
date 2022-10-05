@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 21:05:21 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 01:04:28 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,12 @@ int	find_pipes(t_matrix *matrix)
 	return (i);
 }
 
-void	execute(char **arg, t_env *envp)
+static void	switch_cases(char **arg, t_env *envp, char *buffer, char *env)
 {
-	char	cwd[PATH_MAX];
-	char	*buffer;
-	char	*env;
 	char	**env2;
+	char	cwd[PATH_MAX];
 
-	env = generate_env(envp);
 	env2 = ft_split(env, '\n');
-	free (env);
-	if (!check_file(arg[0]) && (arg[0][0] == '/' || \
-		(arg[0][1] == '/' )))
-		if (execv(arg[0], arg) == -1)
-			exit (-1);
-	buffer = find_path_str(arg[0]);
 	if (cmd_searchlst(arg[0]) == ECHO_CMD)
 		ft_echo(arg);
 	else if (cmd_searchlst(arg[0]) == CD_CMD \
@@ -73,8 +64,23 @@ void	execute(char **arg, t_env *envp)
 	else if (buffer)
 	{
 		if (execve(buffer, arg, env2) == -1)
-			exit (-1);
+			exit (1);
 	}
+}
+
+void	execute(char **arg, t_env *envp)
+{
+	char	*buffer;
+	char	*env;
+
+	env = generate_env(envp);
+	free (env);
+	if (!check_file(arg[0]) && (arg[0][0] == '/' || \
+		(arg[0][1] == '/' )))
+		if (execv(arg[0], arg) == -1)
+			exit (-1);
+	buffer = find_path_str(arg[0]);
+	switch_cases(arg, envp, buffer, env);
 	if (!cmd_searchlst(arg[0]))
 	{
 		perror(arg[0]);

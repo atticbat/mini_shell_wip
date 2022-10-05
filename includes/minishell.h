@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 20:56:06 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 01:13:36 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ t_matrix	*matrix_new(char operator, char **matrix);
 /* utility matrix */
 void		create_matrix(t_token **it, t_general *gen);
 char		**extract_matrix(t_token **it);
+char		find_next_operator(t_matrix *matrix, char *search);
 /* signals */
 void		set_listeners(void);
 void		interrupt_handler_child(int signum);
@@ -223,5 +224,6 @@ void		exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp);
 void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, \
 	int heredoc_n);
 void		ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n);
+void		read_heredoc(t_execute *exevars);
 
 #endif

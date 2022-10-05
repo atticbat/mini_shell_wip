@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:48:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 16:19:56 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/06 01:17:36 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int	check_variable_str(char *str)
 	while (str)
 	{
 		if (!check_variable_char(str[i]))
-		{printf("var : %s\n", str);
-			return (0);}
+			return (0);
 		i++;
 	}
 	return (1);

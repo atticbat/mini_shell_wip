@@ -6,28 +6,27 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:10:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 00:26:03 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 01:17:05 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	read_heredoc(t_execute *exevars)
+void	read_from_heredoc(t_matrix **it, t_execute *exevars)
 {
-	int	fd;
-	char	*buffer;
-
-	buffer = ft_strjoinfree(ft_strdup(PATH_FILE_1), ft_itoa(exevars->heredoc_n));
-	fd = open (buffer, O_RDONLY, 0777);
-	if (fd == -1)
+	exevars->heredoc_n++;
+	read_heredoc(exevars);
+	(*it) = (*it)->next;
+	if (find_next_operator((*it)->next->next, ">+|") != 'N')
 	{
-		perror (buffer);
-		free (buffer);
-		exit (NOFILE_ERR);
+		if (find_next_operator((*it)->next->next, "|") != 'N')
+		{
+			(*it) = (*it)->next;
+			dup2(exevars->pipe[WRITE_END], WRITE_END);
+		}
+		if (!(*it) || !(*it)->next || !(*it)->next->next)
+			write(2, "syntax error near unexpected token\n", 35);
 	}
-	free (buffer);
-	dup2(fd, READ_END);
-	close (fd);
 }
 
 static void	read_file(t_matrix **it)
@@ -48,43 +47,30 @@ static void	append(t_matrix **it)
 {
 	int	fd;
 
-	fd = open ((*it)->next->next->matrix[0], O_APPEND | O_CREAT | O_WRONLY, 0777);
+	fd = open ((*it)->next->next->matrix[0], O_APPEND | O_CREAT | O_WRONLY, \
+		0777);
 	if (fd == -1)
 	{
 		perror ((*it)->next->next->matrix[0]);
 		exit (NOFILE_ERR);
 	}
 	dup2(fd, WRITE_END);
-	close (fd);	
+	close (fd);
 }
 
 static void	overwrite(t_matrix **it)
 {
 	int	fd;
 
-	fd = open ((*it)->next->next->matrix[0], O_TRUNC | O_CREAT | O_WRONLY, 0777);
+	fd = open ((*it)->next->next->matrix[0], O_TRUNC | O_CREAT | O_WRONLY, \
+		0777);
 	if (fd == -1)
 	{
-
 		perror ((*it)->next->next->matrix[0]);
 		exit (NOFILE_ERR);
 	}
 	dup2(fd, WRITE_END);
-	close (fd);	
-}
-
-char	find_next_operator(t_matrix *matrix, char *search)
-{
-	t_matrix	*it;
-
-	it = matrix;
-	while (it)
-	{
-		if (ft_strchr(search, it->operator))
-			return (it->operator);
-		it = it->next;
-	}
-	return ('N');
+	close (fd);
 }
 
 int	redirect(t_matrix **it, t_execute *exevars)
@@ -92,21 +78,7 @@ int	redirect(t_matrix **it, t_execute *exevars)
 	if (*it && (*it)->next && (*it)->next->next)
 	{
 		if ((*it)->next->operator == '-')
-		{
-			exevars->heredoc_n++;
-			read_heredoc(exevars);
-			(*it) = (*it)->next;
-			if (find_next_operator((*it)->next->next, ">+|") != 'N')
-			{
-				if (find_next_operator((*it)->next->next, "|") != 'N')
-				{
-					(*it) = (*it)->next;
-					dup2(exevars->pipe[WRITE_END], WRITE_END);
-				}
-				if (!(*it) || !(*it)->next || !(*it)->next->next)
-					write(2, "syntax error near unexpected token\n", 35);
-			}
-		}
+			read_from_heredoc(it, exevars);
 		else if ((*it)->next->operator == '<')
 			read_file(it);
 		else if ((*it)->next->operator == '+')

@@ -6,13 +6,14 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/10/06 00:14:36 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 01:05:11 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	skip_tokens(t_matrix **matrix, t_execute *exevars, t_matrix **buffer)
+static int	skip_tokens(t_matrix **matrix, t_execute *exevars, \
+	t_matrix **buffer)
 {
 	if ((*matrix)->operator == '|')
 	{
@@ -82,7 +83,7 @@ static void	child_process(t_matrix *matrix, t_execute *exevars, t_env *envp)
 static int	create_child(t_matrix *matrix, t_execute *exevars, t_env *envp)
 {
 	pid_t		pid;
-	int	ret_value;
+	int			ret_value;
 
 	ret_value = 0;
 	pid = fork();
@@ -104,7 +105,7 @@ static int	create_child(t_matrix *matrix, t_execute *exevars, t_env *envp)
 int	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 {
 	t_matrix	*it;
-	int	heredoc_n;
+	int			heredoc_n;
 
 	it = matrix;
 	heredoc_n = 0;

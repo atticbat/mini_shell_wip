@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 18:52:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 22:59:58 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 01:10:05 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,18 @@ char	**extract_matrix(t_token **it)
 		i++;
 	}
 	return (matrix_c);
+}
+
+char	find_next_operator(t_matrix *matrix, char *search)
+{
+	t_matrix	*it;
+
+	it = matrix;
+	while (it)
+	{
+		if (ft_strchr(search, it->operator))
+			return (it->operator);
+		it = it->next;
+	}
+	return ('N');
 }
