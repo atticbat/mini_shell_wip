@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 17:58:53 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/05 20:56:06 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct s_matrix
 
 typedef struct s_execute
 {
-	int		pipeA[2];
+	int		pipe[2];
 	int		saved_stdout;
 	int		status;
 	char	*last_arg;
@@ -163,6 +163,7 @@ int			count_envp(t_env *envp);
 char		*extract_env_content(char *str);
 char		*extract_env_name(char *str);
 void		ft_env(t_env *envp);
+char		*generate_env(t_env *envp);
 char		*ft_getenv(t_env *envp, char *search);
 t_env		*find_env(t_env *envp, char *search);
 /* export */
@@ -218,10 +219,9 @@ int			count_operators(t_matrix *matrix, char *dataset);
 int			exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);
 void		execute(char **arg, t_env *envp);
 int			redirect(t_matrix **it, t_execute *exevars);
-// int			redirect_right(t_matrix *matrix);
-// void		redirect_left(t_matrix *matrix);
 void		exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp);
-void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, int heredoc_n);
+void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, \
+	int heredoc_n);
 void		ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n);
 
 #endif

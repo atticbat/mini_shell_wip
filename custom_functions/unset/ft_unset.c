@@ -55,7 +55,6 @@ void	ft_unset(t_token *it, t_general *gen)
 		gen->error_no = 1;
 		return ;
 	}
-
 	it = it->next;
 	existing = find_env(gen->envp, it->content);
 	if (existing)

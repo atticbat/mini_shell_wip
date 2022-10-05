@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:10:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 17:49:21 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/06 00:26:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,20 @@ static void	overwrite(t_matrix **it)
 	close (fd);	
 }
 
+char	find_next_operator(t_matrix *matrix, char *search)
+{
+	t_matrix	*it;
+
+	it = matrix;
+	while (it)
+	{
+		if (ft_strchr(search, it->operator))
+			return (it->operator);
+		it = it->next;
+	}
+	return ('N');
+}
+
 int	redirect(t_matrix **it, t_execute *exevars)
 {
 	if (*it && (*it)->next && (*it)->next->next)
@@ -82,8 +96,16 @@ int	redirect(t_matrix **it, t_execute *exevars)
 			exevars->heredoc_n++;
 			read_heredoc(exevars);
 			(*it) = (*it)->next;
-			if (*it && (*it)->operator != 'F')
-				(*it) = (*it)->next;
+			if (find_next_operator((*it)->next->next, ">+|") != 'N')
+			{
+				if (find_next_operator((*it)->next->next, "|") != 'N')
+				{
+					(*it) = (*it)->next;
+					dup2(exevars->pipe[WRITE_END], WRITE_END);
+				}
+				if (!(*it) || !(*it)->next || !(*it)->next->next)
+					write(2, "syntax error near unexpected token\n", 35);
+			}
 		}
 		else if ((*it)->next->operator == '<')
 			read_file(it);

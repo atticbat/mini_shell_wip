@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 18:42:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/17 20:55:05 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 20:55:39 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*construct_line(char *name, char *content, char *end)
 	return (final);
 }
 
-void	ft_env(t_env *envp)
+char	*generate_env(t_env *envp)
 {
 	t_env	*it;
 	char	*final;
@@ -48,8 +48,14 @@ void	ft_env(t_env *envp)
 		final = ft_strjoinfree(final, buffer);
 		it = it->next;
 	}
-	if (!final)
-		exit (-1);
+	return (final);
+}
+
+void	ft_env(t_env *envp)
+{
+	char	*final;
+
+	final = generate_env(envp);
 	printf("%s\n", final);
 	free (final);
 }

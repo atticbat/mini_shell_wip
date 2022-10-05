@@ -29,9 +29,9 @@ void	ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n)
 	char	*buffer1;
 	char	*buffer2;
 	int		filetemp;
-
 	char	*name;
-	buffer1 = ft_itoa(heredoc_n); 
+
+	buffer1 = ft_itoa(heredoc_n);
 	name = ft_strjoin(PATH_FILE_1, buffer1);
 	free (buffer1);
 	filetemp = open (name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
@@ -39,8 +39,8 @@ void	ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n)
 	{
 		buffer2 = heredoc_input_stream();
 		if (!ft_strncmp(matrix->next->matrix[0] + 1, buffer2, \
-			ft_strlen(matrix->next->matrix[0] + 1)) \
-			&& ft_strlen(matrix->next->matrix[0] + 1) == ft_strlen(buffer2) - 1)
+			ft_strlen(matrix->next->matrix[0] + 1)) && ft_strlen(\
+			matrix->next->matrix[0] + 1) == ft_strlen(buffer2) - 1)
 			break ;
 		if (matrix->next->matrix[0][0] == '<')
 			buffer1 = expand_dquote(buffer2, envp, 0);
@@ -52,13 +52,10 @@ void	ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n)
 	}
 	close (filetemp);
 	free (name);
-	// filetemp = open (name, O_RDONLY, 0777);
-	// dup2(filetemp, STDIN_FILENO);
-	// close (filetemp);
 }
-//cuando entra el numero de heredoc se realiza un fork para poder llamar la senal
-// luego realiza una operacion de matrix
-void	exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, int heredoc_n)
+
+void	exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, \
+	int heredoc_n)
 {
 	int		i;
 	int		status;
@@ -78,9 +75,4 @@ void	exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, int heredoc_
 		exit (0);
 	}
 	wait (&status);
-	// while (i < 2 * exevars->pipe_count)
-	// {
-	// 	close(exevars->pipefds[i]);
-	// 	i++;
-	// }
 }

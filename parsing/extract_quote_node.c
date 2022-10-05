@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:14:44 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 00:48:19 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 22:19:49 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,12 @@ int	extract_quote_node(t_general *gen)
 {
 	if (gen->in[gen->to] != '\0' && ft_strchr(QUOTES, gen->in[gen->to]))
 	{
+		if (gen->in[gen->to + 1] == '\0' || gen->in[gen->to + 2] == '\0' \
+			|| gen->in[gen->to + 1] == gen->in[gen->to])
+		{
+			gen->error_no = NOFILE_ERR;
+			return (gen->error_no);
+		}
 		extract_stream(gen);
 		toggle_arg(gen, check_variable_char);
 		gen->from = gen->to;

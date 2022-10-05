@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 17:58:34 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/05 19:07:36 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,6 @@ int	main(int argc, char **argv, char **envp)
 	t_general	gen;
 	int			exit_no;
 
-	if (!envp)
-	{
-		write(2, "Environment not found. Aborting\n", 32);
-		return (-1);
-	}
 	(void) argc;
 	(void) argv;
 	if (envp[0] == NULL)
