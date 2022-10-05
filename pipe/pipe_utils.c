@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 04:50:43 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 18:02:14 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,7 @@ void	execute(char **arg, t_env *envp)
 		if (execv(buffer, arg) == -1)
 			exit (-1);
 	}
+	if (!cmd_searchlst(arg[0]))
+		perror(arg[0]);
 	exit (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:48:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 10:13:58 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:19:56 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	check_variable_str(char *str)
 	while (str)
 	{
 		if (!check_variable_char(str[i]))
-			return (0);
+		{printf("var : %s\n", str);
+			return (0);}
 		i++;
 	}
 	return (1);

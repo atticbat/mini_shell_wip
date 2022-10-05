@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 06:14:53 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 17:58:10 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static void	error_bank(int error)
 		write (2, "Syntax error, unexpected token\n", 31);
 	else if (error == -1)
 		write (2, "exit\n", 5);
-	else if (error)
+	else if (error > 0)
 		write (2, "Error\n", 6);
 }
 
 int	handle_error(int error, t_general *gen)
 {
 	(void) gen;
-	error_bank(error);	
+	error_bank(error);
 	if (error)
 		return (-1);
 	else

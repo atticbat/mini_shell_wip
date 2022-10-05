@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 08:25:31 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 21:44:25 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 16:20:54 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ void	ft_unset(t_token *it, t_general *gen)
 	}
 	if (!it || !it->next || !it->next->content)
 		return ;
-	if (!check_variable_str(it->next->content))
+	if (check_variable_str(it->next->content))
 	{
 		printf("unset: not a valid identifier\n");
 		gen->error_no = 1;
 		return ;
 	}
+
 	it = it->next;
 	existing = find_env(gen->envp, it->content);
 	if (existing)

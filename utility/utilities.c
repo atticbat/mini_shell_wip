@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/24 13:55:03 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 17:59:11 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	reset(t_general *gen)
 	gen->to = 0;
 	gen->from = 0;
 	gen->flag = 0;
+	gen->builtin_flag = 0;
 	if (gen->tokens)
 		token_clear(&gen->tokens, free);
 	if (gen->matrix)

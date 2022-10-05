@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:10:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 05:28:05 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 17:49:21 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static void	overwrite(t_matrix **it)
 	fd = open ((*it)->next->next->matrix[0], O_TRUNC | O_CREAT | O_WRONLY, 0777);
 	if (fd == -1)
 	{
+
 		perror ((*it)->next->next->matrix[0]);
 		exit (NOFILE_ERR);
 	}
@@ -80,6 +81,9 @@ int	redirect(t_matrix **it, t_execute *exevars)
 		{
 			exevars->heredoc_n++;
 			read_heredoc(exevars);
+			(*it) = (*it)->next;
+			if (*it && (*it)->operator != 'F')
+				(*it) = (*it)->next;
 		}
 		else if ((*it)->next->operator == '<')
 			read_file(it);
@@ -89,7 +93,8 @@ int	redirect(t_matrix **it, t_execute *exevars)
 			overwrite(it);
 		else
 			return (0);
-		(*it) = (*it)->next;
+		if (*it)
+			(*it) = (*it)->next;
 		return (1);
 	}
 	else if (*it && (*it)->next)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 06:27:39 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/05 17:58:34 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ int	main(int argc, char **argv, char **envp)
 	}
 	(void) argc;
 	(void) argv;
+	if (envp[0] == NULL)
+	{
+		envp[0] = "PATH=";
+	}
 	initialise (&gen, envp);
 	input_loop (&gen);
 	exit_no = gen.error_no;
