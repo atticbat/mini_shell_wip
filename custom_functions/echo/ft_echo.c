@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 16:41:46 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/06 05:00:31 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int	parse_nl_flag(char *content)
 	int	i;
 
 	i = 1;
+	if (content[0] != '-')
+		return (-1);
 	if (!content || !*(content + 1))
 		return (-1);
 	while (content[i] != '\0')
@@ -55,17 +57,11 @@ static int	parse_nl_flag(char *content)
 
 static int	count_nl_flags(char **it)
 {
-	int	i;
 	int	count;
 
-	i = 1;
 	count = 0;
-	while (it[i])
-	{
-		if (!parse_nl_flag(it[i]))
-			count++;
-		i++;
-	}
+	while (!parse_nl_flag(it[count + 1]))
+		count++;
 	return (count);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 00:18:22 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 17:16:28 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/06 05:02:26 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,25 @@ int	check_file(char *arg)
 {
 	if (access(arg, F_OK) == 0)
 		return (0);
+	return (-1);
+}
+
+int	check_invalid_quote(char *in, int to)
+{
+	int	i;
+
+	if (to != 0)
+		return (0);
+	i = to + 1;
+	while (in[i])
+	{
+		if (in[i] == in[to])
+		{
+			if (i - 1 == to)
+				return (-1);
+			return (0);
+		}
+		i++;
+	}
 	return (-1);
 }

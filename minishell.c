@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 19:07:36 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 02:36:51 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static void	input_loop(t_general *gen)
 			continue ;
 		if (handle_error(execute_prep(gen), gen))
 			continue ;
+		remove_files();
 	}
 }
 
