@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:19:32 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 06:24:22 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 21:10:27 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ static int	adjust_cmd(t_general *gen)
 		gen->error_no = -1;
 		return (gen->error_no);
 	}
-	if (cmd_check_contained(buffer) && buffer->content[len - 1] == ' ')
+	if (cmd_check_contained(buffer) && buffer->content[len - 1] == ' ' \
+		&& gen->cmd_flag)
+	{
 		buffer->content[len - 1] = '\0';
+		gen->cmd_flag = 0;
+	}
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_token_node.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:22:50 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 15:42:33 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/06 21:13:56 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	extract_token_node(t_general *gen)
 		}
 		else
 			gen->flag = 1;
+		gen->cmd_flag = 1;
 		gen->from = gen->to;
 	}
 	return (0);

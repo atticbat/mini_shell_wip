@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 05:28:28 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 21:10:11 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_general
 	int			to;
 	int			from;
 	int			flag;
+	int			cmd_flag;
 	char		*in;
 	t_token		*tokens;
 	t_matrix	*matrix;

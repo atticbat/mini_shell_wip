@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 01:18:01 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 21:17:34 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	reset(t_general *gen)
 	gen->from = 0;
 	gen->flag = 0;
 	gen->builtin_flag = 0;
+	gen->cmd_flag = 1;
 	if (gen->tokens)
 		token_clear(&gen->tokens, free);
 	if (gen->matrix)
