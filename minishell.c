@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 02:36:51 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 07:33:54 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,14 @@ static void	input_loop(t_general *gen)
 		add_history(gen->in);
 		if (handle_error(find_token(gen), gen))
 			continue ;
-		if (handle_error(builtin_executions(gen), gen))
-			break ;
 		if (handle_error(expand_variable(gen), gen))
 			continue ;
+		if (handle_error(builtin_executions(gen), gen))
+			break ;
 		if (handle_error(parse_function(gen), gen))
 			continue ;
 		if (handle_error(execute_prep(gen), gen))
 			continue ;
-		remove_files();
 	}
 }
 

@@ -19,6 +19,7 @@ FUNCTS	=	minishell.c					\
 				expand_variable.c		\
 				expand_var_utils.c		\
 				expand_var_utils2.c		\
+				merge_nodes.c			\
 				utilities.c				\
 				string_operations.c		\
 				format_checks.c			\

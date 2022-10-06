@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 18:52:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 01:10:05 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 07:51:48 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ char	**extract_matrix(t_token **it)
 	matrix_c[len] = NULL;
 	while (*it && (*it)->type == 'a')
 	{
-		if ((*it)->content[ft_strlen((*it)->content) - 1] == ' ' \
-			&& (ft_strncmp(matrix_c[0], "echo", 4)))
-			(*it)->content[ft_strlen((*it)->content) - 1] = '\0';
 		matrix_c[i] = ft_strdup((*it)->content);
 		*it = (*it)->next;
 		i++;

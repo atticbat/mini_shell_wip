@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 04:34:25 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 05:28:28 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ char		*extract_q_mark(char *content, int start, int last_return);
 char		*extract_variable(char *content, int *i, t_env *envp);
 char		*extract_regular(char *content, int *i, int start, t_env *envp);
 char		*extract_bracketed(char *content, int *i, int start, t_env *envp);
+void		merge_nodes(t_general *gen);
 /* helper */
 void		print_all_token(t_token *lst);
 void		print_all_matrix(t_matrix *lst);

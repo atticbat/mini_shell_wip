@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 14:21:02 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/12 17:02:02 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/06 07:38:21 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ int	expand_variable(t_general *gen)
 		case_quotes(iterator, gen);
 		iterator = iterator->next;
 	}
+	merge_nodes(gen);
 	return (0);
 }
