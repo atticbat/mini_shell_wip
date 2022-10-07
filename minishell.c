@@ -6,11 +6,20 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:19:28 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 07:33:54 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 01:51:07 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void setup_term(void)
+{
+	struct termios	t;
+
+	tcgetattr(0, &t);
+	t.c_lflag &= ~ECHOCTL;
+	tcsetattr(0, TCSANOW, &t);
+}
 
 static int	check_empty(char *in)
 {
@@ -34,6 +43,7 @@ static void	initialise(t_general *gen, char **envp)
 	gen->in = NULL;
 	gen->error_no = 0;
 	set_listeners();
+	setup_term();
 }
 
 static void	input_loop(t_general *gen)
@@ -71,9 +81,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 	if (envp[0] == NULL)
-	{
 		envp[0] = "PATH=";
-	}
 	initialise (&gen, envp);
 	input_loop (&gen);
 	exit_no = gen.error_no;

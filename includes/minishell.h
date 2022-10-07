@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 21:10:11 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 01:37:04 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <signal.h>
-// # include <termios.h>
+# include <termios.h>
 # include "readline.h"
 # include "history.h"
 # include <errno.h>
