@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 14:50:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 01:04:28 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 21:21:29 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	execute(char **arg, t_env *envp)
 		(arg[0][1] == '/' )))
 		if (execv(arg[0], arg) == -1)
 			exit (-1);
-	buffer = find_path_str(arg[0]);
+	buffer = find_path_str(arg[0], &envp);
 	switch_cases(arg, envp, buffer, env);
 	if (!cmd_searchlst(arg[0]))
 	{

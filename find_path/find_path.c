@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 15:22:39 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 20:55:18 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 21:20:46 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ void	free_paths(char **paths)
 	free (paths);
 }
 
-char	*find_path_str(char *name)
+char	*find_path_str(char *name, t_env **envp)
 {
 	char	**paths_split;
 	char	*part_path;
 	char	*path;
 	int		i;
-	char	*genpath;
+	t_env	*genpath;
 
-	genpath = getenv("PATH");
-	paths_split = ft_split(genpath, ':');
+	genpath = find_env(*envp, "PATH");
+	paths_split = ft_split(genpath->content, ':');
 	i = 0;
 	while (paths_split[i])
 	{

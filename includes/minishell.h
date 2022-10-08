@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 01:37:04 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 20:36:32 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ int			handle_error(int error, t_general *gen);
 int			error_extract_var(t_general *gen);
 /* find path */
 int			check_env(char *content);
-char		*find_path_str(char *name);
+char		*find_path_str(char *name, t_env **envp);
 void		free_paths(char **paths);
 /* execute */
 int			execute_prep(t_general *gen);

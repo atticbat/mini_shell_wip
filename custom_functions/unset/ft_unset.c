@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 08:25:31 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 16:20:54 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/08 21:17:39 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,42 @@ static int	ft_unset_exe(t_env **envp, char *name)
 	return (0);
 }
 
+static int	check_error(t_token *it, t_general *gen)
+{
+	if (!it || !it->next || !it->next->content)
+		return (-1);
+	if (it->next && it->next->content \
+		&& ft_strchr(it->next->content, '\\'))
+	{
+		perror("unset: not a valid identifier\n");
+		gen->error_no = 1;
+		return (-1);
+	}
+	if (check_variable_str(it->next->content))
+	{
+		perror("unset: not a valid identifier\n");
+		gen->error_no = 1;
+		return (-1);
+	}
+	return (0);
+}
+
 void	ft_unset(t_token *it, t_general *gen)
 {
 	t_env	*existing;
 
-	if (it->next && it->next->content \
-		&& ft_strchr(it->next->content, '\\'))
-	{
-		printf("unset: not a valid identifier\n");
-		gen->error_no = 1;
+	if (check_error(it, gen))
 		return ;
-	}
-	if (!it || !it->next || !it->next->content)
-		return ;
-	if (check_variable_str(it->next->content))
-	{
-		printf("unset: not a valid identifier\n");
-		gen->error_no = 1;
-		return ;
-	}
 	it = it->next;
 	existing = find_env(gen->envp, it->content);
 	if (existing)
 	{
-		if (ft_unset_exe(&gen->envp, existing->name))
+		if (!existing->user_set)
+		{
+			free (existing->content);
+			existing->content = ft_strdup("");
+		}
+		else if (ft_unset_exe(&gen->envp, existing->name))
 			return ;
 	}
 }
