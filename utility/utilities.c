@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 18:22:25 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 20:04:56 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	reset(t_general *gen)
 		token_clear(&gen->tokens, free);
 	if (gen->matrix)
 		matrix_clear(&gen->matrix, free);
-	if (gen->in)
-		free (gen->in);
 	gen->tokens = NULL;
 	gen->matrix = NULL;
 }
