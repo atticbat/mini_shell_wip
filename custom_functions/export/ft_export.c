@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 19:06:19 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 02:17:03 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	ft_export(t_token *it, t_general *gen)
 	buffer = get_name(it->content);
 	if (!buffer || !check_variable_export(buffer))
 	{
-		printf("export: not a valid identifier\n");
 		gen->error_no = 1;
 		return ;
 	}
