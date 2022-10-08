@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:10:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 01:17:05 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 21:30:29 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	read_file(t_matrix **it)
 	int	fd;
 
 	fd = open ((*it)->next->next->matrix[0], O_RDONLY, 0777);
-	if (fd == -1)
+	if (fd < 0)
 	{
 		perror ((*it)->next->next->matrix[0]);
 		exit (NOFILE_ERR);

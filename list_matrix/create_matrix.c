@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_matrix.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 18:27:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 22:48:26 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 21:05:32 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	add_funct(t_general *gen, t_token **it)
 	else
 	{
 		operator = 'N';
-		gen->error_no = 1;
+		gen->error_no = 127;
 	}
 	matrix_c = extract_matrix(it);
 	if (!matrix_c)
