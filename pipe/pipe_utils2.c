@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/10/06 01:05:11 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 21:33:17 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static int	execute_children(t_matrix *it, t_execute *exevars, t_env *envp)
 		close(exevars->pipe[WRITE_END]);
 		dup2(exevars->pipe[READ_END], READ_END);
 		waitpid(pid, &ret_value, 0);
+
 	}
 	return (ret_value);
 }
@@ -66,6 +67,7 @@ static void	child_process(t_matrix *matrix, t_execute *exevars, t_env *envp)
 	buffer = it;
 	exevars->saved_stdout = dup(1);
 	pipe(exevars->pipe);
+
 	while (it)
 	{
 		if (skip_tokens(&it, exevars, &buffer))
@@ -80,7 +82,7 @@ static void	child_process(t_matrix *matrix, t_execute *exevars, t_env *envp)
 	close (exevars->saved_stdout);
 }
 
-static int	create_child(t_matrix *matrix, t_execute *exevars, t_env *envp)
+static void	create_child(t_matrix *matrix, t_execute *exevars, t_general *gen)
 {
 	pid_t		pid;
 	int			ret_value;
@@ -91,18 +93,17 @@ static int	create_child(t_matrix *matrix, t_execute *exevars, t_env *envp)
 		exit (FAILFORK_ERR);
 	else if (pid == 0)
 	{
-		child_process(matrix, exevars, envp);
-		exit(1);
+		child_process(matrix, exevars, gen->envp);
+		exit(gen->error_no);
 	}
 	else
 		waitpid(pid, &ret_value, 0);
 	set_listeners();
-	if (ret_value != 0)
-		ret_value = 1;
-	return (ret_value);
+	if (gen->error_no)
+		gen->error_no = (ret_value / (127 * 2)) - 1;
 }
 
-int	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
+void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_general *gen)
 {
 	t_matrix	*it;
 	int			heredoc_n;
@@ -115,9 +116,9 @@ int	exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp)
 		if (it->operator == '-')
 		{
 			heredoc_n++;
-			exe_heredoc(it, exevars, *envp, heredoc_n);
+			exe_heredoc(it, exevars, gen->envp, heredoc_n);
 		}
 		it = it->next;
 	}
-	return (create_child(matrix, exevars, *envp));
+	create_child(matrix, exevars, gen);
 }

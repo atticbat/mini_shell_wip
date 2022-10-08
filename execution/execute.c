@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 21:15:13 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 02:37:29 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 20:58:51 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_prep(t_general *gen)
 
 	matrix = gen->matrix;
 	ft_bzero(&exevars, sizeof(t_execute));
-	gen->error_no = exe_cmd (gen->matrix, &exevars, &gen->envp);
+	exe_cmd (gen->matrix, &exevars, gen);
 	remove_files();
 	return (gen->error_no);
 }

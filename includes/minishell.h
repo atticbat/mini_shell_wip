@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 01:37:04 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 21:00:57 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ int			execute_prep(t_general *gen);
 int			builtin_executions(t_general *gen);
 /* pipe */
 int			count_operators(t_matrix *matrix, char *dataset);
-int			exe_cmd(t_matrix *matrix, t_execute *exevars, t_env **envp);
+void		exe_cmd(t_matrix *matrix, t_execute *exevars, t_general *gen);
 void		execute(char **arg, t_env *envp);
 int			redirect(t_matrix **it, t_execute *exevars);
 void		exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp);

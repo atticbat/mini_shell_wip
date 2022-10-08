@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_print_vars.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 20:56:51 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/19 21:43:20 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 20:32:41 by aparedes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	export_print_vars(t_env *envp)
 
 	final = NULL;
 	if (!envp || !envp->name || !envp->content)
-		exit (1);
+		exit (127);
 	final = malloc (sizeof (char *) * (env_size(envp)));
 	it = envp;
 	it = it->next;
