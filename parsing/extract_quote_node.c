@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:14:44 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 04:34:50 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 18:14:42 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ static void	extract_stream(t_general *gen)
 	final = ft_strdup("");
 	while (gen->in[gen->to] != '\0')
 	{
-		if (gen->in[gen->to] == '\\' && (gen->in[gen->to + 1] == '\\' \
-			|| (gen->in[gen->to + 1] == '\"')))
+		if (gen->in[gen->to + 1] && gen->in[gen->to] == '\\' \
+			&& (gen->in[gen->to + 1] == '\'' || (gen->in[gen->to + 1] == '\"')))
 			final = extract_escaped(gen, final);
 		else
 			gen->to++;
@@ -83,6 +83,8 @@ int	extract_quote_node(t_general *gen)
 	{
 		if (check_invalid_quote(gen->in, gen->to))
 		{
+			gen->to += check_invalid_quote(gen->in, gen->to);
+			gen->from = gen->to;
 			gen->error_no = NOFILE_ERR;
 			return (gen->error_no);
 		}

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 00:18:22 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 05:02:26 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/08 18:13:13 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,17 @@ int	check_invalid_quote(char *in, int to)
 	if (to != 0)
 		return (0);
 	i = to + 1;
+	if (!in[i])
+		return (1);
 	while (in[i])
 	{
 		if (in[i] == in[to])
 		{
 			if (i - 1 == to)
-				return (-1);
+				return (i);
 			return (0);
 		}
 		i++;
 	}
-	return (-1);
+	return (i);
 }
