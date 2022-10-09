@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:49:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/20 19:06:37 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 01:02:32 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*get_name(char *it)
 	if (!it)
 		return (NULL);
 	if (check_equals(it))
-		return (NULL);
+		return (ft_strdup(it));
 	while (it[i])
 	{
 		if (it[i + 1] == '=')

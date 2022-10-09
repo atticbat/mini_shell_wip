@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_executions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 20:14:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/05 18:00:27 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/09 05:42:07 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

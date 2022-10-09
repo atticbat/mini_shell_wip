@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 00:18:22 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 18:13:13 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 00:55:10 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_variable_export(char *var)
 	{
 		if (!check_variable_char(var[i]))
 		{
-			printf("export: '%s': not a valid identifier\n", var);
+			perror(var);
 			return (0);
 		}
 		else

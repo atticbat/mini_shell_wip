@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_print_vars.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 20:56:51 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 20:32:41 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/09 00:57:34 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,15 @@ static char	*construct_line(char *name, char *content, char *end)
 	final = NULL;
 	buffer = NULL;
 	buffer = ft_strjoin("declare -x ", name);
-	final = ft_strjoin(buffer, "=\"");
-	buffer = ft_strjoin(final, content);
-	free (final);
-	final = ft_strjoin(buffer, end);
+	if (content)
+	{
+		final = ft_strjoin(buffer, "=\"");
+		buffer = ft_strjoin(final, content);
+		free (final);
+		final = ft_strjoin(buffer, end);
+	}
+	else
+		return (buffer);
 	free (buffer);
 	return (final);
 }

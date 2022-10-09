@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:09:53 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 04:40:08 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 04:37:17 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, \
 		}
 		exit (0);
 	}
-	wait (&status);
+	waitpid (pid, &status, 0);
 }
 
 void	read_heredoc(t_execute *exevars)

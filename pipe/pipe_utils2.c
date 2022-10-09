@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/10/08 21:33:17 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/09 06:12:39 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	skip_tokens(t_matrix **matrix, t_execute *exevars, \
 		*matrix = (*matrix)->next;
 		*buffer = *matrix;
 		dup2(exevars->saved_stdout, WRITE_END);
+		exevars->current_pipe--;
 		return (1);
 	}
 	else if ((*matrix)->operator == '>' || (*matrix)->operator == '+' \
@@ -31,18 +32,17 @@ static int	skip_tokens(t_matrix **matrix, t_execute *exevars, \
 	return (0);
 }
 
-static int	execute_children(t_matrix *it, t_execute *exevars, t_env *envp)
+static void	execute_children(t_matrix *it, t_execute *exevars, t_env *envp)
 {
-	pid_t	pid;
-	int		ret_value;
-
-	ret_value = 0;
-	pipe(exevars->pipe);
-	pid = fork();
-	if (pid == -1)
+	if (pipe(exevars->pipe))
+		exit (1);
+	exevars->pids[exevars->current_pipe] = fork();
+	if (exevars->pids[exevars->current_pipe] == -1)
 		exit (FAILFORK_ERR);
-	else if (pid == 0)
+	else if (exevars->pids[exevars->current_pipe] == 0)
 	{
+		signal (SIGINT, SIG_DFL);
+		signal (SIGQUIT, SIG_DFL);
 		close(exevars->pipe[READ_END]);
 		if (it->next && it->next->operator == '|')
 			dup2(exevars->pipe[WRITE_END], WRITE_END);
@@ -52,34 +52,37 @@ static int	execute_children(t_matrix *it, t_execute *exevars, t_env *envp)
 	{
 		close(exevars->pipe[WRITE_END]);
 		dup2(exevars->pipe[READ_END], READ_END);
-		waitpid(pid, &ret_value, 0);
-
+		close (exevars->pipe[READ_END]);
 	}
-	return (ret_value);
 }
 
-static void	child_process(t_matrix *matrix, t_execute *exevars, t_env *envp)
+static int	child_process(t_matrix *matrix, t_execute *exevars, t_env *envp)
 {
 	t_matrix	*it;
 	t_matrix	*buffer;
+	int			ret_value;
 
+	ret_value = 0;
 	it = matrix;
 	buffer = it;
 	exevars->saved_stdout = dup(1);
-	pipe(exevars->pipe);
-
 	while (it)
 	{
 		if (skip_tokens(&it, exevars, &buffer))
 			continue ;
 		if (redirect(&it, exevars))
 			continue ;
-		else
-			execute_children(buffer, exevars, envp);
+		execute_children(buffer, exevars, envp);
 		exevars->last_arg = it->matrix[0];
 		it = it->next;
 	}
+	while (exevars->pipe_count >= 0)
+	{
+   		waitpid(exevars->pids[exevars->pipe_count], &ret_value, 0);
+		exevars->pipe_count--;
+	}
 	close (exevars->saved_stdout);
+	return (ret_value / 256);
 }
 
 static void	create_child(t_matrix *matrix, t_execute *exevars, t_general *gen)
@@ -93,14 +96,14 @@ static void	create_child(t_matrix *matrix, t_execute *exevars, t_general *gen)
 		exit (FAILFORK_ERR);
 	else if (pid == 0)
 	{
-		child_process(matrix, exevars, gen->envp);
+		ret_value = child_process(matrix, exevars, gen->envp);
+		if (ret_value)
+			exit(ret_value);
 		exit(gen->error_no);
 	}
 	else
 		waitpid(pid, &ret_value, 0);
-	set_listeners();
-	if (gen->error_no)
-		gen->error_no = (ret_value / (127 * 2)) - 1;
+	gen->error_no = (ret_value / 256);
 }
 
 void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_general *gen)
@@ -121,4 +124,5 @@ void	exe_cmd(t_matrix *matrix, t_execute *exevars, t_general *gen)
 		it = it->next;
 	}
 	create_child(matrix, exevars, gen);
+	set_listeners();
 }

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/09 00:22:11 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 05:14:52 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ typedef struct s_execute
 {
 	int		pipe[2];
 	int		saved_stdout;
+	int		*pids;
+	int		pipe_count;
+	int		current_pipe;
 	int		status;
 	char	*last_arg;
 	char	last_op;
@@ -228,5 +231,6 @@ void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, \
 	int heredoc_n);
 void		ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n);
 void		read_heredoc(t_execute *exevars);
+int			find_pipes(t_matrix *matrix);
 
 #endif

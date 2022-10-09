@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:19:32 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 18:24:35 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 05:23:15 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	adjust_cmd(t_general *gen)
 	len = ft_strlen(buffer->content);
 	if (!buffer || !buffer->content)
 	{
-		gen->error_no = -1;
+		gen->error_no = NOFILE_ERR;
 		return (gen->error_no);
 	}
 	if (cmd_check_contained(buffer) && buffer->content[len - 1] == ' ' \
@@ -54,7 +54,7 @@ int	extract_arg_node(t_general *gen)
 			ft_substr(gen->in, gen->from, gen->to - gen->from), gen->to - 1)));
 		if (check_arg_end(gen->in + gen->to))
 		{
-			gen->flag = 1;
+			gen->flag = 0;
 			if (adjust_cmd(gen))
 				return (gen->error_no);
 		}
