@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:18:57 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/09 06:13:03 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 06:35:45 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	remove_files(void)
 	char	*buffer;
 	char	*buff2;
 
-	i = -1;
+	i = 0;
 	buffer = NULL;
 	buff2 = NULL;
 	while (1)
