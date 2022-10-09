@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 16:59:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/09/18 01:12:36 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 22:43:23 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,14 @@ static void	operation1(t_general *gen, int start)
 
 static void	operation2(t_general *gen, int start)
 {
-	token_add_back(&gen->tokens, token_new('$', \
-		ft_substr(gen->in, start, gen->to - start + 1)));
+	if (gen->in[gen->to] == ' ')
+	{
+		token_add_back(&gen->tokens, token_new('a', \
+			ft_substr(gen->in, start, gen->to - start + 1)));
+	}
+	else
+		token_add_back(&gen->tokens, token_new('$', \
+			ft_substr(gen->in, start, gen->to - start + 1)));
 	if (check_arg_end(gen->in + (gen->to + 1)))
 		token_add_back(&gen->tokens, \
 		token_new('a', ft_strdup(" ")));

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 15:05:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 20:09:01 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 22:27:11 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ int	find_token(t_general *gen)
 	}
 	free (buffer);
 	gen->in = NULL;
+	print_all_token(gen->tokens);
 	return (0);
 }
