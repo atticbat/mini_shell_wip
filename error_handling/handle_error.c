@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/09 06:13:59 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 06:20:12 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static void	error_bank(int error)
 {
-	// if (error == NOFILE_ERR)
-	// 	write (2, "No such file or directory\n", 26);
 	if (error == PERMISSION_ERR)
 		write (2, "Permission denied\n", 18);
 	else if (error == FAILFORK_ERR)
