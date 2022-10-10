@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/09 06:25:00 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 04:05:42 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@
 # define READ_END   0
 # define WRITE_END  1
 # define PATH_FILE_1  ".fileout_temp"
-# define FILE_1  ".temp1"
-# define FILE_2  ".temp2"
 
 # define DEFAULT_ERR 1
 # define NOFILE_ERR 2
@@ -60,6 +58,7 @@
 # define MALLOC_ERR 12
 # define PERMISSION_ERR 13
 //not sure about this one, just have found this from testing
+# define INVALID_EXIT_ERR 255
 # define SYNTAX_ERR 258
 
 typedef struct s_token
@@ -123,6 +122,7 @@ int			check_variable(char *var);
 int			check_variable_char(char c);
 int			check_arg_char(char c);
 int			check_exception_char(char c);
+int			check_numeric(char *str);
 /* string operations */
 int			check_arg_end(char *in);
 char		*append_space(char *in, char *str, int to);
@@ -207,6 +207,7 @@ t_matrix	*matrix_new(char operator, char **matrix);
 /* utility matrix */
 void		create_matrix(t_token **it, t_general *gen);
 char		**extract_matrix(t_token **it);
+void		skip_multiple_ins(t_token **it, t_general *gen);
 char		find_next_operator(t_matrix *matrix, char *search);
 /* signals */
 void		set_listeners(void);
@@ -229,7 +230,7 @@ int			redirect(t_matrix **it, t_execute *exevars);
 void		exe_pipe(t_matrix *matrix, t_execute *exevars, t_env *envp);
 void		exe_heredoc(t_matrix *matrix, t_execute *exevars, t_env *envp, \
 	int heredoc_n);
-void		ft_heredoc(t_matrix *matrix, t_env *envp, int heredoc_n);
+void		ft_heredoc(char *str, t_env *envp, int heredoc_n);
 void		read_heredoc(t_execute *exevars);
 int			find_pipes(t_matrix *matrix);
 

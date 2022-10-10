@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 21:05:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/04 06:35:32 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 01:53:17 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	ft_cd(t_token *it)
 	if (!it)
 		return (DEFAULT_ERR);
 	it = it->next;
+	if (it && it->content && it->content[ft_strlen(it->content) - 1] == ' ')
+		it->content[ft_strlen(it->content) - 1] = '\0';
 	if (!it || !it->content)
 	{
 		if (cd_no_arg())

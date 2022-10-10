@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 17:48:47 by aparedes          #+#    #+#             */
-/*   Updated: 2022/10/09 06:25:32 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 04:20:33 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ static int	skip_tokens(t_matrix **matrix, t_execute *exevars, \
 {
 	if ((*matrix)->operator == '|')
 	{
+		if (!find_pipes(*matrix))
+			dup2(exevars->saved_stdout, WRITE_END);
 		*matrix = (*matrix)->next;
 		*buffer = *matrix;
-		dup2(exevars->saved_stdout, WRITE_END);
 		exevars->current_pipe--;
 		return (1);
 	}
@@ -78,7 +79,7 @@ static int	child_process(t_matrix *matrix, t_execute *exevars, t_env *envp)
 	}
 	while (exevars->pipe_count >= 0)
 	{
-   		waitpid(exevars->pids[exevars->pipe_count], &ret_value, 0);
+		waitpid(exevars->pids[exevars->pipe_count], &ret_value, 0);
 		exevars->pipe_count--;
 	}
 	close (exevars->saved_stdout);

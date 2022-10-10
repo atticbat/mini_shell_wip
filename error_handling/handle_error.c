@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 10:26:08 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/09 06:20:12 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 02:29:17 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	error_bank(int error)
 		write (2, "Insufficient memory\n", 20);
 	else if (error == SYNTAX_ERR)
 		write (2, "Syntax error, unexpected token\n", 31);
+	else if (error == INVALID_EXIT_ERR)
+		write(2, "exit: numeric argument required\n", 32);
 	else if (error == -1)
 		write (2, "exit\n", 5);
 }
@@ -29,7 +31,6 @@ static void	error_bank(int error)
 int	handle_error(int error, t_general *gen)
 {
 	(void) gen;
-
 	error_bank(error);
 	if (error)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 08:25:31 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 21:17:39 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 01:54:15 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	ft_unset(t_token *it, t_general *gen)
 	if (check_error(it, gen))
 		return ;
 	it = it->next;
+	if (it && it->content && it->content[ft_strlen(it->content) - 1] == ' ')
+		it->content[ft_strlen(it->content) - 1] = '\0';
 	existing = find_env(gen->envp, it->content);
 	if (existing)
 	{

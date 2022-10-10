@@ -6,11 +6,25 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 00:18:22 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/09 00:55:10 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 02:19:55 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_numeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	check_variable_export(char *var)
 {

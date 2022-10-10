@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_matrix.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aparedes <aparedes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 18:27:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 21:05:32 by aparedes         ###   ########.fr       */
+/*   Updated: 2022/10/10 04:14:20 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ void	create_matrix(t_token **it, t_general *gen)
 	while (*it != NULL)
 	{
 		if (*it && ((*it)->type == '<' || (*it)->type == '-') && flag == 1)
+		{
+			skip_multiple_ins(it, gen);
 			add_rearranged_redir(gen, it);
+		}
 		if (*it && (*it)->type == 'a')
 		{
 			add_funct(gen, it);

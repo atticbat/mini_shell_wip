@@ -6,7 +6,6 @@ execution
 find_path
 gnl
 helper
-hola
 includes
 libft
 list_env
@@ -17,6 +16,7 @@ minishell.c
 obj
 parsing
 pipe
+pokemon
 readline
 signals
 utility

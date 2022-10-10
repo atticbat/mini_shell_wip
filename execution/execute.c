@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 21:15:13 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/09 06:24:57 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 04:11:08 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_prep(t_general *gen)
 
 	matrix = gen->matrix;
 	ft_bzero(&exevars, sizeof(t_execute));
-	exevars.pipe_count = find_pipes(gen->matrix); 
+	exevars.pipe_count = find_pipes(gen->matrix);
 	exevars.current_pipe = exevars.pipe_count;
 	exevars.pids = malloc (sizeof (int) * (exevars.pipe_count + 1));
 	exe_cmd (gen->matrix, &exevars, gen);

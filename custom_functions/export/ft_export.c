@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/09 01:50:03 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 01:55:04 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	ft_export(t_token *it, t_general *gen)
 
 	final = NULL;
 	it = it->next;
+	if (it && it->content && it->content[ft_strlen(it->content) - 1] == ' ')
+		it->content[ft_strlen(it->content) - 1] = '\0';
 	if (check_escape(it->next, gen))
 		return ;
 	buffer = get_name(it->content);

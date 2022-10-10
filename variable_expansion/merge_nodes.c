@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 05:21:59 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 21:20:10 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/09 22:55:38 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	combine(t_token *it)
 
 	buffer = NULL;
 	buffer = ft_strjoin(it->content, it->next->content);
+	if (buffer[ft_strlen(buffer) - 1] == ' ')
+		buffer[ft_strlen(buffer) - 1] = '\0';
 	if (cmd_searchlst(buffer) || !check_env(buffer))
 	{
 		temp = it->next->next;
