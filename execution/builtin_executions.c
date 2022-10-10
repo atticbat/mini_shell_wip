@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 20:14:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:35 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 04:34:53 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	builtin_executions(t_general *gen)
 			gen->error_no = ft_cd(it);
 		else if (cmd_searchlst(it->content) == EXIT_CMD)
 		{
-			if (it->next && it->next->content && !check_numeric(it->next->content))
+			if (it->next && it->next->content \
+				&& !check_numeric(it->next->content))
 				gen->error_no = INVALID_EXIT_ERR;
 			else if (it->next && it->next->content)
 				gen->error_no = ft_atoi(it->next->content);

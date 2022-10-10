@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 20:10:09 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/10 04:24:23 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/10 05:05:52 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	read_from_heredoc(t_matrix **it, t_execute *exevars)
 	exevars->heredoc_n++;
 	read_heredoc(exevars);
 	(*it) = (*it)->next;
-	if (find_next_operator((*it)->next->next, ">+|") != 'N')
+	if (find_next_operator((*it)->next->next, OPERATOR) != 'N')
 	{
 		if (find_next_operator((*it)->next->next, "|") != 'N')
 		{
@@ -29,7 +29,7 @@ void	read_from_heredoc(t_matrix **it, t_execute *exevars)
 	}
 }
 
-static void	read_file(t_matrix **it)
+static void	read_file(t_matrix **it, t_execute *exevars)
 {
 	int	fd;
 
@@ -38,6 +38,17 @@ static void	read_file(t_matrix **it)
 	{
 		perror ((*it)->next->next->matrix[0]);
 		exit (NOFILE_ERR);
+	}
+	(*it) = (*it)->next;
+	if (find_next_operator((*it)->next->next, OPERATOR) != 'N')
+	{
+		if (find_next_operator((*it)->next->next, "|") != 'N')
+		{
+			(*it) = (*it)->next;
+			dup2(exevars->pipe[WRITE_END], WRITE_END);
+		}
+		if (!(*it) || !(*it)->next || !(*it)->next->next)
+			write(2, "syntax error near unexpected token\n", 35);
 	}
 	dup2(fd, READ_END);
 	close (fd);
@@ -80,7 +91,7 @@ int	redirect(t_matrix **it, t_execute *exevars)
 		if ((*it)->next->operator == '-')
 			read_from_heredoc(it, exevars);
 		else if ((*it)->next->operator == '<')
-			read_file(it);
+			read_file(it, exevars);
 		else if ((*it)->next->operator == '+')
 			append(it);
 		else if ((*it)->next->operator == '>')
