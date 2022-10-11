@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 23:04:29 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/10 01:55:04 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/11 18:19:29 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_export_exe(t_env **envp, char *add)
 	t_env	*it2;
 
 	if (!envp || !*envp || !(*envp)->next || !add)
-		return (-1);
+		return (1);
 	it = *envp;
 	it2 = it->next;
 	while (it2->next != NULL)

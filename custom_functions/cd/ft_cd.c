@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 21:05:17 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/10 01:53:17 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/11 18:45:52 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,20 @@ static int	cd_no_arg(void)
 	return (0);
 }
 
-int	ft_cd(t_token *it)
+static void	cd_extra(t_general *gen, char *cwd)
 {
+	ft_export_replace_two(&gen->envp, cwd, "OLDPWD");
+	getcwd(cwd, PATH_MAX);
+	ft_export_replace_two(&gen->envp, cwd, "PWD");
+}
+
+int	ft_cd(t_general *gen)
+{
+	t_token	*it;
+	char	cwd[PATH_MAX];
+
+	getcwd(cwd, PATH_MAX);
+	it = gen->tokens;
 	if (!it)
 		return (DEFAULT_ERR);
 	it = it->next;
@@ -69,5 +81,6 @@ int	ft_cd(t_token *it)
 		perror("chdir() failed");
 		return (NOFILE_ERR);
 	}
+	cd_extra(gen, cwd);
 	return (0);
 }

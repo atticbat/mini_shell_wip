@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 01:35:05 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/06 05:00:31 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/11 18:06:14 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*ft_echo_exe(char **it, int flag)
 	{
 		if (!flag)
 			printf("\n");
-		exit (-1);
+		exit (0);
 	}
 	final = ft_strdup(it[0]);
 	i = 1;
@@ -87,4 +87,5 @@ void	ft_echo(char **it)
 	else
 		printf("%s\n", str);
 	free (str);
+	exit (0);
 }

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 10:23:30 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/10 04:05:42 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/11 18:39:53 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ char		*get_next_line(int fd);
 /* echo */
 void		ft_echo(char **it);
 /* cd */
-int			ft_cd(t_token *it);
+int			ft_cd(t_general *gen);
 /* pwd */
 char		*ft_pwd(char *buff);
 /* env */
@@ -176,6 +176,7 @@ t_env		*find_env(t_env *envp, char *search);
 void		ft_export(t_token *it, t_general *gen);
 void		export_print_vars(t_env *envp);
 int			ft_export_replace_exe(t_env **envp, char *add, char *name);
+int			ft_export_replace_two(t_env **envp, char *add, char *name);
 /* unset */
 void		ft_unset(t_token *it, t_general *gen);
 /* parse_function */

@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 04:03:49 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/10 04:35:22 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/11 17:59:13 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,19 @@ static void	dummy_heredoc(t_token *it, t_env *envp)
 	int		status;
 
 	status = 0;
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
 		perror("failed pipe");
 	else if (pid == 0)
 	{
+		signal(SIGINT, interrupt_handler_child);
 		ft_heredoc(it->next->content, envp, 1);
 		exit (0);
 	}
 	else
 		waitpid(pid, &status, 0);
+	set_listeners();
 }
 
 void	skip_multiple_ins(t_token **it, t_general *gen)

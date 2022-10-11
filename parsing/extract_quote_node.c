@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 02:14:44 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/08 18:14:42 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/11 18:52:04 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	toggle_arg(t_general *gen, int (*f)(char))
 
 static void	check_quote(t_general *gen, int start, char *final)
 {
-	if (gen->in[start] == '\'')
+	if (gen->in[start] == '\'' && start != gen->to + 1)
 		token_add_back(&gen->tokens, token_new('s', \
 			append_space(gen->in, ft_substr(gen->in, \
 			start + 1, gen->to - start - 1), gen->to)));
-	else if (gen->in[start] == '\"')
+	else if (gen->in[start] == '\"' && start != gen->to + 1)
 		token_add_back(&gen->tokens, token_new('d', \
 			append_space(gen->in, final, gen->to)));
 }
@@ -75,6 +75,8 @@ static void	extract_stream(t_general *gen)
 			break ;
 		}
 	}
+	if (!ft_strlen(final))
+		free (final);
 }
 
 int	extract_quote_node(t_general *gen)

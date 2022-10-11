@@ -6,7 +6,7 @@
 /*   By: khatlas < khatlas@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 20:14:43 by khatlas           #+#    #+#             */
-/*   Updated: 2022/10/10 04:34:53 by khatlas          ###   ########.fr       */
+/*   Updated: 2022/10/11 18:29:18 by khatlas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	builtin_executions(t_general *gen)
 			&& it->next->content)
 			ft_unset(it, gen);
 		else if (cmd_searchlst(it->content) == CD_CMD)
-			gen->error_no = ft_cd(it);
+			gen->error_no = ft_cd(gen);
 		else if (cmd_searchlst(it->content) == EXIT_CMD)
 		{
 			if (it->next && it->next->content \
